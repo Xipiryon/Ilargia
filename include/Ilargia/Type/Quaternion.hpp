@@ -31,8 +31,6 @@
 #include <Muon/System/Log.hpp>
 #include "Ilargia/Type/Matrix.hpp"
 
-class asIScriptEngine;
-
 namespace ilg
 {
 	/*!
@@ -145,8 +143,6 @@ namespace ilg
 
 		//! Create a Rotation matrix equivalent to the quaternion
 		Matrix toMatrix() const;
-
-		static void registerScriptBinding(asIScriptEngine*);
 	};
 }
 

@@ -28,7 +28,6 @@
 
 #include <Muon/System/Log.hpp>
 
-#include "Ilargia/System/Script.hpp"
 #include "Ilargia/Type/Quaternion.hpp"
 
 namespace ilg
@@ -291,10 +290,6 @@ namespace ilg
 
 		Matrix m(rx, ry, rz, rw);
 		return m;
-	}
-
-	void Quaternion::registerScriptBinding(asIScriptEngine* engine)
-	{
 	}
 }
 

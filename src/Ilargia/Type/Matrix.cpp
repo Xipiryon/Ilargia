@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
+#include <Muon/System/Assert.hpp>
 #include <Muon/System/Log.hpp>
-#include "Ilargia/System/Script.hpp"
 #include "Ilargia/Type/Quaternion.hpp"
 #include "Ilargia/Type/Matrix.hpp"
 
@@ -260,10 +260,6 @@ namespace ilg
 			return (*this * (1.f / k));
 		}
 		return *this;
-	}
-
-	void Matrix::registerScriptBinding(asIScriptEngine* engine)
-	{
 	}
 }
 

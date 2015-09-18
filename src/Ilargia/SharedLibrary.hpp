@@ -34,7 +34,6 @@
 #include <Muon/System/Log.hpp>
 #include "Ilargia/Core/Define.hpp"
 
-class asIScriptEngine;
 namespace ilg
 {
 	class ComponentManagerFactory;
@@ -70,8 +69,6 @@ namespace ilg
 		void forwardArg(int, char**);
 		void setLinkStatic();
 		void unloadLibraries();
-
-		static void registerScriptBinding(asIScriptEngine*);
 
 	private:
 		int _argc;

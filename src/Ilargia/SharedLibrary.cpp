@@ -127,13 +127,8 @@ namespace ilg
 
 		SharedLibraryInfo lib;
 		lib.name = file;
-		//TODO:
-		//Create and use a "replace" function
-		muon::String func = file;
-		for (muon::u32 i = 0; i < func.size(); ++i)
-		{
-			if(func[i] == '-') func[i] = '_';
-		}
+
+		muon::String func = file.replace("-", "_");
 		lib.funcLoadName = func + "_load";
 		lib.funcUnloadName = func + "_unload";
 
@@ -271,16 +266,4 @@ namespace ilg
 #endif
 		}
 	}
-
-	void SharedLibrary::registerScriptBinding(asIScriptEngine* engine)
-	{
-		/*
-		auto& handler = SharedLibrary::get();
-		system::Script::check(engine->SetDefaultNamespace("dna"));
-		system::Script::check(engine->RegisterGlobalFunction("void loadLibrary(const muon::String &in, const muon::String &in, const muon::String &in)"
-			, asMETHOD(SharedLibrary, loadLibrary), asCALL_THISCALL_ASGLOBAL, &handler));
-		system::Script::check(engine->SetDefaultNamespace(""));
-		//*/
-	}
-
 }

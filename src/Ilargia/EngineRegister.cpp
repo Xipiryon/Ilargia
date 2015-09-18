@@ -47,32 +47,6 @@ namespace ilg
 {
 	bool Engine::_registerClasses()
 	{
-		Engine& engine = get();
-		auto& script = system::Script::get();
-
-		// Registering core AS classes
-		// Order is important for derivated classes
-		// or classes that depends on other (parameters / return value)
-
-		// *** Type
-		//script.registerScriptBinding<muon::String>("dna::String");
-		script.registerScriptBinding<Vector>("dna::Vector");
-		script.registerScriptBinding<TexCoord>("dna::TexCoord");
-		script.registerScriptBinding<Color>("dna::Color");
-		script.registerScriptBinding<Matrix>("dna::Matrix");
-		script.registerScriptBinding<Quaternion>("dna::Quaternion");
-
-		// *** System
-		/*
-		script.registerScriptBinding<muon::system::Log>("dna::muon::system::Log");
-		script.registerScriptBinding<muon::system::KeyValue>("dna::system::KeyValue");
-		script.registerScriptBinding<muon::system::Time>("dna::system::Time");
-		script.registerScriptBinding<muon::system::Timer>("dna::system::Timer");
-		//*/
-
-		// *** Core
-		script.registerScriptBinding<SharedLibrary>("Internal(dna::SharedLibrary)");
-
 		// ********
 		// Registering reflection
 		// This time, order doesn't really matter.

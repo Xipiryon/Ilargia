@@ -126,14 +126,17 @@ namespace ilg
 					SharedLibrary::get().setLinkStatic();
 				}
 			}
-
+			muon::String path;
 			const XMLAttribute* attrPath = modules->FindAttribute("Path");
 			if(!attrPath)
 			{
-			_log(muon::LOG_ERROR) << "No \"Path\" attribute in \"Modules\" node!" << muon::endl;
-				return false;
+				_log(muon::LOG_WARNING) << "No \"Path\" attribute in \"Modules\" node!" << muon::endl;
+				path = ".";
 			}
-			muon::String path = attrPath->Value();
+			else
+			{
+				path = attrPath->Value();
+			}
 
 			XMLElement* module = (XMLElement*)modules->FirstChildElement("Module");
 			if(!module)
@@ -157,7 +160,7 @@ namespace ilg
 						return false;
 					}
 
-#if defined(ILG_WINDOWS)
+#if defined(MUON_PLATFORM_WINDOWS)
 					muon::String filePath = path+"\\"+file+".dll";
 #else
 					muon::String filePath = path+"/lib"+file+".so";

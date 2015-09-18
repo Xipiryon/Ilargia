@@ -30,8 +30,6 @@
 
 #include "Ilargia/Type/Vector.hpp"
 
-class asIScriptEngine;
-
 namespace ilg
 {
 	class Quaternion;
@@ -169,8 +167,6 @@ namespace ilg
 		bool operator==(const Matrix& m) const;
 		//! Return true if matrices are different
 		bool operator!=(const Matrix& m) const;
-
-		static void registerScriptBinding(asIScriptEngine*);
 	};
 }
 

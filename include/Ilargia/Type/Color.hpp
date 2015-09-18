@@ -31,8 +31,6 @@
 #include <Muon/System/Log.hpp>
 #include "Ilargia/Core/Define.hpp"
 
-class asIScriptEngine;
-
 namespace ilg
 {
 	class ILG_API Color
@@ -65,8 +63,6 @@ namespace ilg
 		Color operator-=(const Color& v);
 
 		static Color lerp(const Color& u, const Color& v, muon::f32 t);
-
-		static void registerScriptBinding(asIScriptEngine*);
 	};
 }
 

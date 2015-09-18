@@ -26,7 +26,6 @@
 *************************************************************************/
 
 #include <cstdio>
-#include "Ilargia/System/Script.hpp"
 #include "Ilargia/Type/TexCoord.hpp"
 
 namespace ilg
@@ -127,11 +126,6 @@ namespace ilg
 	{
 		return (v - u)*t + u;
 	}
-
-	void TexCoord::registerScriptBinding(asIScriptEngine* engine)
-	{
-	}
-
 }
 	/*
 	memory::IStream& TexCoord::operator<<(memory::IStream& stream)

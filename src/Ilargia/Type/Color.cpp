@@ -26,7 +26,6 @@
 *************************************************************************/
 
 #include <cstdio>
-#include "Ilargia/System/Script.hpp"
 #include "Ilargia/Type/Color.hpp"
 
 namespace ilg
@@ -140,10 +139,6 @@ namespace ilg
 	Color Color::lerp(const Color& u, const Color& v, muon::f32 t)
 	{
 		return (v - u)*t + u;
-	}
-
-	void Color::registerScriptBinding(asIScriptEngine* engine)
-	{
 	}
 }
 

@@ -29,8 +29,8 @@
 #define _ILARGIA_VECTOR_H_INCLUDED
 
 #include <Muon/System/Log.hpp>
+#include "Ilargia/Core/Define.hpp"
 
-class asIScriptEngine;
 namespace ilg
 {
 	//! 3D Vector class
@@ -95,8 +95,6 @@ namespace ilg
 		bool operator==(const Vector& v) const;
 		//! Return true if vectors are different
 		bool operator!=(const Vector& v) const;
-
-		static void registerScriptBinding(asIScriptEngine*);
 	};
 }
 

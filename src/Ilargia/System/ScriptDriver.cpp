@@ -26,8 +26,9 @@
 *************************************************************************/
 
 #include <cstdio>
+#include <Muon/System/Assert.hpp>
 #include "Ilargia/Engine.hpp"
-#include "Ilargia/System/Script.hpp"
+#include "Ilargia/System/ScriptDriver.hpp"
 
 namespace
 {
@@ -38,28 +39,28 @@ namespace ilg
 {
 	namespace system
 	{
-		void Script::check(int r)
+		void ScriptDriver::check(int r)
 		{
 			MUON_ASSERT_BREAK(r >= 0, "Check has returned the invalid error code: %d\n", r);
 		}
 
-		Script::Script()
-			: _log("AngelScript")
-			//, _engine(asCreateScriptEngine(ANGELSCRIPT_VERSION))
-			//, _context(_engine->CreateContext())
+		ScriptDriver::ScriptDriver()
+			: _log("ScriptDriver")
+			, _engine(NULL)
+			, _context(NULL)
 			, _moduleCompiled(new std::unordered_map<muon::String, bool>)
 		{
 			//_engine->SetMessageCallback(asMETHOD(Script, errorCallback), this, asCALL_THISCALL);
 		}
 
-		Script::~Script()
+		ScriptDriver::~ScriptDriver()
 		{
 			//_context->Release();
 			//_engine->Release();
 			delete _moduleCompiled;
 		}
 
-		void Script::errorCallback(const asSMessageInfo* msg)
+		void ScriptDriver::_errorCallback(const muon::String& msg)
 		{
 			/*
 			LogLevel l;
@@ -84,22 +85,22 @@ namespace ilg
 			//*/
 		}
 
-		asIScriptEngine* Script::getScriptEngine() const
+		IScriptEngine* ScriptDriver::getScriptEngine() const
 		{
 			return _engine;
 		}
 
-		asIScriptContext* Script::getScriptContext() const
+		IScriptContext* ScriptDriver::getScriptContext() const
 		{
 			return _context;
 		}
 
-		ScriptState Script::load(const muon::String& filename)
+		ScriptState ScriptDriver::load(const muon::String& filename)
 		{
 			return load(filename, defaultModuleName);
 		}
 
-		ScriptState Script::load(const muon::String& filename, const muon::String& moduleName)
+		ScriptState ScriptDriver::load(const muon::String& filename, const muon::String& moduleName)
 		{
 			(*_moduleCompiled)[moduleName] = false;
 			//_context->Unprepare();
@@ -147,7 +148,7 @@ namespace ilg
 			return sls;
 		}
 
-		ScriptState Script::_load(const muon::String& filename, const muon::String& moduleName)
+		ScriptState ScriptDriver::_load(const muon::String& filename, const muon::String& moduleName)
 		{
 			/*
 			_log(muon::LOG_DEBUG) << "Loading file: \"" << filename << "\" | module: \"" << moduleName << "\"" << endl;
@@ -172,7 +173,7 @@ namespace ilg
 			}
 			script[len] = 0;
 
-			asIScriptModule* mod = _engine->GetModule(moduleName.cStr(), asGM_CREATE_IF_NOT_EXISTS);
+			IScriptModule* mod = _engine->GetModule(moduleName.cStr(), asGM_CREATE_IF_NOT_EXISTS);
 			r = mod->AddScriptSection(filename.cStr(), script, len);
 			free(script);
 			if( r < 0 )
@@ -183,15 +184,15 @@ namespace ilg
 			return SCRIPT_SUCCESS;
 		}
 
-		ScriptState Script::compile()
+		ScriptState ScriptDriver::compile()
 		{
 			return compile(defaultModuleName);
 		}
 
-		ScriptState Script::compile(const muon::String& moduleName)
+		ScriptState ScriptDriver::compile(const muon::String& moduleName)
 		{
 			/*
-			asIScriptModule* mod = _engine->GetModule(moduleName.cStr(), asGM_ONLY_IF_EXISTS);
+			IScriptModule* mod = _engine->GetModule(moduleName.cStr(), asGM_ONLY_IF_EXISTS);
 			if(!mod)
 			{
 				_log(muon::LOG_ERROR) << "No module \"" << moduleName << "\" found!" << endl;
@@ -208,12 +209,12 @@ namespace ilg
 			return SCRIPT_SUCCESS;
 		}
 
-		ScriptState Script::prepare(const muon::String& funcName, asIScriptContext** ctx)
+		ScriptState ScriptDriver::prepare(const muon::String& funcName, IScriptContext** ctx)
 		{
 			return prepare(funcName, defaultModuleName, ctx);
 		}
 
-		ScriptState Script::prepare(const muon::String& funcName, const muon::String& moduleName, asIScriptContext** ctx)
+		ScriptState ScriptDriver::prepare(const muon::String& funcName, const muon::String& moduleName, IScriptContext** ctx)
 		{
 			/*
 			if(_moduleCompiled->find(moduleName) == _moduleCompiled->end() || (*_moduleCompiled)[moduleName] == false)
@@ -223,7 +224,7 @@ namespace ilg
 			}
 
 			_context->Unprepare();
-			asIScriptFunction* func = _engine->GetModule(moduleName.cStr())->GetFunctionByDecl(funcName.cStr());
+			IScriptFunction* func = _engine->GetModule(moduleName.cStr())->GetFunctionByDecl(funcName.cStr());
 			if(func == 0)
 			{
 				// The function couldn't be found. Instruct the script writer
@@ -247,7 +248,7 @@ namespace ilg
 			return SCRIPT_SUCCESS;
 		}
 
-		ScriptState Script::execute()
+		ScriptState ScriptDriver::execute()
 		{
 			/*
 			int r = _context->Execute();
@@ -268,12 +269,12 @@ namespace ilg
 			return SCRIPT_SUCCESS;
 		}
 
-		bool Script::eval(const muon::String& script)
+		bool ScriptDriver::eval(const muon::String& script)
 		{
 			return true;
 		}
 
-		bool Script::function(const muon::String& name)
+		bool ScriptDriver::function(const muon::String& name)
 		{
 			return true;
 		}

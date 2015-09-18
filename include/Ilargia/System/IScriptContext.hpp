@@ -25,45 +25,28 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_TEXCOORD_H_INCLUDED
-#define _ILARGIA_TEXCOORD_H_INCLUDED
+#ifndef _ILARGIA_SCRIPTCONTEXT_H_INCLUDED
+#define _ILARGIA_SCRIPTCONTEXT_H_INCLUDED
 
-#include <Muon/System/Log.hpp>
 #include "Ilargia/Core/Define.hpp"
 
 namespace ilg
 {
-	class ILG_API TexCoord
+	namespace system
 	{
-	public:
+		class IScriptEngine
+		{
+		public:
+		protected:
+		};
 
-		muon::f32 u;
-		muon::f32 v;
-
-		TexCoord(muon::f32 u = 0.f, muon::f32 v = 0.f);
-
-		bool operator==(const TexCoord& t) const;
-		bool operator!=(const TexCoord& t) const;
-		TexCoord operator*(const muon::f32 s) const;
-		TexCoord operator/(const muon::f32 s) const;
-
-		TexCoord operator*(const TexCoord& t) const;
-		TexCoord operator/(const TexCoord& t) const;
-		TexCoord operator+(const TexCoord& t) const;
-		TexCoord operator-(const TexCoord& t) const;
-
-		TexCoord operator*=(const muon::f32 s);
-		TexCoord operator/=(const muon::f32 s);
-
-		TexCoord operator*=(const TexCoord& t);
-		TexCoord operator/=(const TexCoord& t);
-		TexCoord operator+=(const TexCoord& t);
-		TexCoord operator-=(const TexCoord& t);
-
-		static TexCoord lerp(const TexCoord& u, const TexCoord& v, muon::f32 t);
-	};
+		class IScriptContext
+		{
+		public:
+		protected:
+		};
+	}
 }
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::TexCoord& t);
-
 #endif
+

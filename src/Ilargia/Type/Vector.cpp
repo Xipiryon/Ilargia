@@ -27,7 +27,6 @@
 
 #include <cmath>
 #include <cstdio>
-#include "Ilargia/System/Script.hpp"
 #include "Ilargia/Type/Vector.hpp"
 
 namespace ilg
@@ -143,11 +142,6 @@ namespace ilg
 		z -= v.z;
 		return *this;
 	}
-
-	void Vector::registerScriptBinding(asIScriptEngine* engine)
-	{
-	}
-	
 }
 
 muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Vector& v)

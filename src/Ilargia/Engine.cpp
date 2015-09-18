@@ -44,7 +44,7 @@
 #include "Ilargia/Type/Quaternion.hpp"
 
 // ***  SYSTEM  ***
-#include "Ilargia/System/Script.hpp"
+#include "Ilargia/System/ScriptDriver.hpp"
 
 namespace ilg
 {
@@ -96,7 +96,7 @@ namespace ilg
 		}
 
 		//auto& keyValue = muon::system::KeyValue::get();
-		auto& script = system::Script::get();
+		auto& script = system::ScriptDriver::get();
 		auto& sharedLib = SharedLibrary::get();
 		sharedLib.forwardArg(argc, argv);
 

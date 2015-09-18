@@ -40,7 +40,6 @@
 #include <Muon/System/Log.hpp>
 #include <Muon/System/Time.hpp>
 #include "Ilargia/Core/Define.hpp"
-#include "Ilargia/System/Script.hpp"
 
 //Base classes required by extended modules
 #include "Ilargia/Component/EntityManager.hpp"

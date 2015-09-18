@@ -25,19 +25,15 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_SCRIPT_H_INCLUDED
-#define _ILARGIA_SCRIPT_H_INCLUDED
+#ifndef _ILARGIA_SCRIPTENGINE_H_INCLUDED
+#define _ILARGIA_SCRIPTENGINE_H_INCLUDED
 
 #include <unordered_map>
-
 #include <Muon/Core/NonCopyable.hpp>
-#include <Muon/System/Assert.hpp>
 #include <Muon/System/Log.hpp>
-#include "Ilargia/Core/Define.hpp"
+#include "Ilargia/System/IScriptContext.hpp"
+#include "Ilargia/System/IScriptEngine.hpp"
 
-class asIScriptEngine;
-class asIScriptContext;
-class asSMessageInfo;
 namespace ilg
 {
 	/*!
@@ -56,56 +52,19 @@ namespace ilg
 	namespace system
 	{
 		/*!
-		* @brief Helper function for Script registration
-		* Provides a basic constructor function
-		*/
-		template<typename T> static void ScriptCstr(T* self) {new (self) T;}
-
-		/*!
-		* @brief Helper function for Script registration
-		* Provides a basic destructor function
-		*/
-		template<typename T> static void ScriptDstr(T* self) { self->~T();}
-
-		/*!
-		* @brief Helper function for Script registration
-		* Provides a basic copy constructor function
-		*/
-		template<typename T> static void ScriptCopy(T* self, const T& other) { new (self)T(other); }
-
-		/*!
-		* @brief Helper function for Script registration
-		* Provides a basic assignment operator function
-		*/
-		template<typename T> static void ScriptAssign(T* self, const T& other) { self->operator=(other); }
-
-		/*!
-		* @brief Wrapper between the C++ engine and AngelScript
+		* @brief Wrapper between the C++ engine and the script language
 		*
+		* 
 		*/
-		class ILG_API Script : public muon::NonCopyable
+		class ILG_API ScriptDriver : public muon::NonCopyable
 		{
 		public:
 
 			static void check(int);
-			MUON_SINGLETON_GET(Script);
+			MUON_SINGLETON_GET(ScriptDriver);
 
-			asIScriptEngine* getScriptEngine() const;
-			asIScriptContext* getScriptContext() const;
-
-			/*!
-			* @brief Register a C++ class into AngelScript
-			* The class must implements a 'static void registerClass(asIScriptEngine* asEngine)' function.
-			* @template T class to bind from C++ to AngelScript
-			* @param str Ddisplaye the 'str' in a LOG_DEBUG level of output
-			*/
-			template<typename T>
-			void registerScriptBinding(const char* str)
-			{
-				MUON_ASSERT(str != 0, "registerScriptBinding() as a NULL char array!");
-				T::registerScriptBinding(getScriptEngine());
-				_log(muon::LOG_DEBUG) << "Registered Script Binding: \"" << str << "\"!" << muon::endl;
-			}
+			IScriptEngine* getScriptEngine() const;
+			IScriptContext* getScriptContext() const;
 
 			/*!
 			* @brief Load an AngelScript file
@@ -130,14 +89,14 @@ namespace ilg
 			* @brief Compile the default module
 			* @return SCRIPT_SUCCESS if the function as been correctly executed, corresponding error enum otherwise
 			*/
-			ScriptState compile();
+			virtual ScriptState compile();
 
 			/*!
 			* @brief Compile the default module
 			* @param moduleName A specific module name
 			* @return SCRIPT_SUCCESS if the function as been correctly executed, corresponding error enum otherwise
 			*/
-			ScriptState compile(const muon::String& moduleName);
+			virtual ScriptState compile(const muon::String& moduleName);
 
 			/*!
 			* @brief Prepare the function
@@ -145,7 +104,7 @@ namespace ilg
 			* @param Pointer to asISCriptContext pointer, allowing to add parameter to the function
 			* @return SCRIPT_SUCCESS if the function as been correctly executed, corresponding error enum otherwise
 			*/
-			ScriptState prepare(const muon::String& funcName, asIScriptContext** ctx = NULL);
+			virtual ScriptState prepare(const muon::String& funcName, IScriptContext** ctx = NULL);
 
 			/*!
 			* @brief Prepare the function
@@ -154,29 +113,27 @@ namespace ilg
 			* @param Pointer to asISCriptContext pointer, allowing to add parameter to the function
 			* @return SCRIPT_SUCCESS if the function as been correctly executed, corresponding error enum otherwise
 			*/
-			ScriptState prepare(const muon::String& funcName, const muon::String& moduleName, asIScriptContext** ctx = NULL);
+			virtual ScriptState prepare(const muon::String& funcName, const muon::String& moduleName, IScriptContext** ctx = NULL);
 
 			/*!
 			* @brief Execute the previously loaded function
 			* @return SCRIPT_SUCCESS if the function as been correctly executed, corresponding error enum otherwise
 			*/
-			ScriptState execute();
+			virtual ScriptState execute();
 
-			bool eval(const muon::String& script);
-			bool function(const muon::String& name);
+			virtual bool eval(const muon::String& script);
+			virtual bool function(const muon::String& name);
 
-			// Message callback used by AngelScript
-			void errorCallback(const asSMessageInfo* msg);
 		private:
-			Script();
-			virtual ~Script();
+			ScriptDriver();
+			virtual ~ScriptDriver();
 
-			void __registerClassBinding(void(*)(asIScriptEngine*), const char*);
+			void _errorCallback(const muon::String& msg);
 			ScriptState _load(const muon::String& filename, const muon::String& moduleName);
 
 			muon::system::Log _log;
-			asIScriptEngine* _engine;
-			asIScriptContext* _context;
+			IScriptEngine* _engine;
+			IScriptContext* _context;
 			std::unordered_map<muon::String, bool>* _moduleCompiled;
 		};
 	}
