@@ -1,0 +1,11 @@
+body {background-color: #000;}
+p {margin-top:0px;margin-bottom:0px;}
+
+.hms {color:#505050; padding-right: 10px;}
+.no_hms {color:#000; padding-right: 10px;}
+.print {color:#FFF;}
+.info {color:#06F;}
+.debug {color:#585;}
+.warning {color:#BD7B00;}
+.error {color:#F00;}
+.script {color:#FA0;}

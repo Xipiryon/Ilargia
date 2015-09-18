@@ -1,0 +1,37 @@
+language: cpp
+sudo: false
+compiler:
+  - gcc
+  - clang
+cache: apt
+env:
+  global:
+    - secure: "FbcpbhAUJk9J12ZNEFgBiO/PRL1m4wZvRY5CQC+K6TCbJ3rwiPwc3ixBPLuKnGQlNAhha9XYMlDgeQNOM5NE60HSm4ttVpA1Cnx/m/041pTiPvuUp3lwAE8C9jQCvhJohwWGuef5ECvqgEV1T95lHvZAOMQx4eAj+gL6S18F9HNPvd29YoiEGbvvLF4ZFMDvFUoKo6kCbGTulWjyBbGlxxDUbCfJduz96H4ycXOBuDyjuVGBOdNe/qSrJXkk+Ak+vpjXFweiThN0R42oD5P9/fsBNjmioQjgnFTgR7M0nGi/u2EodDXdU/13SYAzhow5KxaJXJlGxiLrhLNIU7TIzJkqud7p7pc26qKXG9u3Rv2EbCXuJQehljvRCemst9Rq6T9rMm+AmY0uOcT7MMfqwD6/NVbxQunrp386y9p+EwaC8MCvcg5v9DkAkfKFD93uKXt6DFtjdkW0j8Z7/U2/yq3MlucVeuS6S8i8RJe7RWz+AmWCg0pVEimXbYdrnFjJl2zyX5KfzLG9DJVEIn/ocML0HhdJJTdq7yuWetZH3dAlYQPjbHEMnplzifUmlG0xCFm+1lhF8Nxk83OP2lj0RnKt3M45liCBc3deeY7ObIHs7E15Ap+W8z0uSeGamHoTiBUDEqpTEUIH8GN9TIHWbNN5ByIvHGmeAaU2hzw6v/k="
+before_install:
+  - chmod +x premake5
+install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+before_script:
+  - ./travis_build.sh
+script:
+  - make config=releasedll -j4
+branches:
+  only:
+  - master
+notifications:
+  email: false
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-4.8
+      - g++-4.8
+      - clang
+  coverity_scan:
+    project:
+      name: "Xleek/Ilargia"
+      description: "Build submitted via Travis CI"
+    build_command_prepend: "./travis_build.sh"
+    build_command:   "make config=releasedll -j 4"
+    branch_pattern: master
