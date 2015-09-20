@@ -2,6 +2,14 @@
 -- Global Variable
 ------------------------------
 
+-- Specify the list of module to build within the engine 
+-- You can simply comment / uncomment to build / unbuild
+G_ModuleToBuild = {
+	-- "LogColorConsole",
+	-- "LogHTML"
+	-- "Network"
+}
+
 -- Prefix Install specify where it should look for custom
 -- project header & library files
 if G_Install == nil then
@@ -75,9 +83,13 @@ solution "Ilargia"
 -- Project
 ------------------------------
 
--- Library
+for _,project in pairs(G_ModuleToBuild) do
+	print('Building Module: "'..project..'"')
+	dofile("./modules/"..project.."/premake5_project.lua");
+end
 
--------------------------------------------
+-- Library
+--
 project "Ilargia"
 	language "C++"
 	targetdir(IlargiaRoot.."/bin/lib")
