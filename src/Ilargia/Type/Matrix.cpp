@@ -1,5 +1,5 @@
 /*************************************************************************
-* DNA Engine - http://gitweb.louis-schnellbach.com
+* Ilargia Engine - http://github.com/Xleek/Ilargia
 * C++ Modular Data Oriented Game Enginee
 *------------------------------------------------------------------------
 * Copyright (c) 2014-2015, Louis Schnellbach

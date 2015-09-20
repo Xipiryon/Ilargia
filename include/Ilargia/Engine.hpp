@@ -1,5 +1,5 @@
 /*************************************************************************
-* DNA Engine - http://gitweb.louis-schnellbach.com
+* Ilargia Engine - http://github.com/Xleek/Ilargia
 * C++ Modular Data Oriented Game Enginee
 *------------------------------------------------------------------------
 * Copyright (c) 2014-2015, Louis Schnellbach
@@ -52,16 +52,16 @@
 namespace ilg
 {
 #ifdef __cplusplus
-#	define extern_C_BEGIN extern "C" {
-#	define extern_C_END }
+#	define EXTERN_C_BEGIN extern "C" {
+#	define EXTERN_C_END }
 #else
-#	define extern_C_BEGIN
-#	define extern_C_END
+#	define EXTERN_C_BEGIN
+#	define EXTERN_C_END
 #endif
 
-#define DNA_UNDEFINED_LIBRARY_NAME DNA_UNDEFINED_LIBRARY_NAME
-#ifndef DNA_LIBRARY_NAME
-#	define DNA_LIBRARY_NAME DNA_UNDEFINED_LIBRARY_NAME
+#define ILG_UNDEFINED_MODULE_NAME UndefinedModuleName
+#ifndef ILG_MODULE_NAME
+#	define ILG_MODULE_NAME ILG_UNDEFINED_MODULE_NAME
 #endif
 
 	/*!
@@ -69,41 +69,41 @@ namespace ilg
 	* The library filename will be used to retrieve load/unload
 	* functions. It must follow the same rules as any C/C++ function declaration.
 	*/
-#define DNA_LIBRARY_CHECK_FILENAME struct IlargiaCheckName { \
-		IlargiaCheckName() { dna::String _s = DNA_STR(DNA_LIBRARY_NAME); if(_s == DNA_STR(DNA_UNDEFINED_LIBRARY_NAME)) { \
-		DNA_ERROR("DNA_LIBRARY_NAME is not defined. It should be the library name: aborting, as it won't be possible to load it."); \
+#define ILG_MODULE_CHECK_FILENAME struct IlargiaCheckName { \
+		IlargiaCheckName() { muon::String _s = MUON_STR(ILG_MODULE_NAME); if(_s == MUON_STR(ILG_UNDEFINED_MODULE_NAME)) { \
+		MUON_ERROR("ILG_MODULE_NAME is not defined! Please check your module has been correctly compiled."); \
 		exit(-1); } } \
-	}; namespace dna { namespace priv { static IlargiaCheckName _check; } }
+	}; namespace ilg { namespace priv { static IlargiaCheckName _check; } }
 
-#define _ILARGIA_LIBRARY_LOAD_FUNC		DNA_TOKEN(DNA_LIBRARY_NAME, _load)
-#define _ILARGIA_LIBRARY_UNLOAD_FUNC	DNA_TOKEN(DNA_LIBRARY_NAME, _unload)
-
-	/*!
-	* @brief
-	*/
-#define DNA_LIBRARY_INIT_BEGIN		extern_C_BEGIN int DNA_API _ILARGIA_LIBRARY_LOAD_FUNC (int argc, char** argv, char* _ilargia_error) {
-	/*!
-	* @brief
-	*/
-#define DNA_LIBRARY_INIT_END		} extern_C_END
+#define _ILARGIA_MODULE_LOAD_FUNC		MUON_GLUE(ILG_MODULE_NAME, _load)
+#define _ILARGIA_MODULE_UNLOAD_FUNC		MUON_GLUE(ILG_MODULE_NAME, _unload)
 
 	/*!
 	* @brief
 	*/
-#define DNA_LIBRARY_TERM_BEGIN		extern_C_BEGIN void DNA_API _ILARGIA_LIBRARY_UNLOAD_FUNC () {
+#define ILG_MODULE_INIT_BEGIN		EXTERN_C_BEGIN int ILG_API _ILARGIA_MODULE_LOAD_FUNC (int argc, char** argv, char* _ilargia_error) {
 	/*!
 	* @brief
 	*/
-#define DNA_LIBRARY_TERM_END		} extern_C_END
+#define ILG_MODULE_INIT_END		} EXTERN_C_END
 
 	/*!
 	* @brief
 	*/
-#define DNA_LIBRARY_RETURN_SUCCESS	{return 0;};
+#define ILG_MODULE_TERM_BEGIN		EXTERN_C_BEGIN void ILG_API _ILARGIA_MODULE_UNLOAD_FUNC () {
+	/*!
+	* @brief
+	*/
+#define ILG_MODULE_TERM_END		} EXTERN_C_END
+
+	/*!
+	* @brief
+	*/
+#define ILG_MODULE_RETURN_SUCCESS	{return 0;};
 	/*!
 	*
 	*/
-#define DNA_LIBRARY_RETURN_FAILED	{::strcpy(_ilargia_error, error_str); return -1;};
+#define ILG_MODULE_RETURN_FAILED	{::strcpy(_ilargia_error, error_str); return -1;};
 
 	//class WorldModule;
 	//class GraphicsModule;
