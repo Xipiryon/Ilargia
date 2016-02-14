@@ -5,9 +5,9 @@
 -- Specify the list of module to build within the engine 
 -- You can simply comment / uncomment to build / unbuild
 G_ModuleToBuild = {
-	-- "LogColorConsole",
-	-- "LogHTML"
-	-- "Network"
+	--"LogColorConsole",
+	--"LogHTML"
+	--"Network"
 }
 
 -- Prefix Install specify where it should look for custom
@@ -25,7 +25,9 @@ end
 if not G_Install.Header then G_Install.Header = G_Install.Root.."include" end
 if not G_Install.Lib then G_Install.Lib = G_Install.Root.."lib" end
 
-IlargiaRoot = os.getcwd()
+if SolutionRoot == nil then
+	SolutionRoot = os.getcwd()
+end
 
 ------------------------------
 -- Solution
@@ -35,31 +37,35 @@ solution "Ilargia"
 	startproject "IlargiaEngine"
 	configurations { "DebugDLL", "DebugLib", "ReleaseLib", "ReleaseDLL" }
 
-	if not os.is("windows") then
-		buildoptions { "--std=c++11" }
-		linkoptions { "-Wl,-rpath,"..IlargiaRoot.."/bin/lib/" }
+	if os.is("windows") then
+		implibdir "bin/lib"
+		buildoptions { "/GR-" }
+	else
+		buildoptions { "--std=c++11 -fno-rtti" }
+		linkoptions { "-Wl,-rpath,bin/lib" }
 	end
 
 	-- If option exists, then override G_Install
 	if _OPTIONS["basedir"] then
 		G_Install.Root = _OPTIONS["basedir"]
 		G_Install.Header = _OPTIONS["basedir"].."/include"
-		G_Install.Lib = _OPTIONS["basedir"].."/lib"
+		G_Install.Lib = _OPTIONS["basedir"].."/bin/lib"
 		print("Install directory has been overwritten to '"..G_Install.Root.."'")
 	end
 
 	includedirs {
-		IlargiaRoot.."/include",
+		SolutionRoot.."/include",
 		G_Install.Header
 	}
 
 	libdirs {
-		IlargiaRoot.."/bin/lib",
+		SolutionRoot.."/bin/lib",
 		G_Install.Lib
 	}
 
 	filter "Debug*"
 		targetsuffix "-d"
+		optimize "Debug"
         flags   { "Symbols" }
 
 	filter "Release*"
@@ -83,65 +89,19 @@ solution "Ilargia"
 -- Project
 ------------------------------
 
+include("project_Lib")
+include("project_Exe")
+
+if _OPTIONS["unittests"] then
+	include("project_UnitTests")
+end
+
+-- Modules
+-------------------------------------------
 for _,project in pairs(G_ModuleToBuild) do
 	print('Building Module: "'..project..'"')
 	dofile("./modules/"..project.."/premake5_project.lua");
 end
-
--- Library
---
-project "Ilargia"
-	language "C++"
-	targetdir(IlargiaRoot.."/bin/lib")
-	
-	if os.is("windows") then
-		postbuildcommands { string.gsub("copy "..IlargiaRoot.."/bin/lib/*.dll "..IlargiaRoot.."/bin/", "/", "\\") }
-	else
-		postbuildcommands { "cp "..IlargiaRoot.."/bin/lib/*.so "..IlargiaRoot.."/bin/" }
-	end
-
-	files {
-       IlargiaRoot.."/src/**.cpp",
-	   IlargiaRoot.."/src/**.hpp",
-       IlargiaRoot.."/include/**.hpp",
-	}
-	filter "Debug*"
-		links	{
-			"Muon-d"
-		}
-	filter "Release*"
-		links {
-			"Muon"
-		}
-		
-	filter "*DLL"
-		defines { "ILARGIA_EXPORTS" }
-
-
--- Engine Application
---
-project "IlargiaEngine"
-	language "C++"
-	targetname "Ilargia"
-	targetdir "bin"
-	kind "ConsoleApp"
-
-	files	{
-		IlargiaRoot.."/main/main.cpp"
-	}
-
-	filter "Debug*"
-		links	{
-			"Ilargia-d",
-			"Muon-d"
-		}
-	filter "Release*"
-		links {
-			"Ilargia",
-			"Muon"
-		}
-
-
 
 ------------------------------
 -- Options
@@ -153,18 +113,23 @@ newoption {
 	description = "Folder to search lib & include; default: '"..G_Install.Root.."'",
 }
 
+newoption {
+	trigger     = "unittests",
+	description = "Enable compilation of unit tests",
+}
+
 ------------------------------
 -- Actions
 ------------------------------
 
 newaction {
-	trigger     = "install",
+	trigger	 = "install",
 	description = "Install developpment files & library",
 	execute = function ()
 		print("** Installing Header files in: "..G_Install.Header.." **")
 
-		local incDir = IlargiaRoot.."/include/"
-		local libDir = IlargiaRoot.."/bin/lib/"
+		local incDir = SolutionRoot.."/include/"
+		local libDir = SolutionRoot.."/bin/lib/"
 
 		-- Create required folders
 		local dirList = os.matchdirs(incDir.."**")
@@ -183,7 +148,7 @@ newaction {
 			if os.copyfile(fpath, destFile) then print("Installing "..destFile) end
 		end
 
-		
+
 		-- LIBRARY
 		print("** Installing Library files in: "..G_Install.Lib.." **")
 		local destDir = G_Install.Lib
@@ -199,6 +164,7 @@ newaction {
 			exts[1] = ".lib"
 		else
 			exts[0] = ".so"
+			exts[1] = ".a"
 		end
 
 		-- Copy files
@@ -213,16 +179,15 @@ newaction {
 }
 
 if os.is("windows") then
-newaction {
-	trigger	 = "getlib",
-	description = "Retrieve libraries from 'basedir' and put them in bin/ and bin/lib",
-	execute = function ()
-		print("** Retrieving files from: "..G_Install.Lib.." **")
+	newaction {
+		trigger	 = "getlib",
+		description = "Retrieve libraries from 'basedir' and put them in bin/",
+		execute = function ()
+			print("** Retrieving files from: "..G_Install.Lib.." **")
 
-		local libDir = G_Install.Lib
+			local libDir = G_Install.Lib
 
-		for _,dir in pairs({"", "/lib"}) do
-			local destDir = './bin'..dir
+			local destDir = "bin"
 
 			-- Create required folders
 			if(not os.isdir(destDir)) then
@@ -230,13 +195,11 @@ newaction {
 			end
 
 			-- Copy files
-			-- Muon
 			local fileList = os.matchfiles(libDir.."**Muon**dll")
 			for _,fpath in pairs(fileList) do
 				local destFile = destDir..string.sub(fpath, 1+#G_Install.Lib)
 				if os.copyfile(fpath, destFile) then print("Copying "..fpath.." to "..destDir) end
 			end
 		end
-	end
-}
+	}
 end
