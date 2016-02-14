@@ -46,7 +46,7 @@ namespace ilg
 
 	Component Entity::_addComponent(muon::i32 type)
 	{
-		IComponentManager* manager = ComponentManagerFactory::get().getComponentManager(type);
+		IComponentManager* manager = ComponentManagerFactory::getInstance().getComponentManager(type);
 		Component c;
 		if (manager)
 		{
@@ -72,7 +72,7 @@ namespace ilg
 
 	bool Entity::_removeComponent(muon::i32 type)
 	{
-		IComponentManager* manager = ComponentManagerFactory::get().getComponentManager(type);
+		IComponentManager* manager = ComponentManagerFactory::getInstance().getComponentManager(type);
 		Component c;
 		if (manager)
 		{

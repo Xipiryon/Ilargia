@@ -33,7 +33,7 @@
 #include "SharedLibrary.hpp"
 
 // ***  TYPE    ***
-#include <Muon/Type/String.hpp>
+#include <Muon/String.hpp>
 #include "Ilargia/Type/Vector.hpp"
 #include "Ilargia/Type/TexCoord.hpp"
 #include "Ilargia/Type/Color.hpp"
@@ -56,7 +56,7 @@ namespace ilg
 		//
 		// *** Type
 #if 0
-		auto& odb = reflect::ObjectDatabase::get();
+		auto& odb = reflect::ObjectDatabase::getInstance();
 		odb.registerClass<Vector>();
 		odb.registerClass<Color>();
 		odb.registerClass<TexCoord>();

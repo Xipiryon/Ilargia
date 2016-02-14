@@ -45,7 +45,7 @@ namespace ilg
 	{
 		//Check if manager isn't already loaded
 		bool found = false;
-		auto& managerList = SharedLibrary::get()._managers;
+		auto& managerList = SharedLibrary::getInstance()._managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
 			if ((*it).manager->_managerName == name)
@@ -67,13 +67,13 @@ namespace ilg
 			return false;
 		}
 
-		SharedLibrary::get()._addModuleRef(manager);
+		SharedLibrary::getInstance()._addModuleRef(manager);
 		return true;
 	}
 
 	IComponentManager* ComponentManagerFactory::getComponentManager(muon::u64 type)
 	{
-		auto& managerList = SharedLibrary::get()._managers;
+		auto& managerList = SharedLibrary::getInstance()._managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
 			if ((*it).manager->getComponentType() == type)
@@ -87,7 +87,7 @@ namespace ilg
 
 	IComponentManager* ComponentManagerFactory::getComponentManager(const muon::String& name)
 	{
-		auto& managerList = SharedLibrary::get()._managers;
+		auto& managerList = SharedLibrary::getInstance()._managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
 			if ((*it).manager->_managerName == name)

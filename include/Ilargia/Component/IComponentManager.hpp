@@ -28,7 +28,7 @@
 #ifndef _ILARGIA_ICOMPONENTMANAGER_H_INCLUDED
 #define _ILARGIA_ICOMPONENTMANAGER_H_INCLUDED
 
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/NonCopyable.hpp>
 #include <Muon/System/Log.hpp>
 #include "Ilargia/Component/Entity.hpp"
 #include "Ilargia/Component/Component.hpp"
@@ -36,7 +36,7 @@
 namespace ilg
 {
 	class ComponentManagerFactory;
-	class ILG_API IComponentManager : public muon::NonCopyable
+	class ILG_API IComponentManager : public muon::helper::NonCopyable
 	{
 	public:
 		IComponentManager(const muon::String& name, muon::u64 componentType, muon::i32 updateOrder);

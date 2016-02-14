@@ -30,16 +30,15 @@
 
 #include <deque>
 #include <vector>
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/Singleton.hpp>
 #include "Ilargia/Component/Entity.hpp"
 
 namespace ilg
 {
-	class ILG_API EntityManager : public muon::NonCopyable
+	class ILG_API EntityManager : public muon::helper::Singleton<EntityManager>
 	{
+		friend class muon::helper::Singleton<EntityManager>;
 	public:
-		MUON_SINGLETON_GET(EntityManager);
-
 		Entity* create();
 		void destroy(Entity* e);
 

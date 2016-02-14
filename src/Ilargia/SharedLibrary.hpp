@@ -30,7 +30,7 @@
 
 #include <vector>
 
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/Singleton.hpp>
 #include <Muon/System/Log.hpp>
 #include "Ilargia/Core/Define.hpp"
 
@@ -56,10 +56,10 @@ namespace ilg
 		void* library;
 	};
 
-	class SharedLibrary : public muon::NonCopyable
+	class SharedLibrary : public muon::helper::Singleton<SharedLibrary>
 	{
+		friend class muon::helper::Singleton<SharedLibrary>;
 	public:
-		MUON_SINGLETON_GET(SharedLibrary);
 
 		const std::vector<CManagerPair>& getManagers() const;
 		const std::vector<SharedLibraryInfo>& getLibraries() const;

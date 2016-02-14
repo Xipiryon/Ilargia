@@ -89,7 +89,7 @@ namespace ilg
 			return NULL;
 		}
 
-		IComponentManager* manager = ComponentManagerFactory::get().getComponentManager(type);
+		IComponentManager* manager = ComponentManagerFactory::getInstance().getComponentManager(type);
 		MUON_ASSERT(manager != NULL,
 			"There is no ComponentManager matching the type %u (%s)",
 			type, type_name);

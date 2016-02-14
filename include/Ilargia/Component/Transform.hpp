@@ -28,7 +28,8 @@
 #ifndef _ILARGIA_TRANSFORM_H_INCLUDED
 #define _ILARGIA_TRANSFORM_H_INCLUDED
 
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/NonCopyable.hpp>
+#include <Muon/Traits/TypeTraits.hpp>
 #include "Ilargia/Component/Array.hpp"
 #include "Ilargia/Component/Component.hpp"
 
@@ -39,7 +40,7 @@
 namespace ilg
 {
 	class MeshRendererModule;
-	class ILG_API Transform : public muon::NonCopyable
+	class ILG_API Transform //: public muon::helper::NonCopyable
 	{
 	public:
 		Transform();
@@ -63,5 +64,6 @@ namespace ilg
 		ChildArray* _children;
 	};
 }
+MUON_TRAITS(ilg::Transform);
 
 #endif

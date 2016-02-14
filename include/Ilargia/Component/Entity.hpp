@@ -28,14 +28,14 @@
 #ifndef _ILARGIA_ENTITY_H_INCLUDED
 #define _ILARGIA_ENTITY_H_INCLUDED
 
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/NonCopyable.hpp>
 #include "Ilargia/Component/Component.hpp"
 #include "Ilargia/Component/Array.hpp"
 
 namespace ilg
 {
 	class EntityManager;
-	class ILG_API Entity : public muon::NonCopyable
+	class ILG_API Entity : public muon::helper::NonCopyable
 	{
 	public:
 		~Entity();

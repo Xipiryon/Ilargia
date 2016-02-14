@@ -28,7 +28,7 @@
 #include <algorithm>
 #include <fstream>
 
-#include <Muon/Type/String.hpp>
+#include <Muon/String.hpp>
 #include "Ilargia/Engine.hpp"
 #include "SharedLibrary.hpp"
 
@@ -123,7 +123,7 @@ namespace ilg
 				toUpper(link);
 				if(link == "STATIC")
 				{
-					SharedLibrary::get().setLinkStatic();
+					SharedLibrary::getInstance().setLinkStatic();
 				}
 			}
 			muon::String path;
@@ -165,7 +165,7 @@ namespace ilg
 #else
 					muon::String filePath = path+"/lib"+file+".so";
 #endif
-					SharedLibrary::get().loadLibrary(file, filePath);
+					SharedLibrary::getInstance().loadLibrary(file, filePath);
 				}
 				module = (XMLElement*)mod->NextSibling();
 			}
@@ -207,7 +207,7 @@ namespace ilg
 						toUpper(type);
 						//TODO Fix It
 						/*
-						muon::system::KeyValue& kvs = muon::system::KeyValue::get();
+						muon::system::KeyValue& kvs = muon::system::KeyValue::getInstance();
 
 						if(type == "INT") {kvs.store(name, attrValue->IntValue());}
 						else if(type == "FLOAT") {kvs.store(name, attrValue->FloatValue());}

@@ -28,9 +28,9 @@
 #ifndef _ILARGIA_COMPONENT_H_INCLUDED
 #define _ILARGIA_COMPONENT_H_INCLUDED
 
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/NonCopyable.hpp>
 #include <Muon/Meta/MetaDatabase.hpp>
-#include <Muon/Type/String.hpp>
+#include <Muon/String.hpp>
 #include "Ilargia/Core/Define.hpp"
 
 namespace ilg

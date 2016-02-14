@@ -29,7 +29,7 @@
 #define _ILARGIA_SCRIPTENGINE_H_INCLUDED
 
 #include <unordered_map>
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/NonCopyable.hpp>
 #include <Muon/System/Log.hpp>
 #include "Ilargia/System/IScriptContext.hpp"
 #include "Ilargia/System/IScriptEngine.hpp"
@@ -56,12 +56,12 @@ namespace ilg
 		*
 		* 
 		*/
-		class ILG_API ScriptDriver : public muon::NonCopyable
+		class ILG_API ScriptDriver : public muon::helper::Singleton<ScriptDriver>
 		{
+			friend class muon::helper::Singleton<ScriptDriver>;
 		public:
 
 			static void check(int);
-			MUON_SINGLETON_GET(ScriptDriver);
 
 			IScriptEngine* getScriptEngine() const;
 			IScriptContext* getScriptContext() const;

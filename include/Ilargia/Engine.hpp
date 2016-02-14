@@ -35,7 +35,7 @@
 //Ilargia Files that should be everywhere Engine.h is
 #include <Muon/Core/Constant.hpp>
 #include <Muon/Core/Typedef.hpp>
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/NonCopyable.hpp>
 #include <Muon/System/KeyValue.hpp>
 #include <Muon/System/Log.hpp>
 #include <Muon/System/Time.hpp>
@@ -109,14 +109,13 @@ namespace ilg
 	//class GraphicsModule;
 
 	//! Engine functions
-	class ILG_API Engine : public muon::NonCopyable
+	class ILG_API Engine : public muon::helper::Singleton<Engine>
 	{
+		friend class muon::helper::Singleton<Engine>;
 	public:
 		static void dispatchKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
 
 		static int main(int argc, char** argv);
-
-		MUON_SINGLETON_GET(Engine);
 
 		/*!
 		* @brief Stop the engine

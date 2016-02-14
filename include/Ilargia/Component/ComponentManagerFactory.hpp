@@ -28,17 +28,17 @@
 #ifndef _ILARGIA_COMPONENTMANAGERFACTORY_H_INCLUDED
 #define _ILARGIA_COMPONENTMANAGERFACTORY_H_INCLUDED
 
-#include <Muon/Core/NonCopyable.hpp>
+#include <Muon/Helper/Singleton.hpp>
 #include "Ilargia/Component/Entity.hpp"
 #include "Ilargia/Component/Component.hpp"
 #include "Ilargia/Component/ComponentManagerFactory.hpp"
 
 namespace ilg
 {
-	class ILG_API ComponentManagerFactory : public muon::NonCopyable
+	class ILG_API ComponentManagerFactory : public muon::helper::Singleton<ComponentManagerFactory>
 	{
+		friend class muon::helper::Singleton<ComponentManagerFactory>;
 	public:
-		MUON_SINGLETON_GET(ComponentManagerFactory)
 
 		template<typename T, typename ...Args>
 		bool registerComponentManager(Args...args)
@@ -64,8 +64,8 @@ namespace ilg
 		virtual ~ComponentManagerFactory();
 	};
 
-#define ILG_CMANAGER_TYPE(Manager, ComponentType) ((Manager*)ComponentManagerFactory::get().getComponentManager(ComponentType))
-#define ILG_CMANAGER_NAME(Manager, Name) ((Manager*)ComponentManagerFactory::get().getComponentManager(Name))
+#define ILG_CMANAGER_TYPE(Manager, ComponentType) ((Manager*)ComponentManagerFactory::getInstance().getComponentManager(ComponentType))
+#define ILG_CMANAGER_NAME(Manager, Name) ((Manager*)ComponentManagerFactory::getInstance().getComponentManager(Name))
 
 }
 #endif

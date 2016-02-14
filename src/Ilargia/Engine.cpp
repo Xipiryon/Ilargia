@@ -29,7 +29,7 @@
 #include <fstream>
 
 // ***  MUON    ***
-#include <Muon/Type/String.hpp>
+#include <Muon/String.hpp>
 #include <Muon/System/Time.hpp>
 
 // ***  CORE    ***
@@ -50,7 +50,7 @@ namespace ilg
 {
 	void Engine::dispatchKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
 	{
-		auto managerList = SharedLibrary::get().getManagers();
+		auto managerList = SharedLibrary::getInstance().getManagers();
 		for(auto manager = managerList.begin(); manager != managerList.end(); ++manager)
 		{
 			(*manager).manager->onKeyCallback(windowHandle, key, scancode, action, modifier);
@@ -84,7 +84,7 @@ namespace ilg
 		muon::system::Log::registerDefaultLogImpl();
 #endif
 
-		Engine& engine = get();
+		Engine& engine = getInstance();
 		{
 			std::string _argv = argv[0];
 			size_t pos = _argv.rfind(muon::PATH_SEPARATOR);
@@ -95,9 +95,9 @@ namespace ilg
 			engine._programPath = (_argv.substr(0, pos) + muon::PATH_SEPARATOR).c_str();
 		}
 
-		//auto& keyValue = muon::system::KeyValue::get();
-		auto& script = system::ScriptDriver::get();
-		auto& sharedLib = SharedLibrary::get();
+		//auto& keyValue = muon::system::KeyValue::getInstance();
+		auto& script = system::ScriptDriver::getInstance();
+		auto& sharedLib = SharedLibrary::getInstance();
 		sharedLib.forwardArg(argc, argv);
 
 #if defined(MUON_DEBUG)
@@ -132,7 +132,7 @@ namespace ilg
 	void Engine::close()
 	{
 		//Unload libraries
-		SharedLibrary::get().unloadLibraries();
+		SharedLibrary::getInstance().unloadLibraries();
 
 		// Close every stream
 		muon::system::Log::close();
@@ -143,31 +143,31 @@ namespace ilg
 
 	void Engine::toggle()
 	{
-		Engine& e = get();
+		Engine& e = getInstance();
 		pause(!e._paused);
 	}
 
 	void Engine::pause(bool pause)
 	{
-		Engine& e = get();
+		Engine& e = getInstance();
 		e._paused = pause;
 		e._deltaTime = 0.f;
 	}
 
 	void Engine::stop()
 	{
-		get()._running = false;
+		getInstance()._running = false;
 	}
 
 	void Engine::_run()
 	{
-		auto& managerList = SharedLibrary::get().getManagers();
+		auto& managerList = SharedLibrary::getInstance().getManagers();
 
 		//Check there is managers to update
 		if (managerList.size() == 0)
 		{
-			get()._log(muon::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << muon::endl;
-			get()._running = false;
+			getInstance()._log(muon::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << muon::endl;
+			getInstance()._running = false;
 			return;
 		}
 
@@ -190,9 +190,9 @@ namespace ilg
 
 	void Engine::run()
 	{
-		Engine& engine = get();
+		Engine& engine = getInstance();
 
-		muon::i32 modSize = SharedLibrary::get().getManagers().size();
+		muon::i32 modSize = SharedLibrary::getInstance().getManagers().size();
 		if (modSize == 0)
 		{
 			engine._log(muon::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << muon::endl;
@@ -207,7 +207,7 @@ namespace ilg
 		//Main loop execution time start
 		engine._clock.start();
 
-		auto& managerList = SharedLibrary::get()._managers;
+		auto& managerList = SharedLibrary::getInstance()._managers;
 
 		//Sort manager depending on exec order
 		std::sort(managerList.begin(), managerList.end(),
@@ -266,26 +266,26 @@ namespace ilg
 
 	bool Engine::isRunning()
 	{
-		return get()._running;
+		return getInstance()._running;
 	}
 
 	bool Engine::isPaused()
 	{
-		return get()._paused;
+		return getInstance()._paused;
 	}
 
 	muon::f32 Engine::getDeltaTime()
 	{
-		return get()._deltaTime;
+		return getInstance()._deltaTime;
 	}
 
 	muon::f32 Engine::getProgramTime()
 	{
-		return get()._programTime;
+		return getInstance()._programTime;
 	}
 
 	const char* Engine::getProgramPath()
 	{
-		return get()._programPath.cStr();
+		return getInstance()._programPath.cStr();
 	}
 }
