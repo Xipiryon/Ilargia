@@ -51,7 +51,7 @@ namespace ilg
 		template<typename T>
 		MUON_INLINE T* cast() const
 		{
-			if (T* ptr = (T*)_cast(MUON_META(T)->id(), MUON_META(T)->name().cStr()))
+			if (T* ptr = (T*)_cast(MUON_META(T)->id(), MUON_META(T)->name()))
 			{
 				return ptr;
 			}
