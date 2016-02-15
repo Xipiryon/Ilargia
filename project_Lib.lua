@@ -9,6 +9,10 @@ project "IlargiaLibrary"
 	targetname "Ilargia"
 	targetdir (SolutionRoot.."/bin/lib")
 
+	if not os.is("windows") then
+		linkoptions {"-ldl"}
+	end
+
 	files {
 		ProjectRoot.."/src/**.cpp",
 		ProjectRoot.."/include/**.hpp",
