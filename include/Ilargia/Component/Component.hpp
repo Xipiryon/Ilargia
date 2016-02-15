@@ -58,7 +58,7 @@ namespace ilg
 			return NULL;
 		}
 
-		template<typename T> 
+		template<typename T>
 		MUON_INLINE operator T*() const
 		{
 			return cast<T>();
@@ -76,5 +76,6 @@ namespace ilg
 		muon::String _name;
 	};
 }
+MUON_TRAITS(ilg::Component);
 
 #endif
