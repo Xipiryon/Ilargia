@@ -84,7 +84,7 @@ namespace ilg
 		muon::system::Log::registerDefaultLogImpl();
 #endif
 
-		Engine& engine = getInstance();
+		Engine& engine = createInstance();
 		{
 			std::string _argv = argv[0];
 			size_t pos = _argv.rfind(muon::PATH_SEPARATOR);
@@ -96,8 +96,8 @@ namespace ilg
 		}
 
 		//auto& keyValue = muon::system::KeyValue::getInstance();
-		auto& script = system::ScriptDriver::getInstance();
-		auto& sharedLib = SharedLibrary::getInstance();
+		auto& script = system::ScriptDriver::createInstance();
+		auto& sharedLib = SharedLibrary::createInstance();
 		sharedLib.forwardArg(argc, argv);
 
 #if defined(MUON_DEBUG)
