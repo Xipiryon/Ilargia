@@ -2,14 +2,6 @@
 -- Global Variable
 ------------------------------
 
--- Specify the list of module to build within the engine 
--- You can simply comment / uncomment to build / unbuild
-G_ModuleToBuild = {
-	--"LogColorConsole",
-	--"LogHTML"
-	--"Network"
-}
-
 -- Prefix Install specify where it should look for custom
 -- project header & library files
 if G_Install == nil then
@@ -78,10 +70,10 @@ solution "Ilargia"
 	filter  "*DLL"
 		kind "SharedLib"
 
-		
+
 	filter "Debug*"
 		defines { "MUON_DEBUG" }
-		
+
 	filter "Release*"
 		defines { "MUON_RELEASE"}
 
@@ -96,12 +88,7 @@ if _OPTIONS["unittests"] then
 	include("project_UnitTests")
 end
 
--- Modules
--------------------------------------------
-for _,project in pairs(G_ModuleToBuild) do
-	print('Building Module: "'..project..'"')
-	dofile("./modules/"..project.."/premake5_project.lua");
-end
+include("project_Modules")
 
 ------------------------------
 -- Options
