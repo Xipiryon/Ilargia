@@ -59,16 +59,20 @@ namespace ilg
 #	define EXTERN_C_END
 #endif
 
+#ifdef _DOXYGEN
 	/*!
 	* @brief Check Library filename
 	* The library filename will be used to retrieve load/unload
 	* functions. It must follow the same rules as any C/C++ function declaration.
 	*/
-#define ILARGIA_MODULE_CHECK_FILENAME struct IlargiaCheckName { \
-		IlargiaCheckName() { muon::String _s = MUON_STR(ILARGIA_MODULE_NAME); if(_s.empty()) { \
-		MUON_ERROR("ILARGIA_MODULE_NAME is not defined! Please check your module has been correctly compiled."); \
-		exit(-1); } } \
-	}; namespace ilg { namespace priv { static IlargiaCheckName _check; } }
+#define ILARGIA_MODULE_CHECK_FILENAME
+#else
+#	ifndef ILARGIA_MODULE_NAME
+#		define ILARGIA_MODULE_CHECK_FILENAME static_assert(false, "ILARGIA_MODULE_NAME is not defined!");
+#	else
+#		define ILARGIA_MODULE_CHECK_FILENAME
+#	endif
+#endif
 
 #define _ILARGIA_MODULE_LOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _load)
 #define _ILARGIA_MODULE_UNLOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _unload)
