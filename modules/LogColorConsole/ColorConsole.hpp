@@ -41,7 +41,7 @@ namespace ilg
 				ColorConsole();
 				virtual ~ColorConsole();
 
-				virtual muon::system::ILogImpl& endl(muon::system::ILogImpl& stream);
+				virtual muon::system::ILogImpl& endl();
 				virtual void operator()(muon::LogLevel level);
 
 				virtual muon::system::ILogImpl& operator<<(const char* pod);

@@ -31,10 +31,14 @@ ilg::mod::ColorConsole* impl = NULL;
 ILARGIA_MODULE_CHECK_FILENAME
 ILARGIA_MODULE_INIT_BEGIN
 {
+	impl = MUON_CNEW(ilg::mod::ColorConsole);
 	muon::system::Log::registerLogImpl(impl);
 	ILARGIA_MODULE_RETURN_SUCCESS;
 }
 ILARGIA_MODULE_INIT_END
 
 ILARGIA_MODULE_TERM_BEGIN
+{
+	MUON_CDELETE(impl);
+}
 ILARGIA_MODULE_TERM_END

@@ -81,11 +81,11 @@ namespace ilg
 		{
 		}
 
-		muon::system::ILogImpl& ColorConsole::endl(ILogImpl& stream)
+		muon::system::ILogImpl& ColorConsole::endl()
 		{
 			color(std::cout, muon::LOG_INFO);
 			std::cout << std::endl;
-			return stream;
+			return *this;
 		}
 
 		void ColorConsole::operator()(muon::LogLevel level)
