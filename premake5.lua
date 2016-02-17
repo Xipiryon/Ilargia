@@ -72,10 +72,10 @@ solution "Ilargia"
 
 
 	filter "Debug*"
-		defines { "MUON_DEBUG" }
+		defines { "MUON_DEBUG", "ILARGIA_DEBUG" }
 
 	filter "Release*"
-		defines { "MUON_RELEASE"}
+		defines { "MUON_RELEASE", "ILARGIA_RELEASE"}
 
 ------------------------------
 -- Project
