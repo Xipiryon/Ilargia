@@ -13,6 +13,7 @@ project(G_ProjectName)
 	local ProjectRoot = os.getcwd()
 	local ProjectNameDefine = "ILARGIA_MODULE_NAME="..G_ProjectName
 
+	dependson("IlargiaLibrary")
 	language "C++"
 	targetdir(SolutionRoot.."/bin/lib")
 
