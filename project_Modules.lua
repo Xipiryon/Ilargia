@@ -5,7 +5,7 @@
 -- Specify the list of module to build within the engine
 -- You can simply comment / uncomment to build / unbuild
 G_ModuleToBuild = {
-	--"LogColorConsole",
+	"LogColorConsole",
 	--"LogHTML"
 	--"Network"
 }

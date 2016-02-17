@@ -131,11 +131,11 @@ namespace ilg
 			if(!attrPath)
 			{
 				_log(muon::LOG_WARNING) << "No \"Path\" attribute in \"Modules\" node!" << muon::endl;
-				path = ".";
 			}
-			else
+			else if (strcmp(attrPath->Value(), ".") != 0)
 			{
 				path = attrPath->Value();
+				path += muon::PATH_SEPARATOR;
 			}
 
 			XMLElement* module = (XMLElement*)modules->FirstChildElement("Module");
@@ -160,10 +160,17 @@ namespace ilg
 						return false;
 					}
 
-#if defined(MUON_PLATFORM_WINDOWS)
-					muon::String filePath = path+"\\"+file+".dll";
+
+#if defined(ILARGIA_DEBUG)
+					muon::String suffix = "-d";
 #else
-					muon::String filePath = path+"/lib"+file+".so";
+					muon::String suffix;
+#endif
+
+#if defined(MUON_PLATFORM_WINDOWS)
+					muon::String filePath = path+file+suffix+".dll";
+#else
+					muon::String filePath = path+"lib"+file+suffix+".so";
 #endif
 					SharedLibrary::getInstance().loadLibrary(file, filePath);
 				}
