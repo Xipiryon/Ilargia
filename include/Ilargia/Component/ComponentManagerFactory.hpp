@@ -35,7 +35,7 @@
 
 namespace ilg
 {
-	class ILG_API ComponentManagerFactory : public muon::helper::Singleton<ComponentManagerFactory>
+	class ILARGIA_API ComponentManagerFactory : public muon::helper::Singleton<ComponentManagerFactory>
 	{
 		friend class muon::helper::Singleton<ComponentManagerFactory>;
 	public:
@@ -64,8 +64,8 @@ namespace ilg
 		virtual ~ComponentManagerFactory();
 	};
 
-#define ILG_CMANAGER_TYPE(Manager, ComponentType) ((Manager*)ComponentManagerFactory::getInstance().getComponentManager(ComponentType))
-#define ILG_CMANAGER_NAME(Manager, Name) ((Manager*)ComponentManagerFactory::getInstance().getComponentManager(Name))
+#define ILARGIA_CMANAGER_TYPE(Manager, ComponentType) ((Manager*)ComponentManagerFactory::getInstance().getComponentManager(ComponentType))
+#define ILARGIA_CMANAGER_NAME(Manager, Name) ((Manager*)ComponentManagerFactory::getInstance().getComponentManager(Name))
 
 }
 #endif

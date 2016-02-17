@@ -33,7 +33,7 @@
 
 namespace ilg
 {
-	class ILG_API TexCoord
+	class ILARGIA_API TexCoord
 	{
 	public:
 

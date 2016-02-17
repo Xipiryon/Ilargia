@@ -34,7 +34,7 @@
 namespace ilg
 {
 	//! 3D Vector class
-	class ILG_API Vector
+	class ILARGIA_API Vector
 	{
 	public:
 

@@ -37,16 +37,16 @@
 //Windows
 #	ifdef _MSC_VER
 #		if ILARGIA_EXPORTS
-#			define ILG_API __declspec(dllexport)
+#			define ILARGIA_API __declspec(dllexport)
 #		else
-#			define ILG_API __declspec(dllimport)
+#			define ILARGIA_API __declspec(dllimport)
 #		endif
 #	else
 //Unix
 #		if ILARGIA_EXPORTS
-#			define ILG_API __attribute__ ((visibility("default")))
+#			define ILARGIA_API __attribute__ ((visibility("default")))
 #		else
-#			define ILG_API
+#			define ILARGIA_API
 #		endif
 #	endif
 

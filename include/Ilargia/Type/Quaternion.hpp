@@ -40,7 +40,7 @@ namespace ilg
 	* The x,y,z,w attributes are complex numbers, and do not
 	* directly represent rotation around axis.
 	*/
-	class ILG_API Quaternion
+	class ILARGIA_API Quaternion
 	{
 	public:
 

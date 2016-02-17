@@ -35,7 +35,7 @@
 namespace ilg
 {
 	class EntityManager;
-	class ILG_API Entity : public muon::helper::NonCopyable
+	class ILARGIA_API Entity : public muon::helper::NonCopyable
 	{
 	public:
 		~Entity();

@@ -104,7 +104,7 @@ namespace ilg
 	//class GraphicsModule;
 
 	//! Engine functions
-	class ILG_API Engine : public muon::helper::Singleton<Engine>
+	class ILARGIA_API Engine : public muon::helper::Singleton<Engine>
 	{
 		friend class muon::helper::Singleton<Engine>;
 	public:

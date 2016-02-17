@@ -33,7 +33,7 @@
 
 namespace ilg
 {
-	class ILG_API Color
+	class ILARGIA_API Color
 	{
 	public:
 

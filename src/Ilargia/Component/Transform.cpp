@@ -49,7 +49,7 @@ namespace ilg
 
 	void Transform::setParent(Component parent)
 	{
-		TransformManager* manager = ILG_CMANAGER_TYPE(TransformManager, MUON_META(Transform)->id());
+		TransformManager* manager = ILARGIA_CMANAGER_TYPE(TransformManager, MUON_META(Transform)->id());
 
 		//Remove myself from my previous parent if any
 		if(_parent.instanceId() != muon::INVALID_INDEX)
@@ -83,7 +83,7 @@ namespace ilg
 				childParentPtr->_children->remove(child.instanceId());
 			}
 			_children->add(child);
-			ILG_CMANAGER_TYPE(TransformManager, MUON_META(Transform)->id())->requireRootListUpdate();
+			ILARGIA_CMANAGER_TYPE(TransformManager, MUON_META(Transform)->id())->requireRootListUpdate();
 		}
 	}
 }

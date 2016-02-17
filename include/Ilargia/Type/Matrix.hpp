@@ -35,7 +35,7 @@ namespace ilg
 	class Quaternion;
 
 	//! Float array containing a row from a 4x4 Matrix
-	class ILG_API MatrixRow
+	class ILARGIA_API MatrixRow
 	{
 	public:
 		//! X coordinate of the MatrixRow
@@ -78,7 +78,7 @@ namespace ilg
 	*
 	* Matrix.x.z = 2 , Matrix.z.x = 8 ...
 	*/
-	class ILG_API Matrix
+	class ILARGIA_API Matrix
 	{
 	public:
 

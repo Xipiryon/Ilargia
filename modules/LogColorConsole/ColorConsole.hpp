@@ -35,7 +35,7 @@ namespace ilg
 {
 	namespace mod
 	{
-		class ILG_API ColorConsole : public muon::system::ILogImpl
+		class ILARGIA_API ColorConsole : public muon::system::ILogImpl
 			{
 			public:
 				ColorConsole();

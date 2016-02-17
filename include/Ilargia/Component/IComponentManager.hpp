@@ -36,7 +36,7 @@
 namespace ilg
 {
 	class ComponentManagerFactory;
-	class ILG_API IComponentManager : public muon::helper::NonCopyable
+	class ILARGIA_API IComponentManager : public muon::helper::NonCopyable
 	{
 	public:
 		IComponentManager(const muon::String& name, muon::u64 componentType, muon::i32 updateOrder);

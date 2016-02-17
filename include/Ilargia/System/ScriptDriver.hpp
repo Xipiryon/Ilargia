@@ -56,7 +56,7 @@ namespace ilg
 		*
 		* 
 		*/
-		class ILG_API ScriptDriver : public muon::helper::Singleton<ScriptDriver>
+		class ILARGIA_API ScriptDriver : public muon::helper::Singleton<ScriptDriver>
 		{
 			friend class muon::helper::Singleton<ScriptDriver>;
 		public:

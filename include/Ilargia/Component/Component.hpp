@@ -37,7 +37,7 @@ namespace ilg
 {
 	class IComponentManager;
 	class Entity;
-	class ILG_API Component
+	class ILARGIA_API Component
 	{
 	public:
 		Component();
