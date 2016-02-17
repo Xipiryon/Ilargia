@@ -26,7 +26,7 @@ end
 ------------------------------
 
 solution "Ilargia"
-	startproject "IlargiaEngine"
+	startproject "IlargiaExecutable"
 	configurations { "DebugDLL", "DebugLib", "ReleaseLib", "ReleaseDLL" }
 
 	if os.is("windows") then
