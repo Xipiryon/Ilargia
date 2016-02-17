@@ -59,51 +59,46 @@ namespace ilg
 #	define EXTERN_C_END
 #endif
 
-#define ILG_UNDEFINED_MODULE_NAME UndefinedModuleName
-#ifndef ILG_MODULE_NAME
-#	define ILG_MODULE_NAME ILG_UNDEFINED_MODULE_NAME
-#endif
-
 	/*!
 	* @brief Check Library filename
 	* The library filename will be used to retrieve load/unload
 	* functions. It must follow the same rules as any C/C++ function declaration.
 	*/
-#define ILG_MODULE_CHECK_FILENAME struct IlargiaCheckName { \
-		IlargiaCheckName() { muon::String _s = MUON_STR(ILG_MODULE_NAME); if(_s == MUON_STR(ILG_UNDEFINED_MODULE_NAME)) { \
-		MUON_ERROR("ILG_MODULE_NAME is not defined! Please check your module has been correctly compiled."); \
+#define ILARGIA_MODULE_CHECK_FILENAME struct IlargiaCheckName { \
+		IlargiaCheckName() { muon::String _s = MUON_STR(ILARGIA_MODULE_NAME); if(_s.empty()) { \
+		MUON_ERROR("ILARGIA_MODULE_NAME is not defined! Please check your module has been correctly compiled."); \
 		exit(-1); } } \
 	}; namespace ilg { namespace priv { static IlargiaCheckName _check; } }
 
-#define _ILARGIA_MODULE_LOAD_FUNC		MUON_GLUE(ILG_MODULE_NAME, _load)
-#define _ILARGIA_MODULE_UNLOAD_FUNC		MUON_GLUE(ILG_MODULE_NAME, _unload)
+#define _ILARGIA_MODULE_LOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _load)
+#define _ILARGIA_MODULE_UNLOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _unload)
 
 	/*!
 	* @brief
 	*/
-#define ILG_MODULE_INIT_BEGIN		EXTERN_C_BEGIN int ILG_API _ILARGIA_MODULE_LOAD_FUNC (int argc, char** argv, char* _ilargia_error) {
+#define ILARGIA_MODULE_INIT_BEGIN		EXTERN_C_BEGIN int ILARGIA_API _ILARGIA_MODULE_LOAD_FUNC (int argc, char** argv, char* _ilargia_error) {
 	/*!
 	* @brief
 	*/
-#define ILG_MODULE_INIT_END		} EXTERN_C_END
+#define ILARGIA_MODULE_INIT_END		} EXTERN_C_END
 
 	/*!
 	* @brief
 	*/
-#define ILG_MODULE_TERM_BEGIN		EXTERN_C_BEGIN void ILG_API _ILARGIA_MODULE_UNLOAD_FUNC () {
+#define ILARGIA_MODULE_TERM_BEGIN		EXTERN_C_BEGIN void ILARGIA_API _ILARGIA_MODULE_UNLOAD_FUNC () {
 	/*!
 	* @brief
 	*/
-#define ILG_MODULE_TERM_END		} EXTERN_C_END
+#define ILARGIA_MODULE_TERM_END		} EXTERN_C_END
 
 	/*!
 	* @brief
 	*/
-#define ILG_MODULE_RETURN_SUCCESS	{return 0;};
+#define ILARGIA_MODULE_RETURN_SUCCESS	{return 0;};
 	/*!
 	*
 	*/
-#define ILG_MODULE_RETURN_FAILED	{::strcpy(_ilargia_error, error_str); return -1;};
+#define ILARGIA_MODULE_RETURN_FAILED	{::strcpy(_ilargia_error, error_str); return -1;};
 
 	//class WorldModule;
 	//class GraphicsModule;

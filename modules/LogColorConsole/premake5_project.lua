@@ -1,4 +1,4 @@
---[[ 	
+--[[
 	***********************
 		This file will be included in top-project premake
 	***********************
@@ -7,15 +7,15 @@
 -- Project
 ------------------------------
 
-G_ProjectName = "IlargiaLogColorConsole"
+G_ProjectName = "LogColorConsole"
 
 project(G_ProjectName)
 	local ProjectRoot = os.getcwd()
-	
+	local ProjectNameDefine = "ILARGIA_MODULE_NAME="..G_ProjectName
+
 	language "C++"
 	targetdir(SolutionRoot.."/bin/lib")
-	--defines { "ILG_MODULE_NAME="..G_ProjectName }
-	
+
 	if os.is("windows") then
 		postbuildcommands { string.gsub("copy "..SolutionRoot.."/bin/lib/*.dll "..SolutionRoot.."/bin/", "/", "\\") }
 	else
@@ -23,9 +23,12 @@ project(G_ProjectName)
 	end
 
 	files {
-       SolutionRoot.."/modules/"..G_ProjectName.."/**.cpp",
-	   SolutionRoot.."/modules/"..G_ProjectName.."/**.hpp",
+		SolutionRoot.."/modules/"..G_ProjectName.."/**.cpp",
+		SolutionRoot.."/modules/"..G_ProjectName.."/**.hpp",
 	}
+
+	defines { ProjectNameDefine }
+
 	filter "Debug*"
 		links	{
 			"Muon-d",
@@ -36,6 +39,6 @@ project(G_ProjectName)
 			"Muon",
 			"Ilargia"
 		}
-		
+
 	filter "*DLL"
 		defines { "ILARGIA_EXPORTS" }
