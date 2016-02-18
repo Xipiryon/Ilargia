@@ -33,6 +33,7 @@ ILARGIA_MODULE_INIT_BEGIN
 {
 	impl = MUON_CNEW(ilg::mod::ColorConsole);
 	muon::system::Log::registerLogImpl(impl);
+	muon::system::Log::unregisterDefaultLogImpl();
 	ILARGIA_MODULE_RETURN_SUCCESS;
 }
 ILARGIA_MODULE_INIT_END
