@@ -39,6 +39,7 @@ ILARGIA_MODULE_INIT_END
 
 ILARGIA_MODULE_TERM_BEGIN
 {
+	muon::system::Log::unregisterLogImpl(impl);
 	MUON_CDELETE(impl);
 }
 ILARGIA_MODULE_TERM_END
