@@ -80,8 +80,6 @@ namespace ilg
 
 	bool Engine::init(int argc, char** argv)
 	{
-		muon::system::Log::registerDefaultLogImpl();
-
 		Engine& engine = createInstance();
 		{
 			std::string _argv = argv[0];

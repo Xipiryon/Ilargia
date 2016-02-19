@@ -96,6 +96,17 @@ namespace ilg
 				}
 				_log(muon::LOG_INFO) << "Log Level set to \"" << level << "\"" << muon::endl;
 			}
+
+			const XMLAttribute* attrDefaultLogImpl = logs->FindAttribute("EnableDefaultLogImpl");
+			if(attrDefaultLogImpl)
+			{
+				bool enableDefaultLogImpl = attrDefaultLogImpl->BoolValue();
+				if(enableDefaultLogImpl)
+				{
+					muon::system::Log::registerDefaultLogImpl();
+				}
+			}
+
 		}
 		else
 		{

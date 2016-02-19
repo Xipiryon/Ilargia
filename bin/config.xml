@@ -8,9 +8,13 @@
 			* INFO
 			* WARNING
 			* ERROR
+		- EnableDefaultLogImpl:
+			Default Log Implementation can be enabled automatically with this
+			option, and will output to standard stream (std::cout).
+			If another Log Implementation uses standard output, both can conflict
+			with each other (leading to unreadble output)
 	-->
-	<Logs Output="IlargiaOutput" Level="DEBUG" />
-
+	<Logs Output="IlargiaOutput" Level="DEBUG" EnableDefaultLogImpl="true"/>
 
 
 	<!--
