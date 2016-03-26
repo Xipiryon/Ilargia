@@ -56,7 +56,7 @@ namespace ilg
 		return true;
 	}
 
-	bool TransformManager::onUpdate(muon::f32 dt)
+	bool TransformManager::onUpdate(m::f32 dt)
 	{
 		/*
 		updateRootList();
@@ -103,7 +103,7 @@ namespace ilg
 		{
 			/*
 			//Recreate the whole list
-			muon::i32 transform_type = type_id<Transform>();
+			m::i32 transform_type = type_id<Transform>();
 			_roots->clear();
 			for (auto it = _transforms->iterator(); it; ++it)
 			{
@@ -187,7 +187,7 @@ namespace ilg
 
 	void TransformManager::destroyComponent(Component& component)
 	{
-		//muon::i32 i = component.instanceId();
+		//m::i32 i = component.instanceId();
 		//_components->remove(i);
 		/*
 		MUON_ASSERT(component.isValid()
@@ -209,14 +209,14 @@ namespace ilg
 		//*/
 	}
 
-	void* TransformManager::getComponent(muon::i32 index)
+	void* TransformManager::getComponent(m::i32 index)
 	{
 		return &_transforms->get(index);
 	}
 
 	Component TransformManager::getComponent(void* object)
 	{
-		for (muon::i32 i = 0; i < _transforms->size(); ++i)
+		for (m::i32 i = 0; i < _transforms->size(); ++i)
 		{
 			if (object == &(_transforms->get(i)))
 			{

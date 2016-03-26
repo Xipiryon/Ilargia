@@ -37,33 +37,33 @@ namespace ilg
 	{
 	public:
 
-		muon::f32 u;
-		muon::f32 v;
+		m::f32 u;
+		m::f32 v;
 
-		TexCoord(muon::f32 u = 0.f, muon::f32 v = 0.f);
+		TexCoord(m::f32 u = 0.f, m::f32 v = 0.f);
 
 		bool operator==(const TexCoord& t) const;
 		bool operator!=(const TexCoord& t) const;
-		TexCoord operator*(const muon::f32 s) const;
-		TexCoord operator/(const muon::f32 s) const;
+		TexCoord operator*(const m::f32 s) const;
+		TexCoord operator/(const m::f32 s) const;
 
 		TexCoord operator*(const TexCoord& t) const;
 		TexCoord operator/(const TexCoord& t) const;
 		TexCoord operator+(const TexCoord& t) const;
 		TexCoord operator-(const TexCoord& t) const;
 
-		TexCoord operator*=(const muon::f32 s);
-		TexCoord operator/=(const muon::f32 s);
+		TexCoord operator*=(const m::f32 s);
+		TexCoord operator/=(const m::f32 s);
 
 		TexCoord operator*=(const TexCoord& t);
 		TexCoord operator/=(const TexCoord& t);
 		TexCoord operator+=(const TexCoord& t);
 		TexCoord operator-=(const TexCoord& t);
 
-		static TexCoord lerp(const TexCoord& u, const TexCoord& v, muon::f32 t);
+		static TexCoord lerp(const TexCoord& u, const TexCoord& v, m::f32 t);
 	};
 }
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::TexCoord& t);
+m::system::Log& operator<<(m::system::Log& stream, const ilg::TexCoord& t);
 
 #endif

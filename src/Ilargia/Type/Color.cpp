@@ -30,7 +30,7 @@
 
 namespace ilg
 {
-	Color::Color(muon::f32 r_, muon::f32 g_, muon::f32 b_, muon::f32 a_)
+	Color::Color(m::f32 r_, m::f32 g_, m::f32 b_, m::f32 a_)
 		: r(r_)
 		, g(g_)
 		, b(b_)
@@ -52,7 +52,7 @@ namespace ilg
 	}
 
 	// Self Scalar operation
-	Color Color::operator*=(const muon::f32 s)
+	Color Color::operator*=(const m::f32 s)
 	{
 		r *= s;
 		g *= s;
@@ -61,19 +61,19 @@ namespace ilg
 		return *this;
 	}
 
-	Color Color::operator/=(const muon::f32 s)
+	Color Color::operator/=(const m::f32 s)
 	{
 		*this *= (1.f / s);
 		return *this;
 	}
 
 	// Scalar operation
-	Color Color::operator*(const muon::f32 s) const
+	Color Color::operator*(const m::f32 s) const
 	{
 		return Color(r*s, g*s, b*s, a*s);
 	}
 
-	Color Color::operator/(const muon::f32 s) const
+	Color Color::operator/(const m::f32 s) const
 	{
 		return (*this * (1.f / s));
 	}
@@ -136,7 +136,7 @@ namespace ilg
 		return Color(r - v.r, g - v.g, b - v.b, a + v.a);
 	}
 
-	Color Color::lerp(const Color& u, const Color& v, muon::f32 t)
+	Color Color::lerp(const Color& u, const Color& v, m::f32 t)
 	{
 		return (v - u)*t + u;
 	}
@@ -154,7 +154,7 @@ namespace ilg
 	}
 //*/
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Color& c)
+m::system::Log& operator<<(m::system::Log& stream, const ilg::Color& c)
 {
 	return stream << "[" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << "]";
 }

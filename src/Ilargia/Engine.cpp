@@ -51,7 +51,7 @@ namespace ilg
 	void Engine::dispatchKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
 	{
 		auto managerList = SharedLibrary::getInstance().getManagers();
-		for(auto manager = managerList.begin(); manager != managerList.end(); ++manager)
+		for (auto manager = managerList.begin(); manager != managerList.end(); ++manager)
 		{
 			(*manager).manager->onKeyCallback(windowHandle, key, scancode, action, modifier);
 		}
@@ -68,7 +68,7 @@ namespace ilg
 
 	int Engine::main(int argc, char** argv)
 	{
-		if(!init(argc, argv))
+		if (!init(argc, argv))
 		{
 			return -1;
 		}
@@ -83,15 +83,15 @@ namespace ilg
 		Engine& engine = createInstance();
 		{
 			std::string _argv = argv[0];
-			size_t pos = _argv.rfind(muon::PATH_SEPARATOR);
-			if(pos == std::string::npos)
+			size_t pos = _argv.rfind(m::PATH_SEPARATOR);
+			if (pos == std::string::npos)
 			{
 				pos = _argv.size();
 			}
-			engine._programPath = (_argv.substr(0, pos) + muon::PATH_SEPARATOR).c_str();
+			engine._programPath = (_argv.substr(0, pos) + m::PATH_SEPARATOR).c_str();
 		}
 
-		//auto& keyValue = muon::system::KeyValue::getInstance();
+		//auto& keyValue = m::system::KeyValue::getInstance();
 		auto& script = system::ScriptDriver::createInstance();
 		auto& sharedLib = SharedLibrary::createInstance();
 		sharedLib.forwardArg(argc, argv);
@@ -103,25 +103,25 @@ namespace ilg
 #endif
 
 		// Registering core AS classes
-		if(!engine._registerClasses())
+		if (!engine._registerClasses())
 		{
 			return false;
 		}
 
 		//Load configuration file
-		if(!engine._loadConfig())
+		if (!engine._loadConfig())
 		{
 			return false;
 		}
 
 		//Default KeyValue Variables
-		muon::String app = "##No_Application_Name##";
-		muon::String ver = "##No_Version##";
+		m::String app = "##No_Application_Name##";
+		m::String ver = "##No_Version##";
 		//keyValue.retrieve("APP_NAME", app);
 		//keyValue.retrieve("VERSION", ver);
 
 		// Ok, everything seems good
-		engine._log(muon::LOG_INFO) << "Initialized: " << app << " " << ver << muon::endl;
+		engine._log(m::LOG_INFO) << "Initialized: " << app << " " << ver << m::endl;
 		return true;
 	}
 
@@ -131,10 +131,10 @@ namespace ilg
 		SharedLibrary::getInstance().unloadLibraries();
 
 		// Close every stream
-		muon::system::Log::close();
+		m::system::Log::close();
 
 		// Remove every ILogImpl
-		muon::system::Log::clearLogImpl();
+		m::system::Log::clearLogImpl();
 	}
 
 	void Engine::toggle()
@@ -162,20 +162,20 @@ namespace ilg
 		//Check there is managers to update
 		if (managerList.size() == 0)
 		{
-			getInstance()._log(muon::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << muon::endl;
+			getInstance()._log(m::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << m::endl;
 			getInstance()._running = false;
 			return;
 		}
 
 		//Modules update
-		for(auto it = managerList.begin(); it != managerList.end(); ++it)
+		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
 			bool success = (*it).manager->onUpdate(_deltaTime);
 			MUON_ASSERT(success, "Module: \"%s\" onUpdate() failed!", (*it).manager->getManagerName().cStr());
 		}
 
 		// Retrieve time information
-		muon::f32 dt = _clock.now();
+		m::f32 dt = _clock.now();
 		if (!_paused)
 		{
 			_deltaTime = dt;
@@ -188,16 +188,16 @@ namespace ilg
 	{
 		Engine& engine = getInstance();
 
-		muon::i32 modSize = SharedLibrary::getInstance().getManagers().size();
+		m::i32 modSize = SharedLibrary::getInstance().getManagers().size();
 		if (modSize == 0)
 		{
-			engine._log(muon::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << muon::endl;
+			engine._log(m::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << m::endl;
 			return;
 		}
 		else
 		{
 			engine._running = true;
-			engine._log(muon::LOG_INFO) << "Running with " << modSize << " IComponentManager instance(s) loaded!" << muon::endl;
+			engine._log(m::LOG_INFO) << "Running with " << modSize << " IComponentManager instance(s) loaded!" << m::endl;
 		}
 
 		//Main loop execution time start
@@ -207,34 +207,34 @@ namespace ilg
 
 		//Sort manager depending on exec order
 		std::sort(managerList.begin(), managerList.end(),
-			[](const CManagerPair l, const CManagerPair& r)
-			{
-				return l.manager->getUpdateOrder() < r.manager->getUpdateOrder();
-			}
+				  [](const CManagerPair l, const CManagerPair& r)
+		{
+			return l.manager->getUpdateOrder() < r.manager->getUpdateOrder();
+		}
 		);
 
 		//onInit functions
-		std::vector<muon::i32> failed;
+		std::vector<m::i32> failed;
 		failed.reserve(modSize);
-		muon::i32 count = 0;
-		for(auto it = managerList.begin(); it != managerList.end(); ++it)
+		m::i32 count = 0;
+		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
 			bool success = (*it).manager->onInit();
 			MUON_ASSERT(success, "Module: \"%s\" onInit() failed!", (*it).manager->getManagerName().cStr());
 			if (!success)
 			{
 				failed.push_back(count);
-				engine._log(muon::LOG_WARNING) << "Module: \"" << (*it).manager->getManagerName() << "\" onInit() failed!" << muon::endl;
+				engine._log(m::LOG_WARNING) << "Module: \"" << (*it).manager->getManagerName() << "\" onInit() failed!" << m::endl;
 			}
 			++count;
 		}
 
 		//Remove all "onInit" fail manager
-		while(!failed.empty())
+		while (!failed.empty())
 		{
-			muon::i32 i = failed.back();
+			m::i32 i = failed.back();
 			IComponentManager* manager = managerList[i].manager;
-			engine._log(muon::LOG_WARNING) << "Removing \"" << manager->getManagerName() << "\" due to onInit() failure. Calling onTerm() ..." << muon::endl;
+			engine._log(m::LOG_WARNING) << "Removing \"" << manager->getManagerName() << "\" due to onInit() failure. Calling onTerm() ..." << m::endl;
 
 			bool success = manager->onTerm();
 			MUON_ASSERT(success, "Module: \"%s\" onTerm() failed!", manager->getManagerName().cStr());
@@ -247,13 +247,13 @@ namespace ilg
 #ifdef EMSCRIPTEN
 		emscripten_set_main_loop(_run, 0, _running);
 #else
-		while(engine._running)
+		while (engine._running)
 		{
 			engine._run();
 		}
 #endif
 		//onTerm functions
-		for(auto it = managerList.begin(); it != managerList.end(); ++it)
+		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
 			bool success = (*it).manager->onTerm();
 			MUON_ASSERT(success, "Module: \"%s\" onTerm() failed!", (*it).manager->getManagerName().cStr());
@@ -270,12 +270,12 @@ namespace ilg
 		return getInstance()._paused;
 	}
 
-	muon::f32 Engine::getDeltaTime()
+	m::f32 Engine::getDeltaTime()
 	{
 		return getInstance()._deltaTime;
 	}
 
-	muon::f32 Engine::getProgramTime()
+	m::f32 Engine::getProgramTime()
 	{
 		return getInstance()._programTime;
 	}

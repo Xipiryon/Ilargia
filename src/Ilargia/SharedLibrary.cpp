@@ -85,7 +85,7 @@ namespace ilg
 	void SharedLibrary::_addModuleRef(IComponentManager* manager)
 	{
 		_managers.push_back({ manager, currentLibRef });
-		_log(muon::LOG_DEBUG) << "Manager added: \"" << manager->getManagerName() << "\"" << muon::endl;
+		_log(m::LOG_DEBUG) << "Manager added: \"" << manager->getManagerName() << "\"" << m::endl;
 	}
 
 	void SharedLibrary::unloadLibraries()
@@ -94,20 +94,20 @@ namespace ilg
 		{
 			if(it->funcUnloadPtr)
 			{
-				_log(muon::LOG_DEBUG) << "Unloading \"" << it->name << "\"" << muon::endl;
+				_log(m::LOG_DEBUG) << "Unloading \"" << it->name << "\"" << m::endl;
 				(*(it->funcUnloadPtr))();
 			}
 			else
 			{
-				_log(muon::LOG_WARNING) << "No unload function for \"" << it->name << "\", skipping..." << muon::endl;
+				_log(m::LOG_WARNING) << "No unload function for \"" << it->name << "\", skipping..." << m::endl;
 			}
 
-			for (muon::i32 i = _managers.size() - 1; i != -1; --i)
+			for (m::i32 i = _managers.size() - 1; i != -1; --i)
 			{
 				if (_managers[i].library == it->libInstance)
 				{
 					IComponentManager* manager = _managers[i].manager;
-					_log(muon::LOG_INFO) << "Deleting IComponentManager: \"" << manager->getManagerName() << "\"" << muon::endl;
+					_log(m::LOG_INFO) << "Deleting IComponentManager: \"" << manager->getManagerName() << "\"" << m::endl;
 					MUON_DELETE(manager);
 					_managers.erase(_managers.begin() + i);
 				}
@@ -115,11 +115,11 @@ namespace ilg
 		}
 	}
 
-	bool SharedLibrary::loadLibrary(const muon::String& file, const muon::String& path)
+	bool SharedLibrary::loadLibrary(const m::String& file, const m::String& path)
 	{
-		muon::String libPath;
+		m::String libPath;
 		//If not root, append the programPath
-		if(path[0] != muon::PATH_SEPARATOR)
+		if(path[0] != m::PATH_SEPARATOR)
 		{
 			libPath = Engine::getProgramPath();
 		}
@@ -128,11 +128,11 @@ namespace ilg
 		SharedLibraryInfo lib;
 		lib.name = file;
 
-		muon::String func = file.replace("-", "_");
+		m::String func = file.replace("-", "_");
 		lib.funcLoadName = func + "_load";
 		lib.funcUnloadName = func + "_unload";
 
-		_log(muon::LOG_INFO) << "Loading \"" << libPath << "\"" << muon::endl;
+		_log(m::LOG_INFO) << "Loading \"" << libPath << "\"" << m::endl;
 
 		if (!_loadLibrary(lib, (_static ? NULL : libPath.cStr())))
 		{
@@ -170,7 +170,7 @@ namespace ilg
 #endif
 		if (!lib_handle)
 		{
-			_log(muon::LOG_ERROR) << "Couldn't load \"" << c_libPath << "\": " << error << muon::endl;
+			_log(m::LOG_ERROR) << "Couldn't load \"" << c_libPath << "\": " << error << m::endl;
 			return false;
 		}
 
@@ -202,7 +202,7 @@ namespace ilg
 			if (error[0] != 0)
 			{
 #endif
-				_log(muon::LOG_ERROR) << "Couldn't find any 'load' function \"" << c_funcLoad << "\": " << error << muon::endl;
+				_log(m::LOG_ERROR) << "Couldn't find any 'load' function \"" << c_funcLoad << "\": " << error << m::endl;
 				_closeLibrary(lib);
 				return false;
 			}
@@ -211,7 +211,7 @@ namespace ilg
 			// error handle
 			if(((*(lib.funcLoadPtr))(_argc, _argv, error)) != 0)
 			{
-				_log(muon::LOG_ERROR) << "Library \"" << lib.name << "\" exited with error: \"" << error << "\"" << muon::endl;
+				_log(m::LOG_ERROR) << "Library \"" << lib.name << "\" exited with error: \"" << error << "\"" << m::endl;
 				_closeLibrary(lib);
 				return false;
 			}
@@ -219,7 +219,7 @@ namespace ilg
 		else
 		{
 			lib.funcLoadPtr = NULL;
-			_log(muon::LOG_WARNING) << "'load' function not specified, skipping..." << muon::endl;
+			_log(m::LOG_WARNING) << "'load' function not specified, skipping..." << m::endl;
 		}
 		return true;
 	}
@@ -228,7 +228,7 @@ namespace ilg
 	{
 		if (c_funcUnload)
 		{
-			muon::String error;
+			m::String error;
 #if defined(MUON_PLATFORM_WINDOWS)
 			HINSTANCE lib_handle = (HINSTANCE)lib.libInstance;
 			lib.funcUnloadPtr = (SharedLibraryInfo::FuncUnload)GetProcAddress(lib_handle, c_funcUnload);
@@ -242,7 +242,7 @@ namespace ilg
 			if(!error.empty())
 			{
 #endif
-				_log(muon::LOG_ERROR) << "Couldn't find any 'unload' function \"" << c_funcUnload << "\": " << error << muon::endl;
+				_log(m::LOG_ERROR) << "Couldn't find any 'unload' function \"" << c_funcUnload << "\": " << error << m::endl;
 				_closeLibrary(lib);
 				return false;
 			}
@@ -250,7 +250,7 @@ namespace ilg
 		else
 		{
 			lib.funcUnloadPtr = NULL;
-			_log(muon::LOG_WARNING) << "'unload' function not specified, skipping..." << muon::endl;
+			_log(m::LOG_WARNING) << "'unload' function not specified, skipping..." << m::endl;
 		}
 		return true;
 	}

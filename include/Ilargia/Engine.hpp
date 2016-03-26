@@ -36,7 +36,6 @@
 #include <Muon/Core/Constant.hpp>
 #include <Muon/Core/Typedef.hpp>
 #include <Muon/Helper/NonCopyable.hpp>
-#include <Muon/System/KeyValue.hpp>
 #include <Muon/System/Log.hpp>
 #include <Muon/System/Time.hpp>
 #include "Ilargia/Core/Define.hpp"
@@ -108,9 +107,9 @@ namespace ilg
 	//class GraphicsModule;
 
 	//! Engine functions
-	class ILARGIA_API Engine : public muon::helper::Singleton<Engine>
+	class ILARGIA_API Engine : public m::helper::Singleton<Engine>
 	{
-		friend class muon::helper::Singleton<Engine>;
+		friend class m::helper::Singleton<Engine>;
 	public:
 		static void dispatchKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
 
@@ -135,8 +134,8 @@ namespace ilg
 		*/
 		static void toggle();
 
-		static muon::f32 getDeltaTime();
-		static muon::f32 getProgramTime();
+		static m::f32 getDeltaTime();
+		static m::f32 getProgramTime();
 		static const char* getProgramPath();
 
 		static bool isRunning();
@@ -153,14 +152,14 @@ namespace ilg
 		bool _loadConfig();
 		bool _registerClasses();
 
-		muon::system::Time _clock;
-		muon::system::Log _log;
+		m::system::Time _clock;
+		m::system::Log _log;
 		bool _paused;
 		bool _running;
 
-		muon::f32 _deltaTime;
-		muon::f32 _programTime;
-		muon::String _programPath;
+		m::f32 _deltaTime;
+		m::f32 _programTime;
+		m::String _programPath;
 	};
 }
 

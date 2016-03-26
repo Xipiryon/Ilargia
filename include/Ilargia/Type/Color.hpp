@@ -37,35 +37,35 @@ namespace ilg
 	{
 	public:
 
-		muon::f32 r;
-		muon::f32 g;
-		muon::f32 b;
-		muon::f32 a;
+		m::f32 r;
+		m::f32 g;
+		m::f32 b;
+		m::f32 a;
 
-		Color(muon::f32 r = 0.f, muon::f32 g = 0.f, muon::f32 b = 0.f, muon::f32 a = 0.f);
+		Color(m::f32 r = 0.f, m::f32 g = 0.f, m::f32 b = 0.f, m::f32 a = 0.f);
 
 		bool operator==(const Color& v) const;
 		bool operator!=(const Color& v) const;
-		Color operator*(const muon::f32 s) const;
-		Color operator/(const muon::f32 s) const;
+		Color operator*(const m::f32 s) const;
+		Color operator/(const m::f32 s) const;
 
 		Color operator*(const Color& v) const;
 		Color operator/(const Color& v) const;
 		Color operator+(const Color& v) const;
 		Color operator-(const Color& v) const;
 
-		Color operator*=(const muon::f32 s);
-		Color operator/=(const muon::f32 s);
+		Color operator*=(const m::f32 s);
+		Color operator/=(const m::f32 s);
 
 		Color operator*=(const Color& v);
 		Color operator/=(const Color& v);
 		Color operator+=(const Color& v);
 		Color operator-=(const Color& v);
 
-		static Color lerp(const Color& u, const Color& v, muon::f32 t);
+		static Color lerp(const Color& u, const Color& v, m::f32 t);
 	};
 }
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Color& c);
+m::system::Log& operator<<(m::system::Log& stream, const ilg::Color& c);
 
 #endif

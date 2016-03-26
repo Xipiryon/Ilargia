@@ -6,27 +6,27 @@
 
 int main(int argc, char** argv)
 {
-	if(!muon::meta::MetaDatabase::isInstantiated())
+	if(!m::meta::MetaDatabase::isInstantiated())
 	{
-		muon::meta::MetaDatabase::createInstance();
+		m::meta::MetaDatabase::createInstance();
 	}
-	muon::system::Log mainLog("Main", muon::LOG_INFO);
+	m::system::Log mainLog("Main", m::LOG_INFO);
 
-	mainLog() << "Number of arguments: " << argc << muon::endl;
-	for (muon::i32 i = 0; i < argc; ++i)
+	mainLog() << "Number of arguments: " << argc << m::endl;
+	for (m::i32 i = 0; i < argc; ++i)
 	{
-		mainLog() << "\t: " << argv[i] << muon::endl;
+		mainLog() << "\t: " << argv[i] << m::endl;
 	}
 
 	// Required variables
-	muon::system::Time clockTest;
-	muon::String title;
-	muon::u32 errorCount = 0;
-	muon::u32 totalTests = 0;
+	m::system::Time clockTest;
+	m::String title;
+	m::u32 errorCount = 0;
+	m::u32 totalTests = 0;
 	tinyxml2::XMLDocument xmlDoc;
 	tinyxml2::XMLElement* xmlRoot = xmlDoc.NewElement("testsuite");
 
-#define ILARGIA_TITLE(msg) do { mainLog() << msg << muon::endl; title = msg; } while(false);
+#define ILARGIA_TITLE(msg) do { mainLog() << msg << m::endl; title = msg; } while(false);
 #define ILARGIA_NODE_BEGIN(cond)	++totalTests; tinyxml2::XMLElement* xmlNode = xmlDoc.NewElement("testcase"); \
 									xmlNode->SetAttribute("name", #cond); \
 									xmlNode->SetAttribute("classname", title.cStr()); \
@@ -51,13 +51,13 @@ int main(int argc, char** argv)
 
 	// END UNIT TEST
 	// ***************
-	mainLog(errorCount == 0 ? muon::LOG_INFO : muon::LOG_ERROR) << "Error Count: " << errorCount << muon::endl;
+	mainLog(errorCount == 0 ? m::LOG_INFO : m::LOG_ERROR) << "Error Count: " << errorCount << m::endl;
 
 	xmlRoot->SetAttribute("tests", totalTests);
 	xmlDoc.InsertFirstChild(xmlRoot);
 	xmlDoc.SaveFile("unittests.xml");
 
-	muon::system::Log::close();
+	m::system::Log::close();
 
-	return -((muon::i32)errorCount);
+	return -((m::i32)errorCount);
 }

@@ -35,7 +35,7 @@
 namespace ilg
 {
 	class EntityManager;
-	class ILARGIA_API Entity : public muon::helper::NonCopyable
+	class ILARGIA_API Entity : public m::helper::NonCopyable
 	{
 	public:
 		~Entity();
@@ -64,9 +64,9 @@ namespace ilg
 
 		Array<Component, 8>* _components;
 
-		Component _addComponent(muon::i32);
-		Component _getComponent(muon::i32);
-		bool _removeComponent(muon::i32);
+		Component _addComponent(m::i32);
+		Component _getComponent(m::i32);
+		bool _removeComponent(m::i32);
 	};
 }
 

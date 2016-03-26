@@ -32,7 +32,7 @@
 
 namespace
 {
-	static const muon::String defaultModuleName = "Global";
+	static const m::String defaultModuleName = "Global";
 }
 
 namespace ilg
@@ -48,7 +48,7 @@ namespace ilg
 			: _log("ScriptDriver")
 			, _engine(NULL)
 			, _context(NULL)
-			, _moduleCompiled(new std::unordered_map<muon::String, bool>)
+			, _moduleCompiled(new std::unordered_map<m::String, bool>)
 		{
 			//_engine->SetMessageCallback(asMETHOD(Script, errorCallback), this, asCALL_THISCALL);
 		}
@@ -60,7 +60,7 @@ namespace ilg
 			delete _moduleCompiled;
 		}
 
-		void ScriptDriver::_errorCallback(const muon::String& msg)
+		void ScriptDriver::_errorCallback(const m::String& msg)
 		{
 			/*
 			LogLevel l;
@@ -95,12 +95,12 @@ namespace ilg
 			return _context;
 		}
 
-		ScriptState ScriptDriver::load(const muon::String& filename)
+		ScriptState ScriptDriver::load(const m::String& filename)
 		{
 			return load(filename, defaultModuleName);
 		}
 
-		ScriptState ScriptDriver::load(const muon::String& filename, const muon::String& moduleName)
+		ScriptState ScriptDriver::load(const m::String& filename, const m::String& moduleName)
 		{
 			(*_moduleCompiled)[moduleName] = false;
 			//_context->Unprepare();
@@ -108,12 +108,12 @@ namespace ilg
 			MUON_ASSERT(!filename.empty(), "Failed to open file: no filename given!");
 			if (filename.empty())
 			{
-				_log(muon::LOG_ERROR) << "Failed to open script file: no filename given!";
+				_log(m::LOG_ERROR) << "Failed to open script file: no filename given!";
 				return SCRIPT_FAILED_OPEN;
 			}
 
-			muon::String completePath;
-			if (filename[0] != muon::PATH_SEPARATOR)
+			m::String completePath;
+			if (filename[0] != m::PATH_SEPARATOR)
 			{
 				completePath = Engine::getProgramPath() + filename;
 			}
@@ -126,32 +126,32 @@ namespace ilg
 			switch (sls)
 			{
 			case SCRIPT_FAILED_OPEN:
-				_log(muon::LOG_ERROR) << "Script file \"" << completePath << "\" not found" << muon::endl;
+				_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" not found" << m::endl;
 				break;
 			case SCRIPT_FAILED_LOAD:
-				_log(muon::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be loaded" << muon::endl;
+				_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be loaded" << m::endl;
 				break;
 			case SCRIPT_FAILED_SECTION:
-				_log(muon::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be added in Script Engine correctly!" << muon::endl;
+				_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be added in Script Engine correctly!" << m::endl;
 				break;
 			case SCRIPT_FAILED_BUILD:
-				_log(muon::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be build." << muon::endl;
-				_log(muon::LOG_ERROR) << "\t>Please check syntax errors or use of unbinded classes" << muon::endl;
+				_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be build." << m::endl;
+				_log(m::LOG_ERROR) << "\t>Please check syntax errors or use of unbinded classes" << m::endl;
 				break;
 			case SCRIPT_SUCCESS:
 				{
-					muon::String moduleNameLog = (moduleName.empty() ? "" : " (Module: " + moduleName + ") ");
-					_log(muon::LOG_INFO) << "Script \"" << filename << "\"" << moduleNameLog <<" is correctly loaded!" << muon::endl;
+					m::String moduleNameLog = (moduleName.empty() ? "" : " (Module: " + moduleName + ") ");
+					_log(m::LOG_INFO) << "Script \"" << filename << "\"" << moduleNameLog <<" is correctly loaded!" << m::endl;
 				}
 				break;
 			}
 			return sls;
 		}
 
-		ScriptState ScriptDriver::_load(const muon::String& filename, const muon::String& moduleName)
+		ScriptState ScriptDriver::_load(const m::String& filename, const m::String& moduleName)
 		{
 			/*
-			_log(muon::LOG_DEBUG) << "Loading file: \"" << filename << "\" | module: \"" << moduleName << "\"" << endl;
+			_log(m::LOG_DEBUG) << "Loading file: \"" << filename << "\" | module: \"" << moduleName << "\"" << endl;
 			int r;
 			FILE* file = fopen(filename.cStr(), "rb");
 			if(file == 0)
@@ -189,19 +189,19 @@ namespace ilg
 			return compile(defaultModuleName);
 		}
 
-		ScriptState ScriptDriver::compile(const muon::String& moduleName)
+		ScriptState ScriptDriver::compile(const m::String& moduleName)
 		{
 			/*
 			IScriptModule* mod = _engine->GetModule(moduleName.cStr(), asGM_ONLY_IF_EXISTS);
 			if(!mod)
 			{
-				_log(muon::LOG_ERROR) << "No module \"" << moduleName << "\" found!" << endl;
+				_log(m::LOG_ERROR) << "No module \"" << moduleName << "\" found!" << endl;
 				return SCRIPT_FAILED_BUILD;
 			}
 
 			if(mod->Build() < 0)
 			{
-				_log(muon::LOG_ERROR) << "Failed to build the module \"" << moduleName << "\"!" << endl;
+				_log(m::LOG_ERROR) << "Failed to build the module \"" << moduleName << "\"!" << endl;
 				return SCRIPT_FAILED_BUILD;
 			}
 			(*_moduleCompiled)[moduleName] = true;
@@ -209,17 +209,17 @@ namespace ilg
 			return SCRIPT_SUCCESS;
 		}
 
-		ScriptState ScriptDriver::prepare(const muon::String& funcName, IScriptContext** ctx)
+		ScriptState ScriptDriver::prepare(const m::String& funcName, IScriptContext** ctx)
 		{
 			return prepare(funcName, defaultModuleName, ctx);
 		}
 
-		ScriptState ScriptDriver::prepare(const muon::String& funcName, const muon::String& moduleName, IScriptContext** ctx)
+		ScriptState ScriptDriver::prepare(const m::String& funcName, const m::String& moduleName, IScriptContext** ctx)
 		{
 			/*
 			if(_moduleCompiled->find(moduleName) == _moduleCompiled->end() || (*_moduleCompiled)[moduleName] == false)
 			{
-				_log(muon::LOG_ERROR) << "Module \"" << moduleName << "\" has not been compiled, cannot execute!" << endl;
+				_log(m::LOG_ERROR) << "Module \"" << moduleName << "\" has not been compiled, cannot execute!" << endl;
 				return SCRIPT_FAILED_PREPARE;
 			}
 
@@ -229,7 +229,7 @@ namespace ilg
 			{
 				// The function couldn't be found. Instruct the script writer
 				// to include the expected function in the script.
-				_log(muon::LOG_ERROR) << "The script must have the function '" << funcName << "'. Please add it and try again." << endl;
+				_log(m::LOG_ERROR) << "The script must have the function '" << funcName << "'. Please add it and try again." << endl;
 				return SCRIPT_FAILED_LOAD;
 			}
 			else
@@ -258,7 +258,7 @@ namespace ilg
 				if (r == asEXECUTION_EXCEPTION)
 				{
 					// An exception occurred, let the script writer know what happened so it can be corrected.
-					_log(muon::LOG_ERROR) << "An exception '%s' occurred. "
+					_log(m::LOG_ERROR) << "An exception '%s' occurred. "
 						<< "Please correct the code and try again:\n\t>"
 						<< _context->GetExceptionString()
 						<< endl;
@@ -269,12 +269,12 @@ namespace ilg
 			return SCRIPT_SUCCESS;
 		}
 
-		bool ScriptDriver::eval(const muon::String& script)
+		bool ScriptDriver::eval(const m::String& script)
 		{
 			return true;
 		}
 
-		bool ScriptDriver::function(const muon::String& name)
+		bool ScriptDriver::function(const m::String& name)
 		{
 			return true;
 		}

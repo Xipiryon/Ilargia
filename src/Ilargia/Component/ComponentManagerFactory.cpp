@@ -41,7 +41,7 @@ namespace ilg
 	{
 	}
 
-	bool ComponentManagerFactory::checkComponentManager(const muon::String& name)
+	bool ComponentManagerFactory::checkComponentManager(const m::String& name)
 	{
 		//Check if manager isn't already loaded
 		bool found = false;
@@ -58,7 +58,7 @@ namespace ilg
 		return !found;
 	}
 
-	bool ComponentManagerFactory::registerComponentManager(IComponentManager* manager, const muon::String& name)
+	bool ComponentManagerFactory::registerComponentManager(IComponentManager* manager, const m::String& name)
 	{
 		//Module coulnd't be allocated
 		MUON_ASSERT(manager != NULL, "Couldn't allocate manager \"%s\"!\n", name.cStr());
@@ -71,7 +71,7 @@ namespace ilg
 		return true;
 	}
 
-	IComponentManager* ComponentManagerFactory::getComponentManager(muon::u64 type)
+	IComponentManager* ComponentManagerFactory::getComponentManager(m::u64 type)
 	{
 		auto& managerList = SharedLibrary::getInstance()._managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
@@ -85,7 +85,7 @@ namespace ilg
 		return NULL;
 	}
 
-	IComponentManager* ComponentManagerFactory::getComponentManager(const muon::String& name)
+	IComponentManager* ComponentManagerFactory::getComponentManager(const m::String& name)
 	{
 		auto& managerList = SharedLibrary::getInstance()._managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)

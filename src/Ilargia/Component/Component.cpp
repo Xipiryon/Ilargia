@@ -33,12 +33,12 @@ namespace ilg
 {
 	Component::Component()
 		: _type(MUON_META(Component)->id())
-		, _instance(muon::INVALID_INDEX)
+		, _instance(m::INVALID_INDEX)
 		, _name(MUON_META(Component)->name())
 	{
 	}
 
-	Component::Component(muon::u64 type, muon::i32 instance, const muon::String& name)
+	Component::Component(m::u64 type, m::i32 instance, const m::String& name)
 		: _type(type)
 		, _instance(instance)
 		, _name(name)
@@ -64,27 +64,27 @@ namespace ilg
 	}
 
 
-	muon::i32 Component::instanceId() const
+	m::i32 Component::instanceId() const
 	{
 		return _instance;
 	}
 	
-	muon::u64 Component::instanceType() const
+	m::u64 Component::instanceType() const
 	{
 		return _type;
 	}
 
-	muon::String Component::instanceName() const
+	m::String Component::instanceName() const
 	{
 		return _name;
 	}
 
-	void* Component::_cast(muon::u64 type, const char* type_name) const
+	void* Component::_cast(m::u64 type, const char* type_name) const
 	{
-		MUON_ASSERT(_instance != muon::INVALID_INDEX, "Component instance is invalid!");
-		MUON_ASSERT(type != muon::INVALID_INDEX, "Trying to cast to an invalid type!");
-		if (type == muon::INVALID_INDEX
-			|| _instance == muon::INVALID_INDEX)
+		MUON_ASSERT(_instance != m::INVALID_INDEX, "Component instance is invalid!");
+		MUON_ASSERT(type != m::INVALID_INDEX, "Trying to cast to an invalid type!");
+		if (type == m::INVALID_INDEX
+			|| _instance == m::INVALID_INDEX)
 		{
 			return NULL;
 		}

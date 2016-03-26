@@ -32,32 +32,32 @@
 #endif
 #include <iostream>
 
-namespace 
+namespace
 {
 	enum Color
 	{
 #if defined(MUON_PLATFORM_WINDOWS)
-		C_DEFAULT	= FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,
-		C_DEBUG		= FOREGROUND_BLUE | FOREGROUND_INTENSITY,
-		C_WARNING	= FOREGROUND_GREEN |FOREGROUND_RED | FOREGROUND_INTENSITY,
-		C_ERROR		= FOREGROUND_RED | FOREGROUND_INTENSITY
+		C_DEFAULT = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,
+		C_DEBUG = FOREGROUND_BLUE | FOREGROUND_INTENSITY,
+		C_WARNING = FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY,
+		C_ERROR = FOREGROUND_RED | FOREGROUND_INTENSITY
 #else
-		C_DEFAULT	= 37,
-		C_DEBUG		= 34,
-		C_WARNING	= 33,
-		C_ERROR		= 31
+		C_DEFAULT = 37,
+		C_DEBUG = 34,
+		C_WARNING = 33,
+		C_ERROR = 31
 #endif
 	};
 
-	void color(std::ostream& o, muon::LogLevel level)
+	void color(std::ostream& o, m::LogLevel level)
 	{
 		Color c = C_DEFAULT;
 		switch (level)
 		{
-		case muon::LOG_DEBUG: c = C_DEBUG; break;
-		case muon::LOG_INFO: c = C_DEFAULT; break;
-		case muon::LOG_WARNING: c = C_WARNING; break;
-		case muon::LOG_ERROR: c = C_ERROR; break;
+			case m::LOG_DEBUG: c = C_DEBUG; break;
+			case m::LOG_INFO: c = C_DEFAULT; break;
+			case m::LOG_WARNING: c = C_WARNING; break;
+			case m::LOG_ERROR: c = C_ERROR; break;
 		}
 #if defined(MUON_PLATFORM_WINDOWS)
 		HANDLE consolehwnd = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -73,7 +73,7 @@ namespace ilg
 	namespace mod
 	{
 		ColorConsole::ColorConsole()
-			: _level(muon::LOG_INFO)
+			: _level(m::LOG_INFO)
 		{
 		}
 
@@ -81,96 +81,96 @@ namespace ilg
 		{
 		}
 
-		muon::system::ILogImpl& ColorConsole::endl()
+		m::system::ILogImpl& ColorConsole::endl()
 		{
-			color(std::cout, muon::LOG_INFO);
+			color(std::cout, m::LOG_INFO);
 			std::cout << std::endl;
 			return *this;
 		}
 
-		void ColorConsole::operator()(muon::LogLevel level)
+		void ColorConsole::operator()(m::LogLevel level)
 		{
 			_level = level;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(const char* pod)
+		m::system::ILogImpl& ColorConsole::operator<<(const char* pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::u64 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::u64 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::u32 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::u32 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::u16 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::u16 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::u8 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::u8 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::i64 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::i64 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::i32 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::i32 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::i16 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::i16 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::i8 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::i8 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::f64 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::f64 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(muon::f32 pod)
+		m::system::ILogImpl& ColorConsole::operator<<(m::f32 pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;
 			return *this;
 		}
 
-		muon::system::ILogImpl& ColorConsole::operator<<(bool pod)
+		m::system::ILogImpl& ColorConsole::operator<<(bool pod)
 		{
 			color(std::cout, _level);
 			std::cout << pod;

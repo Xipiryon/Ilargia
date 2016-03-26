@@ -56,9 +56,9 @@ namespace ilg
 		*
 		* 
 		*/
-		class ILARGIA_API ScriptDriver : public muon::helper::Singleton<ScriptDriver>
+		class ILARGIA_API ScriptDriver : public m::helper::Singleton<ScriptDriver>
 		{
-			friend class muon::helper::Singleton<ScriptDriver>;
+			friend class m::helper::Singleton<ScriptDriver>;
 		public:
 
 			static void check(int);
@@ -73,7 +73,7 @@ namespace ilg
 			* @note The extension is required ("myfile" is different from "myfile.as") !
 			* @note The program path will be added before the filename, unless specified as absolute path
 			*/
-			ScriptState load(const muon::String& filename);
+			ScriptState load(const m::String& filename);
 
 			/*!
 			* @brief Load an AngelScript file
@@ -83,7 +83,7 @@ namespace ilg
 			* @note The extension is required ("myfile" is different from "myfile.as") !
 			* @note The program path will be added before the filename, unless specified as absolute path
 			*/
-			ScriptState load(const muon::String& filename, const muon::String& moduleName);
+			ScriptState load(const m::String& filename, const m::String& moduleName);
 
 			/*!
 			* @brief Compile the default module
@@ -96,7 +96,7 @@ namespace ilg
 			* @param moduleName A specific module name
 			* @return SCRIPT_SUCCESS if the function as been correctly executed, corresponding error enum otherwise
 			*/
-			virtual ScriptState compile(const muon::String& moduleName);
+			virtual ScriptState compile(const m::String& moduleName);
 
 			/*!
 			* @brief Prepare the function
@@ -104,7 +104,7 @@ namespace ilg
 			* @param Pointer to asISCriptContext pointer, allowing to add parameter to the function
 			* @return SCRIPT_SUCCESS if the function as been correctly executed, corresponding error enum otherwise
 			*/
-			virtual ScriptState prepare(const muon::String& funcName, IScriptContext** ctx = NULL);
+			virtual ScriptState prepare(const m::String& funcName, IScriptContext** ctx = NULL);
 
 			/*!
 			* @brief Prepare the function
@@ -113,7 +113,7 @@ namespace ilg
 			* @param Pointer to asISCriptContext pointer, allowing to add parameter to the function
 			* @return SCRIPT_SUCCESS if the function as been correctly executed, corresponding error enum otherwise
 			*/
-			virtual ScriptState prepare(const muon::String& funcName, const muon::String& moduleName, IScriptContext** ctx = NULL);
+			virtual ScriptState prepare(const m::String& funcName, const m::String& moduleName, IScriptContext** ctx = NULL);
 
 			/*!
 			* @brief Execute the previously loaded function
@@ -121,20 +121,20 @@ namespace ilg
 			*/
 			virtual ScriptState execute();
 
-			virtual bool eval(const muon::String& script);
-			virtual bool function(const muon::String& name);
+			virtual bool eval(const m::String& script);
+			virtual bool function(const m::String& name);
 
 		private:
 			ScriptDriver();
 			virtual ~ScriptDriver();
 
-			void _errorCallback(const muon::String& msg);
-			ScriptState _load(const muon::String& filename, const muon::String& moduleName);
+			void _errorCallback(const m::String& msg);
+			ScriptState _load(const m::String& filename, const m::String& moduleName);
 
-			muon::system::Log _log;
+			m::system::Log _log;
 			IScriptEngine* _engine;
 			IScriptContext* _context;
-			std::unordered_map<muon::String, bool>* _moduleCompiled;
+			std::unordered_map<m::String, bool>* _moduleCompiled;
 		};
 	}
 }

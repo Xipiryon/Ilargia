@@ -31,19 +31,19 @@
 
 namespace ilg
 {
-	Vector::Vector(muon::f32 x_, muon::f32 y_, muon::f32 z_)
+	Vector::Vector(m::f32 x_, m::f32 y_, m::f32 z_)
 		: x(x_)
 		, y(y_)
 		, z(z_)
 	{
 	}
 
-	muon::f32 Vector::length() const
+	m::f32 Vector::length() const
 	{
 		return ::sqrt(squareLength());
 	}
 
-	muon::f32 Vector::squareLength() const
+	m::f32 Vector::squareLength() const
 	{
 		return x*x + y*y + z*z;
 	}
@@ -51,10 +51,10 @@ namespace ilg
 	Vector Vector::normalize() const
 	{
 		Vector v(x, y, z);
-		muon::f32 len = v.length();
+		m::f32 len = v.length();
 		if(len != 0)
 		{
-			muon::f32 coef = 1.f/len;
+			m::f32 coef = 1.f/len;
 			v.x *= coef;
 			v.y *= coef;
 			v.z *= coef;
@@ -62,7 +62,7 @@ namespace ilg
 		return v;
 	}
 
-	muon::f32 Vector::dot(const Vector& u, const Vector& v)
+	m::f32 Vector::dot(const Vector& u, const Vector& v)
 	{
 		return u.x*v.x + u.y*v.y + u.z*v.z;
 	}
@@ -76,7 +76,7 @@ namespace ilg
 		return uv;
 	}
 
-	Vector Vector::lerp(const Vector& u, const Vector& v, muon::f32 t)
+	Vector Vector::lerp(const Vector& u, const Vector& v, m::f32 t)
 	{
 		return (v - u)*t + u;
 	}
@@ -93,12 +93,12 @@ namespace ilg
 		return !operator==(v);
 	}
 
-	Vector Vector::operator*(const muon::f32 s) const
+	Vector Vector::operator*(const m::f32 s) const
 	{
 		return Vector(x*s, y*s, z*s);
 	}
 
-	Vector Vector::operator/(const muon::f32 s) const
+	Vector Vector::operator/(const m::f32 s) const
 	{
 		return (*this * (1.f / s));
 	}
@@ -113,7 +113,7 @@ namespace ilg
 		return Vector(x - v.x, y - v.y, z - v.z);
 	}
 
-	Vector& Vector::operator*=(const muon::f32 s)
+	Vector& Vector::operator*=(const m::f32 s)
 	{
 		x *= s;
 		y *= s;
@@ -121,7 +121,7 @@ namespace ilg
 		return *this;
 	}
 
-	Vector& Vector::operator/=(const muon::f32 s)
+	Vector& Vector::operator/=(const m::f32 s)
 	{
 		operator*=(1.f / s);
 		return *this;
@@ -144,17 +144,17 @@ namespace ilg
 	}
 }
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Vector& v)
+m::system::Log& operator<<(m::system::Log& stream, const ilg::Vector& v)
 {
 	return stream << "[" << v.x << ", " << v.y << ", " << v.z << "]";
 }
 
 /*
-muon::memory::Stream& operator<<(muon::memory::Stream& stream, const ilg::Vector& v)
+m::memory::Stream& operator<<(m::memory::Stream& stream, const ilg::Vector& v)
 {
 return stream << v.x << v.y << v.z;
 }
-muon::memory::Stream& operator>>(muon::memory::Stream& stream, const ilg::Vector& v);
+m::memory::Stream& operator>>(m::memory::Stream& stream, const ilg::Vector& v);
 {
 return stream >> v.x >> v.y >> v.z;
 }

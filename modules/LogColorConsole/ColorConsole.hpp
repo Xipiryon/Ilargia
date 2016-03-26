@@ -35,30 +35,30 @@ namespace ilg
 {
 	namespace mod
 	{
-		class ILARGIA_API ColorConsole : public muon::system::ILogImpl
-			{
-			public:
-				ColorConsole();
-				virtual ~ColorConsole();
+		class ILARGIA_API ColorConsole : public m::system::ILogImpl
+		{
+		public:
+			ColorConsole();
+			virtual ~ColorConsole();
 
-				virtual muon::system::ILogImpl& endl();
-				virtual void operator()(muon::LogLevel level);
+			virtual m::system::ILogImpl& endl();
+			virtual void operator()(m::LogLevel level);
 
-				virtual muon::system::ILogImpl& operator<<(const char* pod);
-				virtual muon::system::ILogImpl& operator<<(muon::u64 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::u32 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::u16 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::u8 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::i64 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::i32 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::i16 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::i8 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::f64 pod);
-				virtual muon::system::ILogImpl& operator<<(muon::f32 pod);
-				virtual muon::system::ILogImpl& operator<<(bool pod);
+			virtual m::system::ILogImpl& operator<<(const char* pod);
+			virtual m::system::ILogImpl& operator<<(m::u64 pod);
+			virtual m::system::ILogImpl& operator<<(m::u32 pod);
+			virtual m::system::ILogImpl& operator<<(m::u16 pod);
+			virtual m::system::ILogImpl& operator<<(m::u8 pod);
+			virtual m::system::ILogImpl& operator<<(m::i64 pod);
+			virtual m::system::ILogImpl& operator<<(m::i32 pod);
+			virtual m::system::ILogImpl& operator<<(m::i16 pod);
+			virtual m::system::ILogImpl& operator<<(m::i8 pod);
+			virtual m::system::ILogImpl& operator<<(m::f64 pod);
+			virtual m::system::ILogImpl& operator<<(m::f32 pod);
+			virtual m::system::ILogImpl& operator<<(bool pod);
 
-			protected:
-				muon::LogLevel _level;
+		protected:
+			m::LogLevel _level;
 		};
 	}
 }

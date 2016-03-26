@@ -35,9 +35,9 @@
 
 namespace ilg
 {
-	class ILARGIA_API ComponentManagerFactory : public muon::helper::Singleton<ComponentManagerFactory>
+	class ILARGIA_API ComponentManagerFactory : public m::helper::Singleton<ComponentManagerFactory>
 	{
-		friend class muon::helper::Singleton<ComponentManagerFactory>;
+		friend class m::helper::Singleton<ComponentManagerFactory>;
 	public:
 
 		template<typename T, typename ...Args>
@@ -51,12 +51,12 @@ namespace ilg
 			return false;
 		}
 
-		IComponentManager* getComponentManager(muon::u64 componentType);
-		IComponentManager* getComponentManager(const muon::String& name);
+		IComponentManager* getComponentManager(m::u64 componentType);
+		IComponentManager* getComponentManager(const m::String& name);
 
 	private:
-		bool checkComponentManager(const muon::String&);
-		bool registerComponentManager(IComponentManager*, const muon::String&);
+		bool checkComponentManager(const m::String&);
+		bool registerComponentManager(IComponentManager*, const m::String&);
 
 		ComponentManagerFactory();
 		ComponentManagerFactory(const ComponentManagerFactory&);

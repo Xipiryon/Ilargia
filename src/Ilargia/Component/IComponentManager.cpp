@@ -33,7 +33,7 @@
 namespace ilg
 {
 
-	IComponentManager::IComponentManager(const muon::String& name, muon::u64 componentType, muon::i32 updateOrder)
+	IComponentManager::IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
 		: _log(name)
 		, _managerName(name)
 		, _componentType(componentType)
@@ -45,17 +45,17 @@ namespace ilg
 	{
 	}
 
-	const muon::String& IComponentManager::getManagerName() const
+	const m::String& IComponentManager::getManagerName() const
 	{
 		return _managerName;
 	}
 
-	muon::u64 IComponentManager::getComponentType() const
+	m::u64 IComponentManager::getComponentType() const
 	{
 		return _componentType;
 	}
 
-	muon::i32 IComponentManager::getUpdateOrder() const
+	m::i32 IComponentManager::getUpdateOrder() const
 	{
 		return _updateOrder;
 	}

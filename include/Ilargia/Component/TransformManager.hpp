@@ -40,7 +40,7 @@ namespace ilg
 		virtual ~TransformManager();
 
 		virtual bool onInit();
-		virtual bool onUpdate(muon::f32);
+		virtual bool onUpdate(m::f32);
 		virtual bool onTerm();
 
 		virtual void callbackNewComponent(Entity* entity, Component& component);
@@ -48,7 +48,7 @@ namespace ilg
 
 		virtual Component createComponent();
 		virtual void destroyComponent(Component& component);
-		virtual void* getComponent(muon::i32 index);
+		virtual void* getComponent(m::i32 index);
 		virtual Component getComponent(void* object);
 
 		void requireRootListUpdate();

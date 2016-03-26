@@ -38,9 +38,9 @@ namespace ilg
 {
 	bool Engine::_loadConfig()
 	{
-		std::function<void(muon::String&)> toUpper = [](muon::String& s)
+		std::function<void(m::String&)> toUpper = [](m::String& s)
 		{
-			for(muon::u32 i = 0; i < s.size(); ++i)
+			for(m::u32 i = 0; i < s.size(); ++i)
 			{
 				//Uppercase
 				s[i] = (s[i] >= 'a' && s[i] <= 'z' ? s[i] - ((int)'a'-'A') : s[i]);
@@ -49,19 +49,19 @@ namespace ilg
 
 		using namespace tinyxml2;
 		XMLDocument doc;
-		muon::String configFile = getProgramPath();
+		m::String configFile = getProgramPath();
 		configFile += "config.xml";
 
 		if(doc.LoadFile(configFile.cStr()) != XML_SUCCESS)
 		{
-			_log(muon::LOG_ERROR) << "Couldn't open \"" << configFile << "\": Error code: " << doc.ErrorName() << muon::endl;
+			_log(m::LOG_ERROR) << "Couldn't open \"" << configFile << "\": Error code: " << doc.ErrorName() << m::endl;
 			return false;
 		}
 
 		XMLElement* root = doc.RootElement();
 		if(!(root && strcmp(root->Name(), "Engine") == 0))
 		{
-			_log(muon::LOG_ERROR) << "No root element in \"" << configFile << "\", or root is different from \"Engine\"" << muon::endl;
+			_log(m::LOG_ERROR) << "No root element in \"" << configFile << "\", or root is different from \"Engine\"" << m::endl;
 			return false;
 		}
 
@@ -69,32 +69,32 @@ namespace ilg
 		/**********    LOGS   **********/
 		/*******************************/
 		const XMLElement* logs = root->FirstChildElement("Logs");
-		muon::String logOutput = "output_log";
-		muon::LogLevel logLevel = muon::LOG_INFO;
+		m::String logOutput = "output_log";
+		m::LogLevel logLevel = m::LOG_INFO;
 		if(logs)
 		{
 			const XMLAttribute* attrOutput = logs->FindAttribute("Output");
 			if(attrOutput)
 			{
 				logOutput = attrOutput->Value();
-				_log(muon::LOG_INFO) << "Log Output value set to \"" << logOutput << "\"" << muon::endl;
+				_log(m::LOG_INFO) << "Log Output value set to \"" << logOutput << "\"" << m::endl;
 			}
 
 			const XMLAttribute* attrLevel = logs->FindAttribute("Level");
 			if(attrLevel)
 			{
-				muon::String level = attrLevel->Value();
+				m::String level = attrLevel->Value();
 				toUpper(level);
 
-				if(level == "DEBUG") { logLevel = muon::LOG_DEBUG; }
-				else if(level == "WARNING") { logLevel = muon::LOG_WARNING; }
-				else if(level == "ERROR") { logLevel = muon::LOG_ERROR; }
+				if(level == "DEBUG") { logLevel = m::LOG_DEBUG; }
+				else if(level == "WARNING") { logLevel = m::LOG_WARNING; }
+				else if(level == "ERROR") { logLevel = m::LOG_ERROR; }
 				else
 				{
 					level = "INFO";
-					logLevel = muon::LOG_INFO;
+					logLevel = m::LOG_INFO;
 				}
-				_log(muon::LOG_INFO) << "Log Level set to \"" << level << "\"" << muon::endl;
+				_log(m::LOG_INFO) << "Log Level set to \"" << level << "\"" << m::endl;
 			}
 
 			const XMLAttribute* attrDefaultLogImpl = logs->FindAttribute("EnableDefaultLogImpl");
@@ -103,7 +103,7 @@ namespace ilg
 				bool enableDefaultLogImpl = attrDefaultLogImpl->BoolValue();
 				if(enableDefaultLogImpl)
 				{
-					muon::system::Log::registerDefaultLogImpl();
+					m::system::Log::registerDefaultLogImpl();
 				}
 			}
 
@@ -111,10 +111,10 @@ namespace ilg
 		else
 		{
 			//No Logs: use default value
-			_log(muon::LOG_WARNING) << "No Logs settings: using default (ouput = \"output_log\", level=\"INFO\")" << muon::endl;
+			_log(m::LOG_WARNING) << "No Logs settings: using default (ouput = \"output_log\", level=\"INFO\")" << m::endl;
 		}
-		muon::system::Log::open(logOutput);
-		muon::system::Log::setLevel(logLevel);
+		m::system::Log::open(logOutput);
+		m::system::Log::setLevel(logLevel);
 
 		/*******************************/
 		/**********  MODULES  **********/
@@ -130,29 +130,29 @@ namespace ilg
 			const XMLAttribute* attrLink = modules->FindAttribute("Link");
 			if(attrLink)
 			{
-				muon::String link = attrLink->Value();
+				m::String link = attrLink->Value();
 				toUpper(link);
 				if(link == "STATIC")
 				{
 					SharedLibrary::getInstance().setLinkStatic();
 				}
 			}
-			muon::String path;
+			m::String path;
 			const XMLAttribute* attrPath = modules->FindAttribute("Path");
 			if(!attrPath)
 			{
-				_log(muon::LOG_WARNING) << "No \"Path\" attribute in \"Modules\" node!" << muon::endl;
+				_log(m::LOG_WARNING) << "No \"Path\" attribute in \"Modules\" node!" << m::endl;
 			}
 			else if (strcmp(attrPath->Value(), ".") != 0)
 			{
 				path = attrPath->Value();
-				path += muon::PATH_SEPARATOR;
+				path += m::PATH_SEPARATOR;
 			}
 
 			XMLElement* module = (XMLElement*)modules->FirstChildElement("Module");
 			if(!module)
 			{
-				_log(muon::LOG_ERROR) << "No \"Module\" elements! You should add some, don't you think?" << muon::endl;
+				_log(m::LOG_ERROR) << "No \"Module\" elements! You should add some, don't you think?" << m::endl;
 				return false;
 			}
 
@@ -162,26 +162,26 @@ namespace ilg
 				if(strcmp(mod->Name(), "Module") == 0)
 				{
 					const XMLAttribute* attrFile = mod->FindAttribute("File");
-					muon::String file;
+					m::String file;
 
 					if(attrFile) { file = attrFile->Value(); }
 					else
 					{
-						_log(muon::LOG_ERROR) << "Module doesn't have \"LibraryFile\" attribute!" << muon::endl;
+						_log(m::LOG_ERROR) << "Module doesn't have \"LibraryFile\" attribute!" << m::endl;
 						return false;
 					}
 
 
 #if defined(ILARGIA_DEBUG)
-					muon::String suffix = "-d";
+					m::String suffix = "-d";
 #else
-					muon::String suffix;
+					m::String suffix;
 #endif
 
 #if defined(MUON_PLATFORM_WINDOWS)
-					muon::String filePath = path+file+suffix+".dll";
+					m::String filePath = path+file+suffix+".dll";
 #else
-					muon::String filePath = path+"lib"+file+suffix+".so";
+					m::String filePath = path+"lib"+file+suffix+".so";
 #endif
 					SharedLibrary::getInstance().loadLibrary(file, filePath);
 				}
@@ -190,7 +190,7 @@ namespace ilg
 		}
 		else
 		{
-			_log(muon::LOG_WARNING) << "No \"Modules\" elements! You should add some, don't you think?" << muon::endl;
+			_log(m::LOG_WARNING) << "No \"Modules\" elements! You should add some, don't you think?" << m::endl;
 		}
 
 		/*******************************/
@@ -208,15 +208,15 @@ namespace ilg
 					const XMLAttribute* attrName = kv->FindAttribute("Name");
 					const XMLAttribute* attrValue = kv->FindAttribute("Value");
 					const XMLAttribute* attrType = kv->FindAttribute("Type");
-					muon::String name;
-					muon::String value;
-					muon::String type;
+					m::String name;
+					m::String value;
+					m::String type;
 
 					if(!attrName || !attrValue || !attrType)
 					{
-						if(!attrName) _log(muon::LOG_ERROR) << "KeyValue doesn't have a \"Name\" attribute" << muon::endl;
-						if(!attrValue) _log(muon::LOG_ERROR) << "KeyValue doesn't have a \"Value\" attribute" << muon::endl;
-						if(!attrType) _log(muon::LOG_ERROR) << "KeyValue doesn't have a \"Type\" attribute" << muon::endl;
+						if(!attrName) _log(m::LOG_ERROR) << "KeyValue doesn't have a \"Name\" attribute" << m::endl;
+						if(!attrValue) _log(m::LOG_ERROR) << "KeyValue doesn't have a \"Value\" attribute" << m::endl;
+						if(!attrType) _log(m::LOG_ERROR) << "KeyValue doesn't have a \"Type\" attribute" << m::endl;
 					}
 					else
 					{
@@ -225,7 +225,7 @@ namespace ilg
 						toUpper(type);
 						//TODO Fix It
 						/*
-						muon::system::KeyValue& kvs = muon::system::KeyValue::getInstance();
+						m::system::KeyValue& kvs = m::system::KeyValue::getInstance();
 
 						if(type == "INT") {kvs.store(name, attrValue->IntValue());}
 						else if(type == "FLOAT") {kvs.store(name, attrValue->FloatValue());}
@@ -233,7 +233,7 @@ namespace ilg
 						else if(type == "STRING") {kvs.store(name, attrValue->Value());}
 						else
 						{
-							if(!attrType) _log(muon::LOG_ERROR) << "KeyValue \"" << name << "\" Type is incorrect (\"" << type << "\")" << muon::endl;
+							if(!attrType) _log(m::LOG_ERROR) << "KeyValue \"" << name << "\" Type is incorrect (\"" << type << "\")" << m::endl;
 						}
 						//*/
 					}

@@ -39,14 +39,14 @@ namespace ilg
 	public:
 
 		//! X coordinate
-		muon::f32 x;
+		m::f32 x;
 		//! Y coordinate
-		muon::f32 y;
+		m::f32 y;
 		//! Z coordinate
-		muon::f32 z;
+		m::f32 z;
 
 		//! Default constructor
-		Vector(muon::f32 x = 0.f, muon::f32 y = 0.f, muon::f32 z = 0.f);
+		Vector(m::f32 x = 0.f, m::f32 y = 0.f, m::f32 z = 0.f);
 
 		/*!
 		* @brief Return vector length
@@ -54,27 +54,27 @@ namespace ilg
 		* ::squareLength(), this is faster as there is no
 		* square root computation
 		*/
-		muon::f32 length() const;
+		m::f32 length() const;
 
 		//! Return vector square length
-		muon::f32 squareLength() const;
+		m::f32 squareLength() const;
 
 		//! Return a new vector normalized
 		Vector normalize() const;
 
 		//! Return the dot product of two vectors
-		static muon::f32 dot(const Vector& u, const Vector& v);
+		static m::f32 dot(const Vector& u, const Vector& v);
 
 		//! Return the cross product of two vectors
 		static Vector cross(const Vector& u, const Vector& v);
 
 		//! Return a new vector resulting of the lerp between u and v
-		static Vector lerp(const Vector& u, const Vector& v, muon::f32 t);
+		static Vector lerp(const Vector& u, const Vector& v, m::f32 t);
 
 		//! Scalar multiplication
-		Vector operator*(const muon::f32 s) const;
+		Vector operator*(const m::f32 s) const;
 		//! Scalar division
-		Vector operator/(const muon::f32 s) const;
+		Vector operator/(const m::f32 s) const;
 
 		//! Vector addition
 		Vector operator+(const Vector& v) const;
@@ -82,9 +82,9 @@ namespace ilg
 		Vector operator-(const Vector& v) const;
 
 		//! Self-scalar multiplcation
-		Vector& operator*=(const muon::f32 s);
+		Vector& operator*=(const m::f32 s);
 		//! Self-scalar division
-		Vector& operator/=(const muon::f32 s);
+		Vector& operator/=(const m::f32 s);
 
 		//! Self-vector addition
 		Vector& operator+=(const Vector& v);
@@ -98,8 +98,8 @@ namespace ilg
 	};
 }
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Vector& v);
-//muon::memory::Stream& operator<<(muon::memory::Stream& stream, const ilg::Vector& v);
-//muon::memory::Stream& operator>>(muon::memory::Stream& stream, const ilg::Vector& v);
+m::system::Log& operator<<(m::system::Log& stream, const ilg::Vector& v);
+//m::memory::Stream& operator<<(m::memory::Stream& stream, const ilg::Vector& v);
+//m::memory::Stream& operator>>(m::memory::Stream& stream, const ilg::Vector& v);
 
 #endif

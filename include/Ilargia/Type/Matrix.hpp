@@ -39,21 +39,21 @@ namespace ilg
 	{
 	public:
 		//! X coordinate of the MatrixRow
-		muon::f32 x;
+		m::f32 x;
 		//! Y coordinate of the MatrixRow
-		muon::f32 y;
+		m::f32 y;
 		//! Z coordinate of the MatrixRow
-		muon::f32 z;
+		m::f32 z;
 		//! W coordinate of the MatrixRow
-		muon::f32 w;
+		m::f32 w;
 
-		MatrixRow(muon::f32 x = 0.f, muon::f32 y = 0.f, muon::f32 z = 0.f, muon::f32 w = 0.f);
+		MatrixRow(m::f32 x = 0.f, m::f32 y = 0.f, m::f32 z = 0.f, m::f32 w = 0.f);
 
 		//! Acces the {n}th attribute by copy
-		muon::f32 operator[](muon::i32 i) const;
+		m::f32 operator[](m::i32 i) const;
 
 		//! Acces the {n}th attribute by reference
-		muon::f32& operator[](muon::i32 i);
+		m::f32& operator[](m::i32 i);
 
 		//! Return true if MatrixRow are equal
 		bool operator==(const MatrixRow& m) const;
@@ -62,7 +62,7 @@ namespace ilg
 	};
 
 	/*!
-	* @brief A 4x4 muon::f32 Matrix
+	* @brief A 4x4 m::f32 Matrix
 	*
 	* The matrix 1D array representation is:
 	* <table>
@@ -102,13 +102,13 @@ namespace ilg
 				, MatrixRow w = MatrixRow());
 
 		//! Acces the {n}th row by copy
-		MatrixRow operator[](muon::i32 i) const;
+		MatrixRow operator[](m::i32 i) const;
 
 		//! Acces the {n}th row by reference
-		MatrixRow& operator[](muon::i32 i);
+		MatrixRow& operator[](m::i32 i);
 
 		//! Return the matrix determinant
-		muon::f32 determinant() const;
+		m::f32 determinant() const;
 
 		//! Return the transpose matrix
 		Matrix transpose() const;
@@ -153,7 +153,7 @@ namespace ilg
 		* @param k A scalar
 		* @return A new Matrix, result of the multiplication
 		*/
-		Matrix operator*(muon::f32 k) const;
+		Matrix operator*(m::f32 k) const;
 
 		/*!
 		* @brief Divide every element of the matrix with a scalar
@@ -161,7 +161,7 @@ namespace ilg
 		* @return A new Matrix, result of the division
 		* @note If k happens to be 0, then no division occurs
 		*/
-		Matrix operator/(muon::f32 k) const;
+		Matrix operator/(m::f32 k) const;
 
 		//! Return true if matrices are equal
 		bool operator==(const Matrix& m) const;
@@ -170,12 +170,12 @@ namespace ilg
 	};
 }
 
-//muon::memory::Stream& operator<<(muon::memory::Stream& stream);
-//muon::memory::Stream& operator>>(muon::memory::Stream& stream);
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::MatrixRow& r);
+//m::memory::Stream& operator<<(m::memory::Stream& stream);
+//m::memory::Stream& operator>>(m::memory::Stream& stream);
+m::system::Log& operator<<(m::system::Log& stream, const ilg::MatrixRow& r);
 
-//muon::memory::Stream& operator<<(muon::memory::Stream& stream);
-//muon::memory::Stream& operator>>(muon::memory::Stream& stream);
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Matrix& m);
+//m::memory::Stream& operator<<(m::memory::Stream& stream);
+//m::memory::Stream& operator>>(m::memory::Stream& stream);
+m::system::Log& operator<<(m::system::Log& stream, const ilg::Matrix& m);
 
 #endif

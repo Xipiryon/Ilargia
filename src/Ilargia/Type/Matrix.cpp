@@ -49,7 +49,7 @@ namespace ilg
 	};
 
 
-	MatrixRow::MatrixRow(muon::f32 _x, muon::f32 _y, muon::f32 _z, muon::f32 _w)
+	MatrixRow::MatrixRow(m::f32 _x, m::f32 _y, m::f32 _z, m::f32 _w)
 		: x(_x)
 		, y(_y)
 		, z(_z)
@@ -68,17 +68,17 @@ namespace ilg
 	Matrix Matrix::transpose() const
 	{
 		Matrix n = {};
-		for(muon::i32 i = 0; i < 4; ++i)
-			for(muon::i32 j = 0; j < 4; ++j)
+		for(m::i32 i = 0; i < 4; ++i)
+			for(m::i32 j = 0; j < 4; ++j)
 				n[i][j] = (*this)[j][i];
 		return n;
 	}
 
-	muon::f32 Matrix::determinant() const
+	m::f32 Matrix::determinant() const
 	{
 		const Matrix& m = *this;
 		//Laplace Expansion
-		muon::f32 subFactor[6] = {m[2][2] * m[3][3] - m[3][2] * m[2][3],
+		m::f32 subFactor[6] = {m[2][2] * m[3][3] - m[3][2] * m[2][3],
 							  m[2][1] * m[3][3] - m[3][1] * m[2][3],
 							  m[2][1] * m[3][2] - m[3][1] * m[2][2],
 							  m[2][0] * m[3][3] - m[3][0] * m[2][3],
@@ -103,7 +103,7 @@ namespace ilg
 		//Gaussian Elimination
 
 		Matrix inv = Matrix::zero;
-		muon::f32 tmp[4][8] = {{0}};
+		m::f32 tmp[4][8] = {{0}};
 
 		//Copy matrix
 		for(int i = 0; i < 4; ++i)
@@ -120,7 +120,7 @@ namespace ilg
 			{
 				if(i != j)
 				{
-					muon::f32 ratio = tmp[j][i]/tmp[i][i];
+					m::f32 ratio = tmp[j][i]/tmp[i][i];
 					for(int k = 0; k < 8; ++k)
 					{
 						tmp[j][k] -= ratio * tmp[i][k];
@@ -131,7 +131,7 @@ namespace ilg
 
 		for(int i = 0; i < 4; ++i)
 		{
-			muon::f32 diag = tmp[i][i];
+			m::f32 diag = tmp[i][i];
 			for(int k = 0; k < 8; ++k)
 				tmp[i][k] /= diag;
 		}
@@ -200,21 +200,21 @@ namespace ilg
 		return !operator==(m);
 	}
 
-	muon::f32 MatrixRow::operator[](muon::i32 i) const
+	m::f32 MatrixRow::operator[](m::i32 i) const
 	{
 		return *(&x + i);
 	}
 
-	muon::f32& MatrixRow::operator[](muon::i32 i)
+	m::f32& MatrixRow::operator[](m::i32 i)
 	{
 		return *(&x + i);
 	}
 
-	MatrixRow Matrix::operator[](muon::i32 i) const
+	MatrixRow Matrix::operator[](m::i32 i) const
 	{
 		return *(&x + i);
 	}
-	MatrixRow& Matrix::operator[](muon::i32 i)
+	MatrixRow& Matrix::operator[](m::i32 i)
 	{
 		return *(&x + i);
 	}
@@ -232,27 +232,27 @@ namespace ilg
 	{
 		Matrix mn = {};
 
-		for(muon::i32 i = 0; i < 4; ++i)
+		for(m::i32 i = 0; i < 4; ++i)
 		{
-			for(muon::i32 j = 0; j < 4; ++j)
+			for(m::i32 j = 0; j < 4; ++j)
 			{
-				for(muon::i32 k = 0; k < 4; ++k)
+				for(m::i32 k = 0; k < 4; ++k)
 					mn[i][j] += n[i][k] * (*this)[k][j];
 			}
 		}
 		return mn;
 	}
 
-	Matrix Matrix::operator*(muon::f32 k) const
+	Matrix Matrix::operator*(m::f32 k) const
 	{
 		Matrix n = *this;
-		for(muon::i32 i = 0; i < 4; ++i)
-			for(muon::i32 j = 0; j < 4; ++j)
+		for(m::i32 i = 0; i < 4; ++i)
+			for(m::i32 j = 0; j < 4; ++j)
 				n[i][j] *= k;
 		return n;
 	}
 
-	Matrix Matrix::operator/(muon::f32 k) const
+	Matrix Matrix::operator/(m::f32 k) const
 	{
 		MUON_ASSERT_BREAK(k != 0.0f, "Matrix is being divided by 0 !");
 		if(k != 0.0f)
@@ -285,13 +285,13 @@ namespace ilg
 	}
 	//*/
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::MatrixRow& r)
+m::system::Log& operator<<(m::system::Log& stream, const ilg::MatrixRow& r)
 {
 	return stream << "[" << r.x << ", " << r.y << ", " << r.z << ", " << r.w << "]";
 }
 
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Matrix& m)
+m::system::Log& operator<<(m::system::Log& stream, const ilg::Matrix& m)
 {
 	return stream << "[" << m.x << ", " << m.y << ", " << m.z << ", " << m.w << "]";
 }

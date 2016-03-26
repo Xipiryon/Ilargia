@@ -35,9 +35,9 @@
 
 namespace ilg
 {
-	class ILARGIA_API EntityManager : public muon::helper::Singleton<EntityManager>
+	class ILARGIA_API EntityManager : public m::helper::Singleton<EntityManager>
 	{
-		friend class muon::helper::Singleton<EntityManager>;
+		friend class m::helper::Singleton<EntityManager>;
 	public:
 		Entity* create();
 		void destroy(Entity* e);

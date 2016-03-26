@@ -36,18 +36,18 @@
 namespace ilg
 {
 	class ComponentManagerFactory;
-	class ILARGIA_API IComponentManager : public muon::helper::NonCopyable
+	class ILARGIA_API IComponentManager : public m::helper::NonCopyable
 	{
 	public:
-		IComponentManager(const muon::String& name, muon::u64 componentType, muon::i32 updateOrder);
+		IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder);
 		virtual ~IComponentManager();
 
-		const muon::String&	getManagerName() const;
-		muon::u64			getComponentType() const;
-		muon::i32			getUpdateOrder() const;
+		const m::String&	getManagerName() const;
+		m::u64			getComponentType() const;
+		m::i32			getUpdateOrder() const;
 
 		virtual bool onInit() = 0;
-		virtual bool onUpdate(muon::f32 deltaTime) = 0;
+		virtual bool onUpdate(m::f32 deltaTime) = 0;
 		virtual bool onTerm() = 0;
 
 		virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
@@ -56,24 +56,24 @@ namespace ilg
 
 		virtual Component createComponent() = 0;
 		virtual void destroyComponent(Component& component) = 0;
-		virtual void* getComponent(muon::i32 index) = 0;
+		virtual void* getComponent(m::i32 index) = 0;
 		virtual Component getComponent(void* object) = 0;
 
 	protected:
 		IComponentManager();
 		template<typename T>
-		Component setupComponent(muon::i32 instance)
+		Component setupComponent(m::i32 instance)
 		{
 			return Component(MUON_META(T)->id(), instance, MUON_META(T)->name());
 		}
 
-		muon::system::Log _log;
+		m::system::Log _log;
 
 	private:
 		friend class ComponentManagerFactory;
-		muon::String	_managerName;
-		muon::u64		_componentType;
-		muon::i32		_updateOrder;
+		m::String	_managerName;
+		m::u64		_componentType;
+		m::i32		_updateOrder;
 	};
 }
 #endif

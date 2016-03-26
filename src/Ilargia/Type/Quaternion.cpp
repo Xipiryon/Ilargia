@@ -35,7 +35,7 @@ namespace ilg
 
 	const Quaternion Quaternion::identity = {0, 0, 0, 1};
 
-	Quaternion::Quaternion(muon::f32 _x, muon::f32 _y, muon::f32 _z, muon::f32 _w)
+	Quaternion::Quaternion(m::f32 _x, m::f32 _y, m::f32 _z, m::f32 _w)
 		: x(_x)
 		, y(_y)
 		, z(_z)
@@ -84,7 +84,7 @@ namespace ilg
 
 	Quaternion Quaternion::normalize() const
 	{
-		muon::f32 l = length();
+		m::f32 l = length();
 		Quaternion qn;
 		qn.w = w / l;
 		qn.x = x / l;
@@ -95,7 +95,7 @@ namespace ilg
 
 	Quaternion Quaternion::inverse() const
 	{
-		muon::f32 ls = squareLength();
+		m::f32 ls = squareLength();
 		Quaternion qi = conjugate();
 		qi.w = qi.w / ls;
 		qi.x = qi.x / ls;
@@ -105,12 +105,12 @@ namespace ilg
 	}
 
 
-	muon::f32 Quaternion::squareLength() const
+	m::f32 Quaternion::squareLength() const
 	{
 		return w * w + Vector(x,y,z).squareLength();
 	}
 
-	muon::f32 Quaternion::length() const
+	m::f32 Quaternion::length() const
 	{
 		return ::sqrt(squareLength());
 	}
@@ -118,7 +118,7 @@ namespace ilg
 	Quaternion Quaternion::fromEuler(const Vector& rotation)
 	{
 		Quaternion q;
-		Vector rad = rotation / 180.f * muon::PI_f;
+		Vector rad = rotation / 180.f * m::PI_f;
 		//Half cos and half sin
 		Vector c(
 			::cos(0.5f * rad.x),
@@ -138,13 +138,13 @@ namespace ilg
 		return q;
 	}
 
-	Quaternion Quaternion::fromAngleAxis(muon::f32 angle, const Vector& axis)
+	Quaternion Quaternion::fromAngleAxis(m::f32 angle, const Vector& axis)
 	{
 		// cos( theta / 2) , sin( theta / 2)
 		//			w			x,y,z
 		//angle are in degrees, let's convert in rad
 		// 360 deg = 2pi rad
-		muon::f32 rad = angle / 180.f * muon::PI_f;
+		m::f32 rad = angle / 180.f * m::PI_f;
 		Quaternion q;
 		Vector nAxis = axis*::sin(rad * 0.5f);
 		q.x = nAxis.x;
@@ -157,10 +157,10 @@ namespace ilg
 	Quaternion Quaternion::fromMatrix(const Matrix& matrix)
 	{
 		Quaternion q = {0.f, 0.f, 0.f, 1.f};
-		muon::f32 trace = matrix.x.x + matrix.y.y + matrix.z.z + 1.f;
+		m::f32 trace = matrix.x.x + matrix.y.y + matrix.z.z + 1.f;
 		if(trace > 0.f)
 		{
-			muon::f32 s = 0.5f / ::sqrt(trace);
+			m::f32 s = 0.5f / ::sqrt(trace);
 			q.w = 0.25f / s;
 			//			m[9]		m[6]
 			q.x = (matrix.z.y - matrix.y.z) * s;
@@ -171,7 +171,7 @@ namespace ilg
 		}
 		else
 		{
-			muon::f32 major[4] =
+			m::f32 major[4] =
 			{
 				matrix.x.x,
 				matrix.y.y,
@@ -179,7 +179,7 @@ namespace ilg
 				matrix.w.w,
 			};
 
-			muon::f32 s = 0.f;
+			m::f32 s = 0.f;
 			if(major[0] > major[1] && major[0] > major[2])
 			{
 				s = ::sqrtf(1.f + matrix.x.x - matrix.y.y - matrix.z.z) * 2.f;
@@ -208,27 +208,27 @@ namespace ilg
 		return q;
 	}
 
-	Vector Quaternion::toAngleAxis(muon::f32& angle) const
+	Vector Quaternion::toAngleAxis(m::f32& angle) const
 	{
 		const Quaternion& q = *this;
 		angle = ::acos(q.w);
 		Vector v = Vector(x,y,z) * (1.f / ::sin(angle));
-		angle *= 360.f / muon::PI_f;
+		angle *= 360.f / m::PI_f;
 		return v;
 	}
 
-	MUON_INLINE muon::f32 _pitch(const Quaternion& q)
+	MUON_INLINE m::f32 _pitch(const Quaternion& q)
 	{
 		return ::atan2(2.f * (q.y*q.z + q.x*q.w),
 					   q.w*q.w - q.x*q.x - q.y*q.y + q.z*q.z);
 	}
 
-	MUON_INLINE muon::f32 _yaw(const Quaternion& q)
+	MUON_INLINE m::f32 _yaw(const Quaternion& q)
 	{
 		return ::asin(-2.f * (q.x*q.z - q.y*q.w));
 	}
 
-	MUON_INLINE muon::f32 _roll(const Quaternion& q)
+	MUON_INLINE m::f32 _roll(const Quaternion& q)
 	{
 		return ::atan2(2.f * (q.x*q.y + q.z*q.w),
 					   q.w*q.w + q.x*q.x - q.y*q.y - q.z*q.z);
@@ -237,24 +237,24 @@ namespace ilg
 	Vector Quaternion::toEuler() const
 	{
 		Vector v(_pitch(*this), _yaw(*this), _roll(*this));
-		return (v / muon::PI_f * 180.f);
+		return (v / m::PI_f * 180.f);
 	}
 
 	Matrix Quaternion::toMatrix() const
 	{
 		const Quaternion& q = *this;
 
-		muon::f32 xx = q.x*q.x;
-		muon::f32 xy = q.x*q.y;
-		muon::f32 xz = q.x*q.z;
-		muon::f32 xw = q.x*q.w;
+		m::f32 xx = q.x*q.x;
+		m::f32 xy = q.x*q.y;
+		m::f32 xz = q.x*q.z;
+		m::f32 xw = q.x*q.w;
 
-		muon::f32 yy = q.y*q.y;
-		muon::f32 yz = q.y*q.z;
-		muon::f32 yw = q.y*q.w;
+		m::f32 yy = q.y*q.y;
+		m::f32 yz = q.y*q.z;
+		m::f32 yw = q.y*q.w;
 
-		muon::f32 zz = q.z*q.z;
-		muon::f32 zw = q.z*q.w;
+		m::f32 zz = q.z*q.z;
+		m::f32 zw = q.z*q.w;
 
 		MatrixRow rx =
 		{
@@ -305,7 +305,7 @@ namespace ilg
 	}
 	//*/
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Quaternion& q)
+m::system::Log& operator<<(m::system::Log& stream, const ilg::Quaternion& q)
 {
 	return stream << "[" << q.x << ", " << q.y << ", " << q.z << ", " << q.w << "]";
 }

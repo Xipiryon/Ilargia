@@ -47,13 +47,13 @@ namespace ilg
 		//! Equivalent to Quaternion(0, 0, 0, 1) (x,y,z,w)
 		static const Quaternion identity;
 
-		muon::f32 x; //! X Attribute
-		muon::f32 y; //! Y Attribute
-		muon::f32 z; //! Z Attribute
-		muon::f32 w; //! W attribute
+		m::f32 x; //! X Attribute
+		m::f32 y; //! Y Attribute
+		m::f32 z; //! Z Attribute
+		m::f32 w; //! W attribute
 
 		//! Default constructor
-		Quaternion(muon::f32 x = 0.f, muon::f32 y = 0.f, muon::f32 z = 0.f, muon::f32 w = 1.f);
+		Quaternion(m::f32 x = 0.f, m::f32 y = 0.f, m::f32 z = 0.f, m::f32 w = 1.f);
 
 		//! Return true if quaternion are equal
 		bool operator==(const Quaternion& q) const;
@@ -84,10 +84,10 @@ namespace ilg
 		Quaternion inverse() const;
 
 		//! Return the square length of a Quaternion (faster than length())
-		muon::f32 squareLength() const;
+		m::f32 squareLength() const;
 
 		//! Return the length of a Quaternion
-		muon::f32 length() const;
+		m::f32 length() const;
 
 		/*!
 		* @brief Create a Quaternion from a rotation matrix
@@ -119,7 +119,7 @@ namespace ilg
 		* @param[in] axis Axis around which the rotation is made
 		* @return A Quaternion.
 		*/
-		static Quaternion fromAngleAxis(muon::f32 angle, const Vector& axis);
+		static Quaternion fromAngleAxis(m::f32 angle, const Vector& axis);
 
 		/*!
 		* @brief Euler angle of this quaternion
@@ -139,13 +139,13 @@ namespace ilg
 		* @param[in, out] angle The angle of this quaternion
 		* @return A vector where x,y,z are the rotation on each axis.
 		*/
-		Vector toAngleAxis(muon::f32& angle) const;
+		Vector toAngleAxis(m::f32& angle) const;
 
 		//! Create a Rotation matrix equivalent to the quaternion
 		Matrix toMatrix() const;
 	};
 }
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::Quaternion& q);
+m::system::Log& operator<<(m::system::Log& stream, const ilg::Quaternion& q);
 
 #endif

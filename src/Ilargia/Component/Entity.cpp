@@ -44,7 +44,7 @@ namespace ilg
 		MUON_DELETE(_components);
 	}
 
-	Component Entity::_addComponent(muon::i32 type)
+	Component Entity::_addComponent(m::i32 type)
 	{
 		IComponentManager* manager = ComponentManagerFactory::getInstance().getComponentManager(type);
 		Component c;
@@ -57,9 +57,9 @@ namespace ilg
 		return c;
 	}
 
-	Component Entity::_getComponent(muon::i32 type)
+	Component Entity::_getComponent(m::i32 type)
 	{
-		for (muon::i32 i = 0; i < _components->size(); ++i)
+		for (m::i32 i = 0; i < _components->size(); ++i)
 		{
 			Component c = _components->get(i);
 			if (c.instanceType() == type)
@@ -70,13 +70,13 @@ namespace ilg
 		return Component();
 	}
 
-	bool Entity::_removeComponent(muon::i32 type)
+	bool Entity::_removeComponent(m::i32 type)
 	{
 		IComponentManager* manager = ComponentManagerFactory::getInstance().getComponentManager(type);
 		Component c;
 		if (manager)
 		{
-			for (muon::i32 i = 0; i < _components->size(); ++i)
+			for (m::i32 i = 0; i < _components->size(); ++i)
 			{
 				Component c = _components->get(i);
 				if (c.instanceType() == type)

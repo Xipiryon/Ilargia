@@ -30,7 +30,7 @@
 
 namespace ilg
 {
-	TexCoord::TexCoord(muon::f32 u_, muon::f32 v_)
+	TexCoord::TexCoord(m::f32 u_, m::f32 v_)
 		: u(u_)
 		, v(v_)
 	{
@@ -48,26 +48,26 @@ namespace ilg
 	}
 
 	// Self Scalar operation
-	TexCoord TexCoord::operator*=(const muon::f32 s)
+	TexCoord TexCoord::operator*=(const m::f32 s)
 	{
 		u *= s;
 		v *= s;
 		return *this;
 	}
 
-	TexCoord TexCoord::operator/=(const muon::f32 s)
+	TexCoord TexCoord::operator/=(const m::f32 s)
 	{
 		*this *= (1.f / s);
 		return *this;
 	}
 
 	// Scalar operation
-	TexCoord TexCoord::operator*(const muon::f32 s) const
+	TexCoord TexCoord::operator*(const m::f32 s) const
 	{
 		return TexCoord(u*s, v*s);
 	}
 
-	TexCoord TexCoord::operator/(const muon::f32 s) const
+	TexCoord TexCoord::operator/(const m::f32 s) const
 	{
 		return (*this * (1.f / s));
 	}
@@ -122,7 +122,7 @@ namespace ilg
 		return TexCoord(u - t.u, v - t.v);
 	}
 
-	TexCoord TexCoord::lerp(const TexCoord& u, const TexCoord& v, muon::f32 t)
+	TexCoord TexCoord::lerp(const TexCoord& u, const TexCoord& v, m::f32 t)
 	{
 		return (v - u)*t + u;
 	}
@@ -139,7 +139,7 @@ namespace ilg
 	}
 	//*/
 
-muon::system::Log& operator<<(muon::system::Log& stream, const ilg::TexCoord& t)
+m::system::Log& operator<<(m::system::Log& stream, const ilg::TexCoord& t)
 {
 	return stream << "[" << t.u << ", " << t.v << "]";
 }

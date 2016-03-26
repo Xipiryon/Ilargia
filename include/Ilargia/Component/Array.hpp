@@ -45,7 +45,7 @@ namespace ilg
 	* @template T Component you want to store
 	* @template chunk How the Array will grow when reaching its memory limit
 	*/
-	template<typename T, muon::i32 chunk>
+	template<typename T, m::i32 chunk>
 	class Array
 	{
 	public:
@@ -78,7 +78,7 @@ namespace ilg
 		//----------------------
 		//
 		//----------------------
-		muon::i32 add()
+		m::i32 add()
 		{
 			reallocBuffer();
 			_index[_size] = _buffer + _size;
@@ -86,7 +86,7 @@ namespace ilg
 			return _size++;
 		}
 
-		muon::i32 add(const T& defaultValue)
+		m::i32 add(const T& defaultValue)
 		{
 			reallocBuffer();
 			_index[_size] = _buffer + _size;
@@ -95,7 +95,7 @@ namespace ilg
 		}
 
 		template<typename ...Args>
-		muon::i32 add(Args...args)
+		m::i32 add(Args...args)
 		{
 			reallocBuffer();
 			_index[_size] = _buffer + _size;
@@ -106,7 +106,7 @@ namespace ilg
 		//----------------------
 		//
 		//----------------------
-		bool remove(muon::i32 id)
+		bool remove(m::i32 id)
 		{
 			auto it = _index.find(id);
 			MUON_ASSERT(it != _index.end(), "Index doesn't exists in Array!");
@@ -135,9 +135,9 @@ namespace ilg
 		//----------------------
 		//
 		//----------------------
-		muon::i32 clear()
+		m::i32 clear()
 		{
-			muon::i32 nbElement = _size;
+			m::i32 nbElement = _size;
 			for (auto it = _index.begin(); it != _index.end(); ++it)
 			{
 				it->second.~T();
@@ -153,22 +153,22 @@ namespace ilg
 		//----------------------
 		// Getters
 		//----------------------
-		MUON_INLINE T& get(muon::i32 id) const
+		MUON_INLINE T& get(m::i32 id) const
 		{
 			return *(_index.at(id));
 		}
 
-		MUON_INLINE T& operator[](muon::i32 id) const
+		MUON_INLINE T& operator[](m::i32 id) const
 		{
 			return get(id);
 		}
 
-		MUON_INLINE muon::i32 size() const
+		MUON_INLINE m::i32 size() const
 		{
 			return _size;
 		}
 
-		MUON_INLINE muon::i32 capacity() const
+		MUON_INLINE m::i32 capacity() const
 		{
 			return _capacity;
 		}
@@ -180,7 +180,7 @@ namespace ilg
 			if (_size >= _capacity)
 			{
 				_capacity += _chunk;
-				muon::i32 newCapacity = sizeof(T) * _capacity;
+				m::i32 newCapacity = sizeof(T) * _capacity;
 				T* tmpbuff = (T*)realloc(_buffer, newCapacity);
 				MUON_ASSERT_BREAK(tmpbuff != NULL
 					, "Couldn't reallocate new buffer of size: %u (Old capacity: %u | Chunk: %u)"
@@ -189,10 +189,10 @@ namespace ilg
 			}
 		}
 
-		const muon::i32 _chunk;
-		muon::i32 _capacity;
-		muon::i32 _size;
-		std::unordered_map<muon::i32, T*> _index;
+		const m::i32 _chunk;
+		m::i32 _capacity;
+		m::i32 _size;
+		std::unordered_map<m::i32, T*> _index;
 		T* _buffer;
 	};
 }

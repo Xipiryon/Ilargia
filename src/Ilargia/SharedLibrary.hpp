@@ -43,9 +43,9 @@ namespace ilg
 		typedef void(*FuncUnload)();
 
 		void* libInstance;
-		muon::String name;
-		muon::String funcLoadName;
-		muon::String funcUnloadName;
+		m::String name;
+		m::String funcLoadName;
+		m::String funcUnloadName;
 		FuncLoad funcLoadPtr;
 		FuncUnload funcUnloadPtr;
 	};
@@ -56,15 +56,15 @@ namespace ilg
 		void* library;
 	};
 
-	class SharedLibrary : public muon::helper::Singleton<SharedLibrary>
+	class SharedLibrary : public m::helper::Singleton<SharedLibrary>
 	{
-		friend class muon::helper::Singleton<SharedLibrary>;
+		friend class m::helper::Singleton<SharedLibrary>;
 	public:
 
 		const std::vector<CManagerPair>& getManagers() const;
 		const std::vector<SharedLibraryInfo>& getLibraries() const;
 
-		bool loadLibrary(const muon::String& file, const muon::String& path);
+		bool loadLibrary(const m::String& file, const m::String& path);
 
 		void forwardArg(int, char**);
 		void setLinkStatic();
@@ -87,11 +87,10 @@ namespace ilg
 		~SharedLibrary();
 
 		bool _static;
-		muon::system::Log _log;
+		m::system::Log _log;
 		std::vector<SharedLibraryInfo> _libraries;
 		std::vector<CManagerPair> _managers;
 	};
-
 }
 
 #endif
