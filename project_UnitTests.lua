@@ -5,7 +5,7 @@
 project "UnitTests"
 	local ProjectRoot = os.getcwd()
 
-	dependson("HaizeLibrary")
+	dependson("IlargiaLibrary")
 	language "C++"
 	targetname "UnitTests"
 	targetdir (SolutionRoot.."/bin")
