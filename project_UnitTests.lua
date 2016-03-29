@@ -24,6 +24,7 @@ project "UnitTests"
 
 	filter "Debug*"
 		links	{ "Ilargia-d", "Muon-d" }
+		defines { "ILARGIA_DEBUG" }
 
 	filter "Release*"
 		links { "Ilargia", "Muon" }

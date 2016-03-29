@@ -19,6 +19,8 @@ project "IlargiaLibrary"
 	}
 	filter "Debug*"
 		links	{ "Muon-d" }
+		defines { "ILARGIA_DEBUG" }
+
 	filter "Release*"
 		links { "Muon" }
 
