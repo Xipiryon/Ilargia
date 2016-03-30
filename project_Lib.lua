@@ -16,6 +16,7 @@ project "IlargiaLibrary"
 	files {
 		ProjectRoot.."/src/**.cpp",
 		ProjectRoot.."/include/**.hpp",
+		ProjectRoot.."/src/**SharedLibrary.*pp",
 	}
 	filter "Debug*"
 		links	{ "Muon-d" }
