@@ -47,27 +47,8 @@ namespace ilg
 {
 	bool Engine::_registerClasses()
 	{
-		// ********
-		// Registering reflection
-		// This time, order doesn't really matter.
-		//
-		// Registering a type will allow to instantiate it from its name or id.
-		// and thus, must inherit from "reflect::Object"
-		//
-		// *** Type
-
 		MUON_META_REGISTER(ilg::Component);
-#if 0
-		auto& odb = reflect::ObjectDatabase::getInstance();
-		odb.registerClass<Vector>();
-		odb.registerClass<Color>();
-		odb.registerClass<TexCoord>();
-		odb.registerClass<Matrix>();
-		odb.registerClass<Quaternion>();
 
-		// *** System
-		odb.registerClass<String>();
-#endif
 		return true;
 	}
 }
