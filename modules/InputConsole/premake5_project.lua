@@ -18,9 +18,9 @@ project(G_ProjectName)
 	targetdir(SolutionRoot.."/bin/lib")
 
 	if os.is("windows") then
-		postbuildcommands { string.gsub("copy "..SolutionRoot.."/bin/lib/*.dll "..SolutionRoot.."/bin/", "/", "\\") }
+		postbuildcommands { string.gsub("copy "..SolutionRoot.."/bin/lib/"..G_ProjectName.."*.dll "..SolutionRoot.."/bin/", "/", "\\") }
 	else
-		postbuildcommands { "cp "..SolutionRoot.."/bin/lib/*.so "..SolutionRoot.."/bin/" }
+		postbuildcommands { "cp "..SolutionRoot.."/bin/lib/"..G_ProjectName.."*.so "..SolutionRoot.."/bin/" }
 	end
 
 	files {
