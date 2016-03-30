@@ -38,7 +38,7 @@
 			**
 		-->
 		<!-- Log in console are colored -->
-		<Module File="LogColorConsole" />
+		<Module File="ColorConsole" />
 		<!-- Output Log to HTML Files -->
 		<Module File="LogHTML" />
 		<!-- Load Network classes and script binding -->

@@ -7,7 +7,7 @@
 -- Project
 ------------------------------
 
-G_ProjectName = "LogColorConsole"
+G_ProjectName = "ColorConsole"
 
 project(G_ProjectName)
 	local ProjectRoot = os.getcwd()
