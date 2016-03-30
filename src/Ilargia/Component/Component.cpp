@@ -32,23 +32,23 @@
 namespace ilg
 {
 	Component::Component()
-		: _type(MUON_META(Component)->id())
-		, _instance(m::INVALID_INDEX)
-		, _name(MUON_META(Component)->name())
+		: m_type(MUON_META(Component)->id())
+		, m_instance(m::INVALID_INDEX)
+		, m_name(MUON_META(Component)->name())
 	{
 	}
 
 	Component::Component(m::u64 type, m::i32 instance, const m::String& name)
-		: _type(type)
-		, _instance(instance)
-		, _name(name)
+		: m_type(type)
+		, m_instance(instance)
+		, m_name(name)
 	{
 	}
 
 	Component::Component(const Component& c)
-		: _type(c._type)
-		, _instance(c._instance)
-		, _name(c._name)
+		: m_type(c.m_type)
+		, m_instance(c.m_instance)
+		, m_name(c.m_name)
 	{
 	}
 
@@ -56,34 +56,34 @@ namespace ilg
 	{
 		if (this != &c)
 		{
-			_type = c._type;
-			_instance = c._instance;
-			_name = c._name;
+			m_type = c.m_type;
+			m_instance = c.m_instance;
+			m_name = c.m_name;
 		}
 		return *this;
 	}
 
 	m::i32 Component::instanceId() const
 	{
-		return _instance;
+		return m_instance;
 	}
 
 	m::u64 Component::instanceType() const
 	{
-		return _type;
+		return m_type;
 	}
 
 	m::String Component::instanceName() const
 	{
-		return _name;
+		return m_name;
 	}
 
 	void* Component::_cast(m::u64 type, const char* type_name) const
 	{
-		MUON_ASSERT(_instance != m::INVALID_INDEX, "Component instance is invalid!");
+		MUON_ASSERT(m_instance != m::INVALID_INDEX, "Component instance is invalid!");
 		MUON_ASSERT(type != m::INVALID_INDEX, "Trying to cast to an invalid type!");
 		if (type == m::INVALID_INDEX
-			|| _instance == m::INVALID_INDEX)
+			|| m_instance == m::INVALID_INDEX)
 		{
 			return NULL;
 		}
@@ -95,12 +95,12 @@ namespace ilg
 
 		if (manager != NULL)
 		{
-			MUON_ASSERT(type == _type,
+			MUON_ASSERT(type == m_type,
 						"Cast Type (%s) does not match Component Type (%s)",
-						type_name, _type);
-			if (type == _type)
+						type_name, m_type);
+			if (type == m_type)
 			{
-				return manager->getComponent(_instance);
+				return manager->getComponent(m_instance);
 			}
 		}
 		return NULL;

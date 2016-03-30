@@ -46,16 +46,16 @@ namespace
 namespace ilg
 {
 	SharedLibrary::SharedLibrary()
-		: _argc(0)
-		, _argv(NULL)
-		, _static(false)
-		, _log("SharedLibrary")
+		: m_argc(0)
+		, m_argv(NULL)
+		, m_static(false)
+		, m_log("SharedLibrary")
 	{
 	}
 
 	SharedLibrary::~SharedLibrary()
 	{
-		for (auto it = _libraries.begin(); it != _libraries.end(); ++it)
+		for (auto it = m_libraries.begin(); it != m_libraries.end(); ++it)
 		{
 			_closeLibrary(*it);
 		}
@@ -63,53 +63,53 @@ namespace ilg
 
 	const std::vector<SharedLibraryInfo>& SharedLibrary::getLibraries() const
 	{
-		return _libraries;
+		return m_libraries;
 	}
 
 	const std::vector<CManagerPair>& SharedLibrary::getManagers() const
 	{
-		return _managers;
+		return m_managers;
 	}
 
 	void SharedLibrary::forwardArg(int argc, char** argv)
 	{
-		_argc = argc;
-		_argv = argv;
+		m_argc = argc;
+		m_argv = argv;
 	}
 
 	void SharedLibrary::setLinkStatic()
 	{
-		_static = true;
+		m_static = true;
 	}
 
 	void SharedLibrary::_addModuleRef(IBaseManager* manager)
 	{
-		_managers.push_back({ manager, currentLibRef });
-		_log(m::LOG_DEBUG) << "Manager added: \"" << manager->getManagerName() << "\"" << m::endl;
+		m_managers.push_back({ manager, currentLibRef });
+		m_log(m::LOG_DEBUG) << "Manager added: \"" << manager->getManagerName() << "\"" << m::endl;
 	}
 
 	void SharedLibrary::unloadLibraries()
 	{
-		for (auto it = _libraries.rbegin(); it != _libraries.rend(); ++it)
+		for (auto it = m_libraries.rbegin(); it != m_libraries.rend(); ++it)
 		{
 			if (it->funcUnloadPtr)
 			{
-				_log(m::LOG_DEBUG) << "Unloading \"" << it->name << "\"" << m::endl;
+				m_log(m::LOG_DEBUG) << "Unloading \"" << it->name << "\"" << m::endl;
 				(*(it->funcUnloadPtr))();
 			}
 			else
 			{
-				_log(m::LOG_WARNING) << "No unload function for \"" << it->name << "\", skipping..." << m::endl;
+				m_log(m::LOG_WARNING) << "No unload function for \"" << it->name << "\", skipping..." << m::endl;
 			}
 
-			for (m::i32 i = _managers.size() - 1; i != -1; --i)
+			for (m::i32 i = m_managers.size() - 1; i != -1; --i)
 			{
-				if (_managers[i].library == it->libInstance)
+				if (m_managers[i].library == it->libInstance)
 				{
-					IBaseManager* manager = _managers[i].manager;
-					_log(m::LOG_INFO) << "Deleting IBaseManager: \"" << manager->getManagerName() << "\"" << m::endl;
+					IBaseManager* manager = m_managers[i].manager;
+					m_log(m::LOG_INFO) << "Deleting IBaseManager: \"" << manager->getManagerName() << "\"" << m::endl;
 					MUON_DELETE(manager);
-					_managers.erase(_managers.begin() + i);
+					m_managers.erase(m_managers.begin() + i);
 				}
 			}
 		}
@@ -132,9 +132,9 @@ namespace ilg
 		lib.funcLoadName = func + "_load";
 		lib.funcUnloadName = func + "_unload";
 
-		_log(m::LOG_INFO) << "Loading \"" << libPath << "\"" << m::endl;
+		m_log(m::LOG_INFO) << "Loading \"" << libPath << "\"" << m::endl;
 
-		if (!_loadLibrary(lib, (_static ? NULL : libPath.cStr())))
+		if (!_loadLibrary(lib, (m_static ? NULL : libPath.cStr())))
 		{
 			currentLibRef = NULL;
 			return false;
@@ -150,7 +150,7 @@ namespace ilg
 			return false;
 		}
 
-		_libraries.push_back(lib);
+		m_libraries.push_back(lib);
 		return true;
 	}
 
@@ -170,7 +170,7 @@ namespace ilg
 #endif
 		if (!lib_handle)
 		{
-			_log(m::LOG_ERROR) << "Couldn't load \"" << c_libPath << "\": " << error << m::endl;
+			m_log(m::LOG_ERROR) << "Couldn't load \"" << c_libPath << "\": " << error << m::endl;
 			return false;
 		}
 
@@ -202,16 +202,16 @@ namespace ilg
 			if (error[0] != 0)
 			{
 #endif
-				_log(m::LOG_ERROR) << "Couldn't find any 'load' function \"" << c_funcLoad << "\": " << error << m::endl;
+				m_log(m::LOG_ERROR) << "Couldn't find any 'load' function \"" << c_funcLoad << "\": " << error << m::endl;
 				_closeLibrary(lib);
 				return false;
 			}
 
 			error[0] = 0;
 			// error handle
-			if (((*(lib.funcLoadPtr))(_argc, _argv, error)) != 0)
+			if (((*(lib.funcLoadPtr))(m_argc, m_argv, error)) != 0)
 			{
-				_log(m::LOG_ERROR) << "Library \"" << lib.name << "\" exited with error: \"" << error << "\"" << m::endl;
+				m_log(m::LOG_ERROR) << "Library \"" << lib.name << "\" exited with error: \"" << error << "\"" << m::endl;
 				_closeLibrary(lib);
 				return false;
 			}
@@ -219,7 +219,7 @@ namespace ilg
 		else
 		{
 			lib.funcLoadPtr = NULL;
-			_log(m::LOG_WARNING) << "'load' function not specified, skipping..." << m::endl;
+			m_log(m::LOG_WARNING) << "'load' function not specified, skipping..." << m::endl;
 		}
 		return true;
 	}
@@ -242,7 +242,7 @@ namespace ilg
 			if (!error.empty())
 			{
 #endif
-				_log(m::LOG_ERROR) << "Couldn't find any 'unload' function \"" << c_funcUnload << "\": " << error << m::endl;
+				m_log(m::LOG_ERROR) << "Couldn't find any 'unload' function \"" << c_funcUnload << "\": " << error << m::endl;
 				_closeLibrary(lib);
 				return false;
 			}
@@ -250,14 +250,14 @@ namespace ilg
 		else
 		{
 			lib.funcUnloadPtr = NULL;
-			_log(m::LOG_WARNING) << "'unload' function not specified, skipping..." << m::endl;
+			m_log(m::LOG_WARNING) << "'unload' function not specified, skipping..." << m::endl;
 		}
 		return true;
 	}
 
 	void SharedLibrary::_closeLibrary(SharedLibraryInfo& lib)
 	{
-		if (!_static)
+		if (!m_static)
 		{
 #if defined(MUON_PLATFORM_WINDOWS)
 			FreeLibrary((HINSTANCE)lib.libInstance);

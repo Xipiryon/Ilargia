@@ -58,11 +58,11 @@ namespace ilg
 	}
 
 	Engine::Engine()
-		: _log("ENGINE")
-		, _running(false)
-		, _paused(false)
-		, _deltaTime(0.f)
-		, _programTime(0.f)
+		: m_log("ENGINE")
+		, m_running(false)
+		, m_paused(false)
+		, m_deltaTime(0.f)
+		, m_programTime(0.f)
 	{
 	}
 
@@ -88,7 +88,7 @@ namespace ilg
 			{
 				pos = _argv.size();
 			}
-			engine._programPath = (_argv.substr(0, pos) + m::PATH_SEPARATOR).c_str();
+			engine.m_programPath = (_argv.substr(0, pos) + m::PATH_SEPARATOR).c_str();
 		}
 
 		auto& script = system::ScriptDriver::createInstance();
@@ -114,7 +114,7 @@ namespace ilg
 		//keyValue.retrieve("VERSION", ver);
 
 		// Ok, everything seems good
-		engine._log(m::LOG_INFO) << "Initialized: " << app << " " << ver << m::endl;
+		engine.m_log(m::LOG_INFO) << "Initialized: " << app << " " << ver << m::endl;
 		return true;
 	}
 
@@ -133,19 +133,19 @@ namespace ilg
 	void Engine::toggle()
 	{
 		Engine& e = getInstance();
-		pause(!e._paused);
+		pause(!e.m_paused);
 	}
 
 	void Engine::pause(bool pause)
 	{
 		Engine& e = getInstance();
-		e._paused = pause;
-		e._deltaTime = 0.f;
+		e.m_paused = pause;
+		e.m_deltaTime = 0.f;
 	}
 
 	void Engine::stop()
 	{
-		getInstance()._running = false;
+		getInstance().m_running = false;
 	}
 
 	void Engine::_run()
@@ -155,26 +155,26 @@ namespace ilg
 		//Check there is managers to update
 		if (managerList.size() == 0)
 		{
-			getInstance()._log(m::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << m::endl;
-			getInstance()._running = false;
+			getInstance().m_log(m::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << m::endl;
+			getInstance().m_running = false;
 			return;
 		}
 
 		//Modules update
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
-			bool success = (*it).manager->onUpdate(_deltaTime);
+			bool success = (*it).manager->onUpdate(m_deltaTime);
 			MUON_ASSERT(success, "Module: \"%s\" onUpdate() failed!", (*it).manager->getManagerName().cStr());
 		}
 
 		// Retrieve time information
-		m::f32 dt = _clock.now();
-		if (!_paused)
+		m::f32 dt = m_clock.now();
+		if (!m_paused)
 		{
-			_deltaTime = dt;
+			m_deltaTime = dt;
 		}
-		_programTime += dt;
-		_clock.start();
+		m_programTime += dt;
+		m_clock.start();
 	}
 
 	void Engine::run()
@@ -184,19 +184,19 @@ namespace ilg
 		m::i32 modSize = SharedLibrary::getInstance().getManagers().size();
 		if (modSize == 0)
 		{
-			engine._log(m::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << m::endl;
+			engine.m_log(m::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << m::endl;
 			return;
 		}
 		else
 		{
-			engine._running = true;
-			engine._log(m::LOG_INFO) << "Running with " << modSize << " IComponentManager instance(s) loaded!" << m::endl;
+			engine.m_running = true;
+			engine.m_log(m::LOG_INFO) << "Running with " << modSize << " IComponentManager instance(s) loaded!" << m::endl;
 		}
 
 		//Main loop execution time start
-		engine._clock.start();
+		engine.m_clock.start();
 
-		auto& managerList = SharedLibrary::getInstance()._managers;
+		auto& managerList = SharedLibrary::getInstance().m_managers;
 
 		//Sort manager depending on exec order
 		std::sort(managerList.begin(), managerList.end(),
@@ -217,7 +217,7 @@ namespace ilg
 			if (!success)
 			{
 				failed.push_back(count);
-				engine._log(m::LOG_WARNING) << "Module: \"" << (*it).manager->getManagerName() << "\" onInit() failed!" << m::endl;
+				engine.m_log(m::LOG_WARNING) << "Module: \"" << (*it).manager->getManagerName() << "\" onInit() failed!" << m::endl;
 			}
 			++count;
 		}
@@ -227,7 +227,7 @@ namespace ilg
 		{
 			m::i32 i = failed.back();
 			IBaseManager* manager = managerList[i].manager;
-			engine._log(m::LOG_WARNING) << "Removing \"" << manager->getManagerName() << "\" due to onInit() failure. Calling onTerm() ..." << m::endl;
+			engine.m_log(m::LOG_WARNING) << "Removing \"" << manager->getManagerName() << "\" due to onInit() failure. Calling onTerm() ..." << m::endl;
 
 			bool success = manager->onTerm();
 			MUON_ASSERT(success, "Module: \"%s\" onTerm() failed!", manager->getManagerName().cStr());
@@ -240,7 +240,7 @@ namespace ilg
 #ifdef MUON_PLATFORM_WEB
 		emscripten_set_main_loop(_run, 0, _running);
 #else
-		while (engine._running)
+		while (engine.m_running)
 		{
 			engine._run();
 		}
@@ -255,26 +255,26 @@ namespace ilg
 
 	bool Engine::isRunning()
 	{
-		return getInstance()._running;
+		return getInstance().m_running;
 	}
 
 	bool Engine::isPaused()
 	{
-		return getInstance()._paused;
+		return getInstance().m_paused;
 	}
 
 	m::f32 Engine::getDeltaTime()
 	{
-		return getInstance()._deltaTime;
+		return getInstance().m_deltaTime;
 	}
 
 	m::f32 Engine::getProgramTime()
 	{
-		return getInstance()._programTime;
+		return getInstance().m_programTime;
 	}
 
 	const char* Engine::getProgramPath()
 	{
-		return getInstance()._programPath.cStr();
+		return getInstance().m_programPath.cStr();
 	}
 }

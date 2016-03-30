@@ -33,28 +33,28 @@ namespace ilg
 	EntityManager::EntityManager()
 	{
 		typedef std::deque<Entity*> EntityDeque;
-		_entities = MUON_NEW(EntityDeque);
+		m_entities = MUON_NEW(EntityDeque);
 	}
 
 	EntityManager::~EntityManager()
 	{
-		MUON_DELETE(_entities);
+		MUON_DELETE(m_entities);
 	}
 
 	Entity* EntityManager::create()
 	{
 		Entity* e = MUON_NEW(Entity);
-		_entities->push_back(e);
+		m_entities->push_back(e);
 		return e;
 	}
 
 	void EntityManager::destroy(Entity* e)
 	{
-		for (auto it = _entities->begin(); it != _entities->end(); ++it)
+		for (auto it = m_entities->begin(); it != m_entities->end(); ++it)
 		{
 			if ((*it) == e)
 			{
-				_entities->erase(it);
+				m_entities->erase(it);
 				break;
 			}
 		}

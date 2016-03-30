@@ -71,8 +71,8 @@ namespace ilg
 		void unloadLibraries();
 
 	private:
-		int _argc;
-		char** _argv;
+		int m_argc;
+		char** m_argv;
 
 		friend class ManagerFactory;
 		friend class Engine;
@@ -86,10 +86,10 @@ namespace ilg
 		SharedLibrary();
 		~SharedLibrary();
 
-		bool _static;
-		m::system::Log _log;
-		std::vector<SharedLibraryInfo> _libraries;
-		std::vector<CManagerPair> _managers;
+		bool m_static;
+		m::system::Log m_log;
+		std::vector<SharedLibraryInfo> m_libraries;
+		std::vector<CManagerPair> m_managers;
 	};
 }
 

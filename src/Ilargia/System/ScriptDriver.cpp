@@ -45,10 +45,10 @@ namespace ilg
 		}
 
 		ScriptDriver::ScriptDriver()
-			: _log("ScriptDriver")
-			, _engine(NULL)
-			, _context(NULL)
-			, _moduleCompiled(new std::unordered_map<m::String, bool>)
+			: m_log("ScriptDriver")
+			, m_engine(NULL)
+			, m_context(NULL)
+			, m_moduleCompiled(new std::unordered_map<m::String, bool>)
 		{
 			//_engine->SetMessageCallback(asMETHOD(Script, errorCallback), this, asCALL_THISCALL);
 		}
@@ -57,7 +57,7 @@ namespace ilg
 		{
 			//_context->Release();
 			//_engine->Release();
-			delete _moduleCompiled;
+			delete m_moduleCompiled;
 		}
 
 		void ScriptDriver::_errorCallback(const m::String& msg)
@@ -79,7 +79,7 @@ namespace ilg
 			l = LOG_DEBUG;
 			break;
 			};
-			_log(l) << "In section \n\t>'" << msg->section
+			m_log(l) << "In section \n\t>'" << msg->section
 			<< "' (line " << msg->row
 			<< "):\n\t>'" << msg->message << "'" << endl;
 			//*/
@@ -87,12 +87,12 @@ namespace ilg
 
 		IScriptEngine* ScriptDriver::getScriptEngine() const
 		{
-			return _engine;
+			return m_engine;
 		}
 
 		IScriptContext* ScriptDriver::getScriptContext() const
 		{
-			return _context;
+			return m_context;
 		}
 
 		ScriptState ScriptDriver::load(const m::String& filename)
@@ -102,13 +102,13 @@ namespace ilg
 
 		ScriptState ScriptDriver::load(const m::String& filename, const m::String& moduleName)
 		{
-			(*_moduleCompiled)[moduleName] = false;
+			(*m_moduleCompiled)[moduleName] = false;
 			//_context->Unprepare();
 
 			MUON_ASSERT(!filename.empty(), "Failed to open file: no filename given!");
 			if (filename.empty())
 			{
-				_log(m::LOG_ERROR) << "Failed to open script file: no filename given!";
+				m_log(m::LOG_ERROR) << "Failed to open script file: no filename given!";
 				return SCRIPT_FAILED_OPEN;
 			}
 
@@ -126,22 +126,22 @@ namespace ilg
 			switch (sls)
 			{
 				case SCRIPT_FAILED_OPEN:
-					_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" not found" << m::endl;
+					m_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" not found" << m::endl;
 					break;
 				case SCRIPT_FAILED_LOAD:
-					_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be loaded" << m::endl;
+					m_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be loaded" << m::endl;
 					break;
 				case SCRIPT_FAILED_SECTION:
-					_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be added in Script Engine correctly!" << m::endl;
+					m_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be added in Script Engine correctly!" << m::endl;
 					break;
 				case SCRIPT_FAILED_BUILD:
-					_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be build." << m::endl;
-					_log(m::LOG_ERROR) << "\t>Please check syntax errors or use of unbinded classes" << m::endl;
+					m_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be build." << m::endl;
+					m_log(m::LOG_ERROR) << "\t>Please check syntax errors or use of unbinded classes" << m::endl;
 					break;
 				case SCRIPT_SUCCESS:
 				{
 					m::String moduleNameLog = (moduleName.empty() ? "" : " (Module: " + moduleName + ") ");
-					_log(m::LOG_INFO) << "Script \"" << filename << "\"" << moduleNameLog << " is correctly loaded!" << m::endl;
+					m_log(m::LOG_INFO) << "Script \"" << filename << "\"" << moduleNameLog << " is correctly loaded!" << m::endl;
 				}
 				break;
 			}
@@ -151,7 +151,7 @@ namespace ilg
 		ScriptState ScriptDriver::_load(const m::String& filename, const m::String& moduleName)
 		{
 			/*
-			_log(m::LOG_DEBUG) << "Loading file: \"" << filename << "\" | module: \"" << moduleName << "\"" << endl;
+			m_log(m::LOG_DEBUG) << "Loading file: \"" << filename << "\" | module: \"" << moduleName << "\"" << endl;
 			int r;
 			FILE* file = fopen(filename.cStr(), "rb");
 			if(file == 0)
@@ -195,13 +195,13 @@ namespace ilg
 			IScriptModule* mod = _engine->GetModule(moduleName.cStr(), asGM_ONLY_IF_EXISTS);
 			if(!mod)
 			{
-			_log(m::LOG_ERROR) << "No module \"" << moduleName << "\" found!" << endl;
+			m_log(m::LOG_ERROR) << "No module \"" << moduleName << "\" found!" << endl;
 			return SCRIPT_FAILED_BUILD;
 			}
 
 			if(mod->Build() < 0)
 			{
-			_log(m::LOG_ERROR) << "Failed to build the module \"" << moduleName << "\"!" << endl;
+			m_log(m::LOG_ERROR) << "Failed to build the module \"" << moduleName << "\"!" << endl;
 			return SCRIPT_FAILED_BUILD;
 			}
 			(*_moduleCompiled)[moduleName] = true;
@@ -219,7 +219,7 @@ namespace ilg
 			/*
 			if(_moduleCompiled->find(moduleName) == _moduleCompiled->end() || (*_moduleCompiled)[moduleName] == false)
 			{
-			_log(m::LOG_ERROR) << "Module \"" << moduleName << "\" has not been compiled, cannot execute!" << endl;
+			m_log(m::LOG_ERROR) << "Module \"" << moduleName << "\" has not been compiled, cannot execute!" << endl;
 			return SCRIPT_FAILED_PREPARE;
 			}
 
@@ -229,7 +229,7 @@ namespace ilg
 			{
 			// The function couldn't be found. Instruct the script writer
 			// to include the expected function in the script.
-			_log(m::LOG_ERROR) << "The script must have the function '" << funcName << "'. Please add it and try again." << endl;
+			m_log(m::LOG_ERROR) << "The script must have the function '" << funcName << "'. Please add it and try again." << endl;
 			return SCRIPT_FAILED_LOAD;
 			}
 			else
@@ -258,7 +258,7 @@ namespace ilg
 			if (r == asEXECUTION_EXCEPTION)
 			{
 			// An exception occurred, let the script writer know what happened so it can be corrected.
-			_log(m::LOG_ERROR) << "An exception '%s' occurred. "
+			m_log(m::LOG_ERROR) << "An exception '%s' occurred. "
 			<< "Please correct the code and try again:\n\t>"
 			<< _context->GetExceptionString()
 			<< endl;

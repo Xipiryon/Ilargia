@@ -54,14 +54,14 @@ namespace ilg
 
 		if (doc.LoadFile(configFile.cStr()) != XML_SUCCESS)
 		{
-			_log(m::LOG_ERROR) << "Couldn't open \"" << configFile << "\": Error code: " << doc.ErrorName() << m::endl;
+			m_log(m::LOG_ERROR) << "Couldn't open \"" << configFile << "\": Error code: " << doc.ErrorName() << m::endl;
 			return false;
 		}
 
 		XMLElement* root = doc.RootElement();
 		if (!(root && strcmp(root->Name(), "Engine") == 0))
 		{
-			_log(m::LOG_ERROR) << "No root element in \"" << configFile << "\", or root is different from \"Engine\"" << m::endl;
+			m_log(m::LOG_ERROR) << "No root element in \"" << configFile << "\", or root is different from \"Engine\"" << m::endl;
 			return false;
 		}
 
@@ -77,7 +77,7 @@ namespace ilg
 			if (attrOutput)
 			{
 				logOutput = attrOutput->Value();
-				_log(m::LOG_INFO) << "Log Output value set to \"" << logOutput << "\"" << m::endl;
+				m_log(m::LOG_INFO) << "Log Output value set to \"" << logOutput << "\"" << m::endl;
 			}
 
 			const XMLAttribute* attrLevel = logs->FindAttribute("Level");
@@ -103,7 +103,7 @@ namespace ilg
 					level = "INFO";
 					logLevel = m::LOG_INFO;
 				}
-				_log(m::LOG_INFO) << "Log Level set to \"" << level << "\"" << m::endl;
+				m_log(m::LOG_INFO) << "Log Level set to \"" << level << "\"" << m::endl;
 			}
 
 			const XMLAttribute* attrDefaultLogImpl = logs->FindAttribute("EnableDefaultLogImpl");
@@ -119,7 +119,7 @@ namespace ilg
 		else
 		{
 			//No Logs: use default value
-			_log(m::LOG_WARNING) << "No Logs settings: using default (ouput = \"output_log\", level=\"INFO\")" << m::endl;
+			m_log(m::LOG_WARNING) << "No Logs settings: using default (ouput = \"output_log\", level=\"INFO\")" << m::endl;
 		}
 		m::system::Log::open(logOutput);
 		m::system::Log::setLevel(logLevel);
@@ -149,7 +149,7 @@ namespace ilg
 			const XMLAttribute* attrPath = modules->FindAttribute("Path");
 			if (!attrPath)
 			{
-				_log(m::LOG_WARNING) << "No \"Path\" attribute in \"Modules\" node!" << m::endl;
+				m_log(m::LOG_WARNING) << "No \"Path\" attribute in \"Modules\" node!" << m::endl;
 			}
 			else if (strcmp(attrPath->Value(), ".") != 0)
 			{
@@ -160,7 +160,7 @@ namespace ilg
 			XMLElement* module = (XMLElement*)modules->FirstChildElement("Module");
 			if (!module)
 			{
-				_log(m::LOG_ERROR) << "No \"Module\" elements! You should add some, don't you think?" << m::endl;
+				m_log(m::LOG_ERROR) << "No \"Module\" elements! You should add some, don't you think?" << m::endl;
 				return false;
 			}
 
@@ -178,7 +178,7 @@ namespace ilg
 					}
 					else
 					{
-						_log(m::LOG_ERROR) << "Module doesn't have \"LibraryFile\" attribute!" << m::endl;
+						m_log(m::LOG_ERROR) << "Module doesn't have \"LibraryFile\" attribute!" << m::endl;
 						return false;
 					}
 
@@ -200,7 +200,7 @@ namespace ilg
 		}
 		else
 		{
-			_log(m::LOG_WARNING) << "No \"Modules\" elements! You should add some, don't you think?" << m::endl;
+			m_log(m::LOG_WARNING) << "No \"Modules\" elements! You should add some, don't you think?" << m::endl;
 		}
 
 		/*******************************/
@@ -224,9 +224,9 @@ namespace ilg
 
 					if (!attrName || !attrValue || !attrType)
 					{
-						if (!attrName) _log(m::LOG_ERROR) << "KeyValue doesn't have a \"Name\" attribute" << m::endl;
-						if (!attrValue) _log(m::LOG_ERROR) << "KeyValue doesn't have a \"Value\" attribute" << m::endl;
-						if (!attrType) _log(m::LOG_ERROR) << "KeyValue doesn't have a \"Type\" attribute" << m::endl;
+						if (!attrName) m_log(m::LOG_ERROR) << "KeyValue doesn't have a \"Name\" attribute" << m::endl;
+						if (!attrValue) m_log(m::LOG_ERROR) << "KeyValue doesn't have a \"Value\" attribute" << m::endl;
+						if (!attrType) m_log(m::LOG_ERROR) << "KeyValue doesn't have a \"Type\" attribute" << m::endl;
 					}
 					else
 					{
@@ -243,7 +243,7 @@ namespace ilg
 						else if(type == "STRING") {kvs.store(name, attrValue->Value());}
 						else
 						{
-						if(!attrType) _log(m::LOG_ERROR) << "KeyValue \"" << name << "\" Type is incorrect (\"" << type << "\")" << m::endl;
+						if(!attrType) m_log(m::LOG_ERROR) << "KeyValue \"" << name << "\" Type is incorrect (\"" << type << "\")" << m::endl;
 						}
 						//*/
 					}

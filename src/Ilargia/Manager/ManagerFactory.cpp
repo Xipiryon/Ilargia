@@ -45,10 +45,10 @@ namespace ilg
 	{
 		//Check if manager isn't already loaded
 		bool found = false;
-		auto& managerList = SharedLibrary::getInstance()._managers;
+		auto& managerList = SharedLibrary::getInstance().m_managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
-			if ((*it).manager->_managerName == name)
+			if ((*it).manager->m_managerName == name)
 			{
 				found = true;
 				break;
@@ -73,7 +73,7 @@ namespace ilg
 
 	IBaseManager* ManagerFactory::getComponentManager(m::u64 type)
 	{
-		auto& managerList = SharedLibrary::getInstance()._managers;
+		auto& managerList = SharedLibrary::getInstance().m_managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
 			if ((*it).manager->getComponentType() == type)
@@ -87,10 +87,10 @@ namespace ilg
 
 	IBaseManager* ManagerFactory::getComponentManager(const m::String& name)
 	{
-		auto& managerList = SharedLibrary::getInstance()._managers;
+		auto& managerList = SharedLibrary::getInstance().m_managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
-			if ((*it).manager->_managerName == name)
+			if ((*it).manager->m_managerName == name)
 			{
 				return (*it).manager;
 				break;

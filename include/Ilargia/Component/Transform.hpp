@@ -58,10 +58,10 @@ namespace ilg
 
 		void addChild(Component child);
 
-		Matrix		_model;
-		Component	_parent;
+		Matrix		m_model;
+		Component	m_parent;
 		typedef ComponentStorage<Component, 8> ChildArray;
-		ChildArray* _children;
+		ChildArray* m_children;
 	};
 }
 MUON_TRAITS(ilg::Transform);

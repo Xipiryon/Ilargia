@@ -62,7 +62,7 @@ namespace ilg
 		friend class EntityManager;
 		Entity();
 
-		ComponentStorage<Component, 8>* _components;
+		ComponentStorage<Component, 8>* m_components;
 
 		Component _addComponent(m::i32);
 		Component _getComponent(m::i32);

@@ -35,7 +35,7 @@ namespace ilg
 	TransformManager::TransformManager()
 		: IComponentManager(MUON_META(Transform)->name(), MUON_META(Transform)->id(), 160)
 		, _requireRootListUpdate(true)
-		, _transforms(NULL)
+		, m_transforms(NULL)
 		, _roots(NULL)
 	{
 	}
@@ -49,7 +49,7 @@ namespace ilg
 		/*
 		uint32_t chunk = 64;
 		Global::retrieve<uint32_t>("MEMCHUNK_TRANSFORM", &chunk);
-		_transforms = new Array<Transform>(chunk);
+		m_transforms = new Array<Transform>(chunk);
 		_roots = new Array<Component>(chunk);
 		Log::debug("[TRANSFORM] Initialized (%d)", chunk);
 		//*/
@@ -73,14 +73,14 @@ namespace ilg
 	bool TransformManager::onTerm()
 	{
 		/*
-		if(_transforms != NULL)
+		if(m_transforms != NULL)
 		{
-		for(auto it = _transforms->iterator(); it; ++it)
+		for(auto it = m_transforms->iterator(); it; ++it)
 		{
 		it.value().~Transform();
 		}
-		delete _transforms;
-		_transforms = NULL;
+		delete m_transforms;
+		m_transforms = NULL;
 		}
 
 		if(_roots != NULL)
@@ -105,7 +105,7 @@ namespace ilg
 			//Recreate the whole list
 			m::i32 transform_type = type_id<Transform>();
 			_roots->clear();
-			for (auto it = _transforms->iterator(); it; ++it)
+			for (auto it = m_transforms->iterator(); it; ++it)
 			{
 			Transform& t = it.value();
 			//Only had if the Transform have no valid parent
@@ -121,7 +121,7 @@ namespace ilg
 	void TransformManager::updateRecursive(Component& component)
 	{
 		/*
-		Transform* transform = &(*_transforms)[component.getID()];
+		Transform* transform = &(*m_transforms)[component.getID()];
 		//Check for a Destroy flag
 		if(transform->flags & ObjectType::REQUIRE_DELETE)
 		{
@@ -137,7 +137,7 @@ namespace ilg
 		}
 		else
 		{
-		transform->_model = (*_transforms)[transform->_parent.getID()]._model;
+		transform->_model = (*m_transforms)[transform->_parent.getID()]._model;
 		}
 
 		transform->_model = transform->_model.translate(transform->position);
@@ -182,7 +182,7 @@ namespace ilg
 
 	Component TransformManager::createComponent()
 	{
-		return setupComponent<Transform>(_transforms->add());
+		return setupComponent<Transform>(m_transforms->add());
 	}
 
 	void TransformManager::destroyComponent(Component& component)
@@ -198,9 +198,9 @@ namespace ilg
 		//Make its children have a new parent
 		for(auto it = ptr->_children->iterator(); it; ++it)
 		{
-		(*_transforms)[it.index()]._parent = makeComponent();
+		(*m_transforms)[it.index()]._parent = makeComponent();
 		}
-		_transforms->remove(component);
+		m_transforms->remove(component);
 		ptr->Transform::~Transform();
 		//Invalidate the component
 		component = makeComponent();
@@ -211,14 +211,14 @@ namespace ilg
 
 	void* TransformManager::getComponent(m::i32 index)
 	{
-		return &_transforms->get(index);
+		return &m_transforms->get(index);
 	}
 
 	Component TransformManager::getComponent(void* object)
 	{
-		for (m::i32 i = 0; i < _transforms->size(); ++i)
+		for (m::i32 i = 0; i < m_transforms->size(); ++i)
 		{
-			if (object == &(_transforms->get(i)))
+			if (object == &(m_transforms->get(i)))
 			{
 				return setupComponent<Transform>(i);
 			}

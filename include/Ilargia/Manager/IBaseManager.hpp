@@ -72,9 +72,9 @@ namespace ilg
 
 	private:
 		friend class ManagerFactory;
-		m::String	_managerName;
-		m::u64		_componentType;
-		m::i32		_updateOrder;
+		m::String	m_managerName;
+		m::u64		m_componentType;
+		m::i32		m_updateOrder;
 	};
 }
 #endif

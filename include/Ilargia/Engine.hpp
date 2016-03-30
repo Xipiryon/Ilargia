@@ -153,14 +153,14 @@ namespace ilg
 		bool _loadConfig();
 		bool _registerClasses();
 
-		m::system::Time _clock;
-		m::system::Log _log;
-		bool _paused;
-		bool _running;
+		m::system::Time m_clock;
+		m::system::Log m_log;
+		bool m_paused;
+		bool m_running;
 
-		m::f32 _deltaTime;
-		m::f32 _programTime;
-		m::String _programPath;
+		m::f32 m_deltaTime;
+		m::f32 m_programTime;
+		m::String m_programPath;
 	};
 }
 

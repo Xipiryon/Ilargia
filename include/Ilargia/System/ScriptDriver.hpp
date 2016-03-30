@@ -131,10 +131,10 @@ namespace ilg
 			void _errorCallback(const m::String& msg);
 			ScriptState _load(const m::String& filename, const m::String& moduleName);
 
-			m::system::Log _log;
-			IScriptEngine* _engine;
-			IScriptContext* _context;
-			std::unordered_map<m::String, bool>* _moduleCompiled;
+			m::system::Log m_log;
+			IScriptEngine* m_engine;
+			IScriptContext* m_context;
+			std::unordered_map<m::String, bool>* m_moduleCompiled;
 		};
 	}
 }

@@ -46,7 +46,7 @@ namespace ilg
 		EntityManager();
 		~EntityManager();
 
-		std::deque<Entity*>* _entities;
+		std::deque<Entity*>* m_entities;
 	};
 }
 

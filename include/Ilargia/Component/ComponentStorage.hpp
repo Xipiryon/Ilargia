@@ -53,13 +53,13 @@ namespace ilg
 		// Constructor
 		//----------------------
 		ComponentStorage()
-			: _capacity(ChunkSize)
-			, _size(0)
+			: m_capacity(ChunkSize)
+			, m_size(0)
 		{
 			MUON_ASSERT_BREAK(ChunkSize > 0, "Creating 0 Chunk-size!");
 
-			_buffer = (T*)malloc(sizeof(T) * ChunkSize);
-			MUON_ASSERT_BREAK(_buffer != NULL
+			m_buffer = (T*)malloc(sizeof(T) * ChunkSize);
+			MUON_ASSERT_BREAK(m_buffer != NULL
 							  , "Buffer can't be allocated (Size: %u)"
 							  , sizeof(T) * ChunkSize);
 		}
@@ -69,9 +69,9 @@ namespace ilg
 		//----------------------
 		~ComponentStorage()
 		{
-			free(_buffer);
-			_capacity = 0;
-			_size = 0;
+			free(m_buffer);
+			m_capacity = 0;
+			m_size = 0;
 		}
 
 		//----------------------
@@ -80,26 +80,26 @@ namespace ilg
 		m::i32 add()
 		{
 			reallocBuffer();
-			_index[_size] = _buffer + _size;
-			new (_buffer + _size) T();
-			return _size++;
+			m_index[m_size] = m_buffer + m_size;
+			new (m_buffer + m_size) T();
+			return m_size++;
 		}
 
 		m::i32 add(const T& defaultValue)
 		{
 			reallocBuffer();
-			_index[_size] = _buffer + _size;
-			new (_buffer + _size) T(defaultValue);
-			return _size++;
+			m_index[m_size] = m_buffer + m_size;
+			new (m_buffer + m_size) T(defaultValue);
+			return m_size++;
 		}
 
 		template<typename ...Args>
 		m::i32 add(Args...args)
 		{
 			reallocBuffer();
-			_index[_size] = _buffer + _size;
-			new (_buffer + _size) T(std::forward<Args>(args)...);
-			return _size++;
+			m_index[m_size] = m_buffer + m_size;
+			new (m_buffer + m_size) T(std::forward<Args>(args)...);
+			return m_size++;
 		}
 
 		//----------------------
@@ -107,27 +107,27 @@ namespace ilg
 		//----------------------
 		bool remove(m::i32 id)
 		{
-			auto it = _index.find(id);
-			MUON_ASSERT(it != _index.end(), "Index doesn't exists in Array!");
-			if (it == _index.end())
+			auto it = m_index.find(id);
+			MUON_ASSERT(it != m_index.end(), "Index doesn't exists in Array!");
+			if (it == m_index.end())
 			{
 				return false;
 			}
 
 			//Swap last and id, and update index map
 			//Only if there is at least two elements
-			_buffer[id].~T();
-			_index.erase(it);
-			if (_size > 1 && ((_buffer + id) != (_buffer + _size - 1)))
+			m_buffer[id].~T();
+			m_index.erase(it);
+			if (m_size > 1 && ((m_buffer + id) != (m_buffer + m_size - 1)))
 			{
-				memcpy(_buffer + id, _buffer + _size - 1, sizeof(T));
+				memcpy(m_buffer + id, m_buffer + m_size - 1, sizeof(T));
 				//Index map swap only if there is more than 2 elements
-				if (_index.size() > 1)
+				if (m_index.size() > 1)
 				{
-					_index[_size - 1] = _buffer + id;
+					m_index[m_size - 1] = m_buffer + id;
 				}
 			}
-			--_size;
+			--m_size;
 			return true;
 		}
 
@@ -136,16 +136,16 @@ namespace ilg
 		//----------------------
 		m::i32 clear()
 		{
-			m::i32 nbElement = _size;
-			for (auto it = _index.begin(); it != _index.end(); ++it)
+			m::i32 nbElement = m_size;
+			for (auto it = m_index.begin(); it != m_index.end(); ++it)
 			{
 				it->second.~T();
 			}
 
-			free(_buffer);
-			_buffer = NULL;
-			_capacity = 0;
-			_size = 0;
+			free(m_buffer);
+			m_buffer = NULL;
+			m_capacity = 0;
+			m_size = 0;
 			return nbElement;
 		}
 
@@ -154,7 +154,7 @@ namespace ilg
 		//----------------------
 		MUON_INLINE T& get(m::i32 id) const
 		{
-			return *(_index.at(id));
+			return *(m_index.at(id));
 		}
 
 		MUON_INLINE T& operator[](m::i32 id) const
@@ -164,34 +164,34 @@ namespace ilg
 
 		MUON_INLINE m::i32 size() const
 		{
-			return _size;
+			return m_size;
 		}
 
 		MUON_INLINE m::i32 capacity() const
 		{
-			return _capacity;
+			return m_capacity;
 		}
 
 	private:
 
 		void reallocBuffer()
 		{
-			if (_size >= _capacity)
+			if (m_size >= m_capacity)
 			{
-				_capacity += ChunkSize;
-				m::i32 newCapacity = sizeof(T) * _capacity;
-				T* tmpbuff = (T*)realloc(_buffer, newCapacity);
+				m_capacity += ChunkSize;
+				m::i32 newCapacity = sizeof(T) * m_capacity;
+				T* tmpbuff = (T*)realloc(m_buffer, newCapacity);
 				MUON_ASSERT_BREAK(tmpbuff != NULL
 								  , "Couldn't reallocate new buffer of size: %u (Old capacity: %u | Chunk: %u)"
-								  , newCapacity, _capacity, ChunkSize);
-				_buffer = tmpbuff;
+								  , newCapacity, m_capacity, ChunkSize);
+				m_buffer = tmpbuff;
 			}
 		}
 
-		m::i32 _capacity;
-		m::i32 _size;
-		std::unordered_map<m::i32, T*> _index;
-		T* _buffer;
+		m::i32 m_capacity;
+		m::i32 m_size;
+		std::unordered_map<m::i32, T*> m_index;
+		T* m_buffer;
 	};
 }
 

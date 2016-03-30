@@ -36,12 +36,12 @@ namespace ilg
 	Entity::Entity()
 	{
 		typedef ComponentStorage<Component, 8> ComponentArray;
-		_components = MUON_NEW(ComponentArray);
+		m_components = MUON_NEW(ComponentArray);
 	}
 
 	Entity::~Entity()
 	{
-		MUON_DELETE(_components);
+		MUON_DELETE(m_components);
 	}
 
 	Component Entity::_addComponent(m::i32 type)
@@ -51,7 +51,7 @@ namespace ilg
 		if (manager)
 		{
 			c = manager->createComponent();
-			_components->add(c);
+			m_components->add(c);
 			manager->onComponentAdd(this, c);
 		}
 		return c;
@@ -59,9 +59,9 @@ namespace ilg
 
 	Component Entity::_getComponent(m::i32 type)
 	{
-		for (m::i32 i = 0; i < _components->size(); ++i)
+		for (m::i32 i = 0; i < m_components->size(); ++i)
 		{
-			Component c = _components->get(i);
+			Component c = m_components->get(i);
 			if (c.instanceType() == type)
 			{
 				return c;
@@ -76,14 +76,14 @@ namespace ilg
 		Component c;
 		if (manager)
 		{
-			for (m::i32 i = 0; i < _components->size(); ++i)
+			for (m::i32 i = 0; i < m_components->size(); ++i)
 			{
-				Component c = _components->get(i);
+				Component c = m_components->get(i);
 				if (c.instanceType() == type)
 				{
 					manager->onComponentRemove(this, c);
 					manager->destroyComponent(c);
-					_components->remove(i);
+					m_components->remove(i);
 					return true;
 				}
 			}

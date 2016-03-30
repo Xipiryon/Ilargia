@@ -37,14 +37,14 @@ namespace ilg
 		: position(0.f, 0.f, 0.f)
 		, scale(1.f, 1.f, 1.f)
 		, rotation(Quaternion::identity)
-		, _model(Matrix::identity)
-		, _children(MUON_NEW(ChildArray))
+		, m_model(Matrix::identity)
+		, m_children(MUON_NEW(ChildArray))
 	{
 	}
 
 	Transform::~Transform()
 	{
-		MUON_DELETE(_children);
+		MUON_DELETE(m_children);
 	}
 
 	void Transform::setParent(Component parent)
@@ -52,21 +52,21 @@ namespace ilg
 		TransformManager* manager = ILARGIA_CMANAGER_TYPE(TransformManager, MUON_META(Transform)->id());
 
 		//Remove myself from my previous parent if any
-		if (_parent.instanceId() != m::INVALID_INDEX)
+		if (m_parent.instanceId() != m::INVALID_INDEX)
 		{
-			Transform* myParent = _parent;
-			myParent->_children->remove(manager->getComponent(this).instanceId());
+			Transform* myParent = m_parent;
+			myParent->m_children->remove(manager->getComponent(this).instanceId());
 		}
 
-		if (_parent.instanceId() != m::INVALID_INDEX)
+		if (m_parent.instanceId() != m::INVALID_INDEX)
 		{
 			//Notify my parent it has a new child!
 			Transform* tParent = parent;
-			tParent->_children->add(manager->getComponent(this));
+			tParent->m_children->add(manager->getComponent(this));
 		}
 
 		//Either valid or not
-		_parent = parent;
+		m_parent = parent;
 		manager->requireRootListUpdate();
 	}
 
@@ -76,13 +76,13 @@ namespace ilg
 		if (child.instanceId() != m::INVALID_INDEX)
 		{
 			Transform* childPtr = child;
-			Transform* childParentPtr = (childPtr->_parent.instanceId() == m::INVALID_INDEX ? NULL : (Transform*)childPtr->_parent);
+			Transform* childParentPtr = (childPtr->m_parent.instanceId() == m::INVALID_INDEX ? NULL : (Transform*)childPtr->m_parent);
 			//Don't update parent if we're already the one or if NULL
 			if (childParentPtr != NULL && childParentPtr != this)
 			{
-				childParentPtr->_children->remove(child.instanceId());
+				childParentPtr->m_children->remove(child.instanceId());
 			}
-			_children->add(child);
+			m_children->add(child);
 			ILARGIA_CMANAGER_TYPE(TransformManager, MUON_META(Transform)->id())->requireRootListUpdate();
 		}
 	}

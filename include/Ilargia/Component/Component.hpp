@@ -71,9 +71,9 @@ namespace ilg
 		Component(m::u64, m::i32, const m::String&);
 		void* _cast(m::u64, const char*) const;
 
-		m::u64 _type;
-		m::i32 _instance;
-		m::String _name;
+		m::u64 m_type;
+		m::i32 m_instance;
+		m::String m_name;
 	};
 }
 MUON_TRAITS(ilg::Component);

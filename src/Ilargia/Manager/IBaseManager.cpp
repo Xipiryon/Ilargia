@@ -33,9 +33,9 @@ namespace ilg
 {
 	IBaseManager::IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
 		: _log(name)
-		, _managerName(name)
-		, _componentType(componentType)
-		, _updateOrder(updateOrder)
+		, m_managerName(name)
+		, m_componentType(componentType)
+		, m_updateOrder(updateOrder)
 	{
 	}
 
@@ -45,17 +45,17 @@ namespace ilg
 
 	const m::String& IBaseManager::getManagerName() const
 	{
-		return _managerName;
+		return m_managerName;
 	}
 
 	m::u64 IBaseManager::getComponentType() const
 	{
-		return _componentType;
+		return m_componentType;
 	}
 
 	m::i32 IBaseManager::getUpdateOrder() const
 	{
-		return _updateOrder;
+		return m_updateOrder;
 	}
 
 	void IBaseManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)

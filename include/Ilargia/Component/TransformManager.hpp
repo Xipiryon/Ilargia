@@ -58,7 +58,7 @@ namespace ilg
 
 		bool _requireRootListUpdate;
 
-		ComponentStorage<Transform, 64>* _transforms;
+		ComponentStorage<Transform, 64>* m_transforms;
 		ComponentStorage<Component, 64>* _roots;
 	};
 }
