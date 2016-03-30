@@ -101,17 +101,6 @@ namespace ilg
 			{
 				m_log(m::LOG_WARNING) << "No unload function for \"" << it->name << "\", skipping..." << m::endl;
 			}
-
-			for (m::i32 i = m_managers.size() - 1; i != -1; --i)
-			{
-				if (m_managers[i].library == it->libInstance)
-				{
-					IBaseManager* manager = m_managers[i].manager;
-					m_log(m::LOG_INFO) << "Deleting IBaseManager: \"" << manager->getManagerName() << "\"" << m::endl;
-					MUON_DELETE(manager);
-					m_managers.erase(m_managers.begin() + i);
-				}
-			}
 		}
 	}
 
