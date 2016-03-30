@@ -108,12 +108,12 @@ namespace ilg
 	//class GraphicsModule;
 
 	//! Engine functions
-	class ILARGIA_API Engine : public m::helper::Singleton<Engine>
+	class ILARGIA_API Engine : public m::helper::NonCopyable
 	{
-		friend class m::helper::Singleton<Engine>;
 	public:
-		static void dispatchKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
+		MUON_SINGLETON_GET(Engine);
 
+		static void dispatchKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
 		static int main(int argc, char** argv);
 
 		/*!

@@ -56,10 +56,10 @@ namespace ilg
 		*
 		*
 		*/
-		class ILARGIA_API ScriptDriver : public m::helper::Singleton<ScriptDriver>
+		class ILARGIA_API ScriptDriver : public m::helper::NonCopyable
 		{
-			friend class m::helper::Singleton<ScriptDriver>;
 		public:
+			MUON_SINGLETON_GET(ScriptDriver);
 
 			static void check(int);
 

@@ -80,7 +80,7 @@ namespace ilg
 
 	bool Engine::init(int argc, char** argv)
 	{
-		Engine& engine = createInstance();
+		Engine& engine = getInstance();
 		{
 			std::string _argv = argv[0];
 			size_t pos = _argv.rfind(m::PATH_SEPARATOR);
@@ -91,8 +91,10 @@ namespace ilg
 			engine.m_programPath = (_argv.substr(0, pos) + m::PATH_SEPARATOR).c_str();
 		}
 
-		auto& script = system::ScriptDriver::createInstance();
-		auto& sharedLib = SharedLibrary::createInstance();
+		auto& metadb = m::meta::MetaDatabase::getInstance();
+		auto& manager = ManagerFactory::getInstance();
+		auto& script = system::ScriptDriver::getInstance();
+		auto& sharedLib = SharedLibrary::getInstance();
 		sharedLib.forwardArg(argc, argv);
 
 		// Registering core classes

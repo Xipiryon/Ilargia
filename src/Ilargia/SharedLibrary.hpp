@@ -56,10 +56,10 @@ namespace ilg
 		void* library;
 	};
 
-	class SharedLibrary : public m::helper::Singleton<SharedLibrary>
+	class SharedLibrary : public m::helper::NonCopyable
 	{
-		friend class m::helper::Singleton<SharedLibrary>;
 	public:
+		MUON_SINGLETON_GET(SharedLibrary);
 
 		const std::vector<CManagerPair>& getManagers() const;
 		const std::vector<SharedLibraryInfo>& getLibraries() const;

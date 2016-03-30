@@ -33,10 +33,10 @@
 
 namespace ilg
 {
-	class ILARGIA_API ManagerFactory : public m::helper::Singleton<ManagerFactory>
+	class ILARGIA_API ManagerFactory : public m::helper::NonCopyable
 	{
-		friend class m::helper::Singleton<ManagerFactory>;
 	public:
+		MUON_SINGLETON_GET(ManagerFactory);
 
 		bool registerComponentManager(IBaseManager* manager);
 

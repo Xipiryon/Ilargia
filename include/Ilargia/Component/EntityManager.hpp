@@ -35,10 +35,11 @@
 
 namespace ilg
 {
-	class ILARGIA_API EntityManager : public m::helper::Singleton<EntityManager>
+	class ILARGIA_API EntityManager : public m::helper::NonCopyable
 	{
-		friend class m::helper::Singleton<EntityManager>;
 	public:
+		MUON_SINGLETON_GET(EntityManager);
+
 		Entity* create();
 		void destroy(Entity* e);
 
