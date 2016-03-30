@@ -41,6 +41,17 @@ namespace ilg
 	{
 	}
 
+	bool ManagerFactory::registerComponentManager(IBaseManager* manager)
+	{
+		MUON_ASSERT_BREAK(manager != NULL, "Can't register a non allocated manager!");
+		if (checkComponentManager(manager->getManagerName()))
+		{
+			SharedLibrary::getInstance()._addModuleRef(manager);
+			return true;
+		}
+		return false;
+	}
+
 	bool ManagerFactory::checkComponentManager(const m::String& name)
 	{
 		//Check if manager isn't already loaded
@@ -56,19 +67,6 @@ namespace ilg
 		}
 		MUON_ASSERT(found == false, "Module \"%s\" alread added: aborting...\n", name.cStr());
 		return !found;
-	}
-
-	bool ManagerFactory::registerComponentManager(IBaseManager* manager, const m::String& name)
-	{
-		//Module coulnd't be allocated
-		MUON_ASSERT(manager != NULL, "Couldn't allocate manager \"%s\"!\n", name.cStr());
-		if (manager == NULL)
-		{
-			return false;
-		}
-
-		SharedLibrary::getInstance()._addModuleRef(manager);
-		return true;
 	}
 
 	IBaseManager* ManagerFactory::getComponentManager(m::u64 type)

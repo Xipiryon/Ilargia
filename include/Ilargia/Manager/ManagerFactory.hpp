@@ -38,23 +38,13 @@ namespace ilg
 		friend class m::helper::Singleton<ManagerFactory>;
 	public:
 
-		template<typename T, typename ...Args>
-		bool registerComponentManager(Args...args)
-		{
-			if (checkComponentManager(T::name()))
-			{
-				//TODO Fix it
-				//return registerComponentManager(MUON_NEW(T, std::forward<Args>(args)...), T::name());
-			}
-			return false;
-		}
+		bool registerComponentManager(IBaseManager* manager);
 
 		IBaseManager* getComponentManager(m::u64 componentType);
 		IBaseManager* getComponentManager(const m::String& name);
 
 	private:
 		bool checkComponentManager(const m::String&);
-		bool registerComponentManager(IBaseManager*, const m::String&);
 
 		ManagerFactory();
 		ManagerFactory(const ManagerFactory&);
