@@ -32,7 +32,7 @@
 
 namespace ilg
 {
-	TransformManager::TransformManager() 
+	TransformManager::TransformManager()
 		: IComponentManager(MUON_META(Transform)->name(), MUON_META(Transform)->id(), 160)
 		, _requireRootListUpdate(true)
 		, _transforms(NULL)
@@ -62,9 +62,9 @@ namespace ilg
 		updateRootList();
 		for (auto it = _roots->iterator(); it; ++it)
 		{
-			//Fast retrieve of the Transform* from the Component
-			//(We don't go with it.value()->cast<>()...
-			updateRecursive(it.value());
+		//Fast retrieve of the Transform* from the Component
+		//(We don't go with it.value()->cast<>()...
+		updateRecursive(it.value());
 		}
 		//*/
 		return true;
@@ -75,18 +75,18 @@ namespace ilg
 		/*
 		if(_transforms != NULL)
 		{
-			for(auto it = _transforms->iterator(); it; ++it)
-			{
-				it.value().~Transform();
-			}
-			delete _transforms;
-			_transforms = NULL;
-		}
-		
-		if(_roots != NULL) 
+		for(auto it = _transforms->iterator(); it; ++it)
 		{
-			delete _roots;
-			_roots = NULL;
+		it.value().~Transform();
+		}
+		delete _transforms;
+		_transforms = NULL;
+		}
+
+		if(_roots != NULL)
+		{
+		delete _roots;
+		_roots = NULL;
 		}
 		//*/
 		return true;
@@ -107,12 +107,12 @@ namespace ilg
 			_roots->clear();
 			for (auto it = _transforms->iterator(); it; ++it)
 			{
-				Transform& t = it.value();
-				//Only had if the Transform have no valid parent
-				if (!t._parent.isValid())
-				{
-					_roots->add(makeComponent(it.index(), transform_type));
-				}
+			Transform& t = it.value();
+			//Only had if the Transform have no valid parent
+			if (!t._parent.isValid())
+			{
+			_roots->add(makeComponent(it.index(), transform_type));
+			}
 			}
 			//*/
 		}
@@ -169,13 +169,13 @@ namespace ilg
 		/*
 		for(auto it = _roots->iterator(); it; ++it)
 		{
-			Component c = it.value();
-			if(c == component)
-			{
-				Transform* t = component;
-				t->flags |= ObjectType::REQUIRE_DELETE;
-				return;
-			}
+		Component c = it.value();
+		if(c == component)
+		{
+		Transform* t = component;
+		t->flags |= ObjectType::REQUIRE_DELETE;
+		return;
+		}
 		}
 		//*/
 	}
@@ -191,20 +191,20 @@ namespace ilg
 		//_components->remove(i);
 		/*
 		MUON_ASSERT(component.isValid()
-			, "[MODULE] (%s) Trying to destroy an Invalid Component!"
-			, _name);
+		, "[MODULE] (%s) Trying to destroy an Invalid Component!"
+		, _name);
 		if(Transform* ptr = component)
 		{
-			//Make its children have a new parent
-			for(auto it = ptr->_children->iterator(); it; ++it)
-			{
-				(*_transforms)[it.index()]._parent = makeComponent();
-			}
-			_transforms->remove(component);
-			ptr->Transform::~Transform();
-			//Invalidate the component
-			component = makeComponent();
-			ptr->_parent = component;
+		//Make its children have a new parent
+		for(auto it = ptr->_children->iterator(); it; ++it)
+		{
+		(*_transforms)[it.index()]._parent = makeComponent();
+		}
+		_transforms->remove(component);
+		ptr->Transform::~Transform();
+		//Invalidate the component
+		component = makeComponent();
+		ptr->_parent = component;
 		}
 		//*/
 	}

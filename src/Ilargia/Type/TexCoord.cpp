@@ -109,7 +109,7 @@ namespace ilg
 
 	TexCoord TexCoord::operator/(const TexCoord& t) const
 	{
-		return TexCoord(u/t.u, v/t.v);
+		return TexCoord(u / t.u, v / t.v);
 	}
 
 	TexCoord TexCoord::operator+(const TexCoord& t) const
@@ -127,17 +127,17 @@ namespace ilg
 		return (v - u)*t + u;
 	}
 }
-	/*
-	memory::IStream& TexCoord::operator<<(memory::IStream& stream)
-	{
-		return stream << u << v;
-	}
+/*
+memory::IStream& TexCoord::operator<<(memory::IStream& stream)
+{
+return stream << u << v;
+}
 
-	memory::IStream& TexCoord::operator>>(memory::IStream& stream)
-	{
-	return stream >> u >> v;
-	}
-	//*/
+memory::IStream& TexCoord::operator>>(memory::IStream& stream)
+{
+return stream >> u >> v;
+}
+//*/
 
 m::system::Log& operator<<(m::system::Log& stream, const ilg::TexCoord& t)
 {

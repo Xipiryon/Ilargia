@@ -50,7 +50,7 @@ namespace ilg
 		// ********
 		// Registering reflection
 		// This time, order doesn't really matter.
-		// 
+		//
 		// Registering a type will allow to instantiate it from its name or id.
 		// and thus, must inherit from "reflect::Object"
 		//

@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_ARRAY_H_INCLUDED
-#define _ILARGIA_ARRAY_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_COMPONENTSTORAGE_HPP
+#define INCLUDE_ILARGIA_COMPONENTSTORAGE_HPP
 
 #include <cstdlib>
 #include <cstring>
@@ -45,30 +45,29 @@ namespace ilg
 	* @template T Component you want to store
 	* @template chunk How the Array will grow when reaching its memory limit
 	*/
-	template<typename T, m::i32 chunk>
-	class Array
+	template<typename T, m::i32 ChunkSize>
+	class ComponentStorage
 	{
 	public:
 		//----------------------
 		// Constructor
 		//----------------------
-		Array()
-			: _capacity(chunk)
-			, _chunk(chunk)
+		ComponentStorage()
+			: _capacity(ChunkSize)
 			, _size(0)
 		{
-			MUON_ASSERT_BREAK(chunk > 0, "Creating 0 Chunk-size!");
+			MUON_ASSERT_BREAK(ChunkSize > 0, "Creating 0 Chunk-size!");
 
-			_buffer = (T*)malloc(sizeof(T) * _chunk);
+			_buffer = (T*)malloc(sizeof(T) * ChunkSize);
 			MUON_ASSERT_BREAK(_buffer != NULL
-				, "Buffer can't be allocated (Size: %u)"
-				, sizeof(T) * _chunk);
+							  , "Buffer can't be allocated (Size: %u)"
+							  , sizeof(T) * ChunkSize);
 		}
 
 		//----------------------
 		// Constructor
 		//----------------------
-		~Array()
+		~ComponentStorage()
 		{
 			free(_buffer);
 			_capacity = 0;
@@ -179,17 +178,16 @@ namespace ilg
 		{
 			if (_size >= _capacity)
 			{
-				_capacity += _chunk;
+				_capacity += ChunkSize;
 				m::i32 newCapacity = sizeof(T) * _capacity;
 				T* tmpbuff = (T*)realloc(_buffer, newCapacity);
 				MUON_ASSERT_BREAK(tmpbuff != NULL
-					, "Couldn't reallocate new buffer of size: %u (Old capacity: %u | Chunk: %u)"
-					, newCapacity, _capacity, _chunk);
+								  , "Couldn't reallocate new buffer of size: %u (Old capacity: %u | Chunk: %u)"
+								  , newCapacity, _capacity, ChunkSize);
 				_buffer = tmpbuff;
 			}
 		}
 
-		const m::i32 _chunk;
 		m::i32 _capacity;
 		m::i32 _size;
 		std::unordered_map<m::i32, T*> _index;

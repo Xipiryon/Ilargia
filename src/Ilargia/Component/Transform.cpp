@@ -27,7 +27,7 @@
 
 #include <Muon/System/Assert.hpp>
 
-#include "Ilargia/Component/ComponentManagerFactory.hpp"
+#include "Ilargia/Manager/ManagerFactory.hpp"
 #include "Ilargia/Component/TransformManager.hpp"
 #include "Ilargia/Component/Transform.hpp"
 
@@ -52,13 +52,13 @@ namespace ilg
 		TransformManager* manager = ILARGIA_CMANAGER_TYPE(TransformManager, MUON_META(Transform)->id());
 
 		//Remove myself from my previous parent if any
-		if(_parent.instanceId() != m::INVALID_INDEX)
+		if (_parent.instanceId() != m::INVALID_INDEX)
 		{
 			Transform* myParent = _parent;
 			myParent->_children->remove(manager->getComponent(this).instanceId());
 		}
 
-		if(_parent.instanceId() != m::INVALID_INDEX)
+		if (_parent.instanceId() != m::INVALID_INDEX)
 		{
 			//Notify my parent it has a new child!
 			Transform* tParent = parent;
@@ -73,12 +73,12 @@ namespace ilg
 	void Transform::addChild(Component child)
 	{
 		MUON_ASSERT(child.instanceId() != m::INVALID_INDEX, "Adding an invalid child!");
-		if(child.instanceId() != m::INVALID_INDEX)
+		if (child.instanceId() != m::INVALID_INDEX)
 		{
 			Transform* childPtr = child;
 			Transform* childParentPtr = (childPtr->_parent.instanceId() == m::INVALID_INDEX ? NULL : (Transform*)childPtr->_parent);
 			//Don't update parent if we're already the one or if NULL
-			if(childParentPtr != NULL && childParentPtr != this)
+			if (childParentPtr != NULL && childParentPtr != this)
 			{
 				childParentPtr->_children->remove(child.instanceId());
 			}

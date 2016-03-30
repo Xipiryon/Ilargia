@@ -25,69 +25,50 @@
 *
 *************************************************************************/
 
+#include <Muon/System/Log.hpp>
 #include <Muon/System/Assert.hpp>
-#include <Muon/Memory/Allocator.hpp>
-#include "Ilargia/Component/Entity.hpp"
-#include "Ilargia/Manager/IComponentManager.hpp"
-#include "Ilargia/Manager/ManagerFactory.hpp"
+#include "Ilargia/Manager/IComponentlessManager.hpp"
 
 namespace ilg
 {
-	Entity::Entity()
+	IComponentlessManager::IComponentlessManager(const m::String& name, m::i32 updateOrder)
+		: IBaseManager(name, MUON_META(Component)->id(), updateOrder)
 	{
-		typedef ComponentStorage<Component, 8> ComponentArray;
-		_components = MUON_NEW(ComponentArray);
 	}
 
-	Entity::~Entity()
+	IComponentlessManager::~IComponentlessManager()
 	{
-		MUON_DELETE(_components);
 	}
 
-	Component Entity::_addComponent(m::i32 type)
+	void IComponentlessManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
 	{
-		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
-		Component c;
-		if (manager)
-		{
-			c = manager->createComponent();
-			_components->add(c);
-			manager->onComponentAdd(this, c);
-		}
-		return c;
 	}
 
-	Component Entity::_getComponent(m::i32 type)
+	void IComponentlessManager::onComponentAdd(Entity* entity, Component& component)
 	{
-		for (m::i32 i = 0; i < _components->size(); ++i)
-		{
-			Component c = _components->get(i);
-			if (c.instanceType() == type)
-			{
-				return c;
-			}
-		}
+	}
+
+	void IComponentlessManager::onComponentRemove(Entity* entity, Component& component)
+	{
+	}
+
+	// Private override
+	Component IComponentlessManager::createComponent()
+	{
 		return Component();
 	}
 
-	bool Entity::_removeComponent(m::i32 type)
+	void IComponentlessManager::destroyComponent(Component& component)
 	{
-		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
-		Component c;
-		if (manager)
-		{
-			for (m::i32 i = 0; i < _components->size(); ++i)
-			{
-				Component c = _components->get(i);
-				if (c.instanceType() == type)
-				{
-					manager->onComponentRemove(this, c);
-					manager->destroyComponent(c);
-					_components->remove(i);
-					return true;
-				}
-			}
-		}
-		return false;
+	}
+
+	void* IComponentlessManager::getComponent(m::i32 index)
+	{
+		return NULL;
+	}
+
+	Component IComponentlessManager::getComponent(void* object)
+	{
+		return Component();
 	}
 }

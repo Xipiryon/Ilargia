@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_ICOMPONENTMANAGER_H_INCLUDED
-#define _ILARGIA_ICOMPONENTMANAGER_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_IBASEMANAGER_HPP
+#define INCLUDE_ILARGIA_IBASEMANAGER_HPP
 
 #include <Muon/Helper/NonCopyable.hpp>
 #include <Muon/System/Log.hpp>
@@ -35,12 +35,14 @@
 
 namespace ilg
 {
-	class ComponentManagerFactory;
-	class ILARGIA_API IComponentManager : public m::helper::NonCopyable
+	class ManagerFactory;
+	class ILARGIA_API IBaseManager : public m::helper::NonCopyable
 	{
+	protected:
+		IBaseManager();
+		IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder);
 	public:
-		IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder);
-		virtual ~IComponentManager();
+		virtual ~IBaseManager();
 
 		const m::String&	getManagerName() const;
 		m::u64			getComponentType() const;
@@ -50,9 +52,9 @@ namespace ilg
 		virtual bool onUpdate(m::f32 deltaTime) = 0;
 		virtual bool onTerm() = 0;
 
-		virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
-		virtual void onComponentAdd(Entity* entity, Component& component);
-		virtual void onComponentRemove(Entity* entity, Component& component);
+		virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier) = 0;
+		virtual void onComponentAdd(Entity* entity, Component& component) = 0;
+		virtual void onComponentRemove(Entity* entity, Component& component) = 0;
 
 		virtual Component createComponent() = 0;
 		virtual void destroyComponent(Component& component) = 0;
@@ -60,7 +62,6 @@ namespace ilg
 		virtual Component getComponent(void* object) = 0;
 
 	protected:
-		IComponentManager();
 		template<typename T>
 		Component setupComponent(m::i32 instance)
 		{
@@ -70,7 +71,7 @@ namespace ilg
 		m::system::Log _log;
 
 	private:
-		friend class ComponentManagerFactory;
+		friend class ManagerFactory;
 		m::String	_managerName;
 		m::u64		_componentType;
 		m::i32		_updateOrder;

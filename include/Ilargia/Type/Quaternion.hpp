@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_QUATERNION_H_INCLUDED
-#define _ILARGIA_QUATERNION_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_QUATERNION_HPP
+#define INCLUDE_ILARGIA_QUATERNION_HPP
 
 #include <Muon/System/Log.hpp>
 #include "Ilargia/Type/Matrix.hpp"

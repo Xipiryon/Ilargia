@@ -25,69 +25,30 @@
 *
 *************************************************************************/
 
+#include <Muon/System/Log.hpp>
 #include <Muon/System/Assert.hpp>
-#include <Muon/Memory/Allocator.hpp>
-#include "Ilargia/Component/Entity.hpp"
 #include "Ilargia/Manager/IComponentManager.hpp"
-#include "Ilargia/Manager/ManagerFactory.hpp"
 
 namespace ilg
 {
-	Entity::Entity()
+	IComponentManager::IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
+		: IBaseManager(name, componentType, updateOrder)
 	{
-		typedef ComponentStorage<Component, 8> ComponentArray;
-		_components = MUON_NEW(ComponentArray);
 	}
 
-	Entity::~Entity()
+	IComponentManager::~IComponentManager()
 	{
-		MUON_DELETE(_components);
 	}
 
-	Component Entity::_addComponent(m::i32 type)
+	void IComponentManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
 	{
-		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
-		Component c;
-		if (manager)
-		{
-			c = manager->createComponent();
-			_components->add(c);
-			manager->onComponentAdd(this, c);
-		}
-		return c;
 	}
 
-	Component Entity::_getComponent(m::i32 type)
+	void IComponentManager::onComponentAdd(Entity* entity, Component& component)
 	{
-		for (m::i32 i = 0; i < _components->size(); ++i)
-		{
-			Component c = _components->get(i);
-			if (c.instanceType() == type)
-			{
-				return c;
-			}
-		}
-		return Component();
 	}
 
-	bool Entity::_removeComponent(m::i32 type)
+	void IComponentManager::onComponentRemove(Entity* entity, Component& component)
 	{
-		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
-		Component c;
-		if (manager)
-		{
-			for (m::i32 i = 0; i < _components->size(); ++i)
-			{
-				Component c = _components->get(i);
-				if (c.instanceType() == type)
-				{
-					manager->onComponentRemove(this, c);
-					manager->destroyComponent(c);
-					_components->remove(i);
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 }

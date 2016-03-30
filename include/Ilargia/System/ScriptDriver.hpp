@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_SCRIPTENGINE_H_INCLUDED
-#define _ILARGIA_SCRIPTENGINE_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_SCRIPTDRIVER_HPP
+#define INCLUDE_ILARGIA_SCRIPTDRIVER_HPP
 
 #include <unordered_map>
 #include <Muon/Helper/NonCopyable.hpp>
@@ -54,7 +54,7 @@ namespace ilg
 		/*!
 		* @brief Wrapper between the C++ engine and the script language
 		*
-		* 
+		*
 		*/
 		class ILARGIA_API ScriptDriver : public m::helper::Singleton<ScriptDriver>
 		{
@@ -140,4 +140,3 @@ namespace ilg
 }
 
 #endif
-

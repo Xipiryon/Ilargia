@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_MATRIX_H_INCLUDED
-#define _ILARGIA_MATRIX_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_MATRIX_HPP
+#define INCLUDE_ILARGIA_MATRIX_HPP
 
 #include "Ilargia/Type/Vector.hpp"
 
@@ -97,9 +97,9 @@ namespace ilg
 		MatrixRow w;
 
 		Matrix(MatrixRow x = MatrixRow()
-				, MatrixRow y = MatrixRow()
-				, MatrixRow z = MatrixRow()
-				, MatrixRow w = MatrixRow());
+			   , MatrixRow y = MatrixRow()
+			   , MatrixRow z = MatrixRow()
+			   , MatrixRow w = MatrixRow());
 
 		//! Acces the {n}th row by copy
 		MatrixRow operator[](m::i32 i) const;

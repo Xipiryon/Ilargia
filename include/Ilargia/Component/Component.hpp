@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_COMPONENT_H_INCLUDED
-#define _ILARGIA_COMPONENT_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_COMPONENT_HPP
+#define INCLUDE_ILARGIA_COMPONENT_HPP
 
 #include <Muon/Helper/NonCopyable.hpp>
 #include <Muon/Meta/MetaDatabase.hpp>
@@ -35,7 +35,7 @@
 
 namespace ilg
 {
-	class IComponentManager;
+	class IBaseManager;
 	class Entity;
 	class ILARGIA_API Component
 	{
@@ -65,7 +65,7 @@ namespace ilg
 		}
 
 	private:
-		friend class IComponentManager;
+		friend class IBaseManager;
 		friend class Entity;
 
 		Component(m::u64, m::i32, const m::String&);

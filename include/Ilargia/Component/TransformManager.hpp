@@ -25,10 +25,10 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_TRANSFORMMODULE_H_INCLUDED
-#define _ILARGIA_TRANSFORMMODULE_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_TRANSFORMMODULE_HPP
+#define INCLUDE_ILARGIA_TRANSFORMMODULE_HPP
 
-#include "Ilargia/Component/IComponentManager.hpp"
+#include "Ilargia/Manager/IComponentManager.hpp"
 #include "Ilargia/Component/Transform.hpp"
 
 namespace ilg
@@ -58,8 +58,8 @@ namespace ilg
 
 		bool _requireRootListUpdate;
 
-		Array<Transform, 64>* _transforms;
-		Array<Component, 64>* _roots;
+		ComponentStorage<Transform, 64>* _transforms;
+		ComponentStorage<Component, 64>* _roots;
 	};
 }
 

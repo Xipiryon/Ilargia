@@ -35,7 +35,7 @@
 #elif defined(MUON_PLATFORM_APPLE)
 #endif
 
-#include "Ilargia/Component/IComponentManager.hpp"
+#include "Ilargia/manager/IBaseManager.hpp"
 #include "SharedLibrary.hpp"
 
 namespace
@@ -55,7 +55,7 @@ namespace ilg
 
 	SharedLibrary::~SharedLibrary()
 	{
-		for(auto it = _libraries.begin(); it != _libraries.end(); ++it)
+		for (auto it = _libraries.begin(); it != _libraries.end(); ++it)
 		{
 			_closeLibrary(*it);
 		}
@@ -82,7 +82,7 @@ namespace ilg
 		_static = true;
 	}
 
-	void SharedLibrary::_addModuleRef(IComponentManager* manager)
+	void SharedLibrary::_addModuleRef(IBaseManager* manager)
 	{
 		_managers.push_back({ manager, currentLibRef });
 		_log(m::LOG_DEBUG) << "Manager added: \"" << manager->getManagerName() << "\"" << m::endl;
@@ -90,9 +90,9 @@ namespace ilg
 
 	void SharedLibrary::unloadLibraries()
 	{
-		for(auto it = _libraries.rbegin(); it != _libraries.rend(); ++it)
+		for (auto it = _libraries.rbegin(); it != _libraries.rend(); ++it)
 		{
-			if(it->funcUnloadPtr)
+			if (it->funcUnloadPtr)
 			{
 				_log(m::LOG_DEBUG) << "Unloading \"" << it->name << "\"" << m::endl;
 				(*(it->funcUnloadPtr))();
@@ -106,8 +106,8 @@ namespace ilg
 			{
 				if (_managers[i].library == it->libInstance)
 				{
-					IComponentManager* manager = _managers[i].manager;
-					_log(m::LOG_INFO) << "Deleting IComponentManager: \"" << manager->getManagerName() << "\"" << m::endl;
+					IBaseManager* manager = _managers[i].manager;
+					_log(m::LOG_INFO) << "Deleting IBaseManager: \"" << manager->getManagerName() << "\"" << m::endl;
 					MUON_DELETE(manager);
 					_managers.erase(_managers.begin() + i);
 				}
@@ -119,7 +119,7 @@ namespace ilg
 	{
 		m::String libPath;
 		//If not root, append the programPath
-		if(path[0] != m::PATH_SEPARATOR)
+		if (path[0] != m::PATH_SEPARATOR)
 		{
 			libPath = Engine::getProgramPath();
 		}
@@ -161,7 +161,7 @@ namespace ilg
 		lib_handle = LoadLibrary(c_libPath);
 		LPTSTR lpErrorText = NULL;
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER
-			, 0, GetLastError(), 0, lpErrorText, MAX_PATH, 0);
+					  , 0, GetLastError(), 0, lpErrorText, MAX_PATH, 0);
 		const char* error = (lpErrorText == NULL ? "File doesn't exist" : lpErrorText);
 		LocalFree(lpErrorText);
 #elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
@@ -195,7 +195,7 @@ namespace ilg
 			void* lib_handle = lib.libInstance;
 			lib.funcLoadPtr = (SharedLibraryInfo::FuncLoad)dlsym(lib_handle, c_funcLoad);
 			const char* cerror = dlerror();
-			if(cerror)
+			if (cerror)
 			{
 				strcpy(error, cerror);
 			}
@@ -209,7 +209,7 @@ namespace ilg
 
 			error[0] = 0;
 			// error handle
-			if(((*(lib.funcLoadPtr))(_argc, _argv, error)) != 0)
+			if (((*(lib.funcLoadPtr))(_argc, _argv, error)) != 0)
 			{
 				_log(m::LOG_ERROR) << "Library \"" << lib.name << "\" exited with error: \"" << error << "\"" << m::endl;
 				_closeLibrary(lib);
@@ -239,7 +239,7 @@ namespace ilg
 			void* lib_handle = lib.libInstance;
 			lib.funcUnloadPtr = (SharedLibraryInfo::FuncUnload)dlsym(lib_handle, c_funcUnload);
 			error = dlerror();
-			if(!error.empty())
+			if (!error.empty())
 			{
 #endif
 				_log(m::LOG_ERROR) << "Couldn't find any 'unload' function \"" << c_funcUnload << "\": " << error << m::endl;
@@ -257,7 +257,7 @@ namespace ilg
 
 	void SharedLibrary::_closeLibrary(SharedLibraryInfo& lib)
 	{
-		if(!_static)
+		if (!_static)
 		{
 #if defined(MUON_PLATFORM_WINDOWS)
 			FreeLibrary((HINSTANCE)lib.libInstance);

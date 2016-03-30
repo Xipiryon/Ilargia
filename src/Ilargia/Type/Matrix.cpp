@@ -48,7 +48,6 @@ namespace ilg
 		{ 0, 0, 0, 0 }
 	};
 
-
 	MatrixRow::MatrixRow(m::f32 _x, m::f32 _y, m::f32 _z, m::f32 _w)
 		: x(_x)
 		, y(_y)
@@ -68,8 +67,8 @@ namespace ilg
 	Matrix Matrix::transpose() const
 	{
 		Matrix n = {};
-		for(m::i32 i = 0; i < 4; ++i)
-			for(m::i32 j = 0; j < 4; ++j)
+		for (m::i32 i = 0; i < 4; ++i)
+			for (m::i32 j = 0; j < 4; ++j)
 				n[i][j] = (*this)[j][i];
 		return n;
 	}
@@ -78,24 +77,24 @@ namespace ilg
 	{
 		const Matrix& m = *this;
 		//Laplace Expansion
-		m::f32 subFactor[6] = {m[2][2] * m[3][3] - m[3][2] * m[2][3],
-							  m[2][1] * m[3][3] - m[3][1] * m[2][3],
-							  m[2][1] * m[3][2] - m[3][1] * m[2][2],
-							  m[2][0] * m[3][3] - m[3][0] * m[2][3],
-							  m[2][0] * m[3][2] - m[3][0] * m[2][2],
-							  m[2][0] * m[3][1] - m[3][0] * m[2][1]
-							 };
+		m::f32 subFactor[6] = { m[2][2] * m[3][3] - m[3][2] * m[2][3],
+			m[2][1] * m[3][3] - m[3][1] * m[2][3],
+			m[2][1] * m[3][2] - m[3][1] * m[2][2],
+			m[2][0] * m[3][3] - m[3][0] * m[2][3],
+			m[2][0] * m[3][2] - m[3][0] * m[2][2],
+			m[2][0] * m[3][1] - m[3][0] * m[2][1]
+		};
 
 		MatrixRow detCof =
 		{
-			+ (m[1][1] * subFactor[0] - m[1][2] * subFactor[1] + m[1][3] * subFactor[2]),
-			- (m[1][0] * subFactor[0] - m[1][2] * subFactor[3] + m[1][3] * subFactor[4]),
-			+ (m[1][0] * subFactor[1] - m[1][1] * subFactor[3] + m[1][3] * subFactor[5]),
-			- (m[1][0] * subFactor[2] - m[1][1] * subFactor[4] + m[1][2] * subFactor[5])
+			+(m[1][1] * subFactor[0] - m[1][2] * subFactor[1] + m[1][3] * subFactor[2]),
+			-(m[1][0] * subFactor[0] - m[1][2] * subFactor[3] + m[1][3] * subFactor[4]),
+			+(m[1][0] * subFactor[1] - m[1][1] * subFactor[3] + m[1][3] * subFactor[5]),
+			-(m[1][0] * subFactor[2] - m[1][1] * subFactor[4] + m[1][2] * subFactor[5])
 		};
 
 		return m[0][0] * detCof[0] + m[0][1] * detCof[1] +
-			   m[0][2] * detCof[2] + m[0][3] * detCof[3];
+			m[0][2] * detCof[2] + m[0][3] * detCof[3];
 	}
 
 	Matrix Matrix::inverse() const
@@ -103,25 +102,25 @@ namespace ilg
 		//Gaussian Elimination
 
 		Matrix inv = Matrix::zero;
-		m::f32 tmp[4][8] = {{0}};
+		m::f32 tmp[4][8] = { { 0 } };
 
 		//Copy matrix
-		for(int i = 0; i < 4; ++i)
-			for(int j = 0; j < 4; ++j)
+		for (int i = 0; i < 4; ++i)
+			for (int j = 0; j < 4; ++j)
 				tmp[i][j] = (*this)[i][j];
 
 		//Set identity to right side of it
 		tmp[0][4] = tmp[1][5] = tmp[2][6] = tmp[3][7] = 1;
 
 		//Resolution
-		for(int i = 0; i < 4; ++i)
+		for (int i = 0; i < 4; ++i)
 		{
-			for(int j = 0; j < 4; ++j)
+			for (int j = 0; j < 4; ++j)
 			{
-				if(i != j)
+				if (i != j)
 				{
-					m::f32 ratio = tmp[j][i]/tmp[i][i];
-					for(int k = 0; k < 8; ++k)
+					m::f32 ratio = tmp[j][i] / tmp[i][i];
+					for (int k = 0; k < 8; ++k)
 					{
 						tmp[j][k] -= ratio * tmp[i][k];
 					}
@@ -129,16 +128,16 @@ namespace ilg
 			}
 		}
 
-		for(int i = 0; i < 4; ++i)
+		for (int i = 0; i < 4; ++i)
 		{
 			m::f32 diag = tmp[i][i];
-			for(int k = 0; k < 8; ++k)
+			for (int k = 0; k < 8; ++k)
 				tmp[i][k] /= diag;
 		}
 
-		for(int i = 0; i < 4; ++i)
-			for(int j = 4; j < 8; ++j)
-				inv[i][j-4] = tmp[i][j];
+		for (int i = 0; i < 4; ++i)
+			for (int j = 4; j < 8; ++j)
+				inv[i][j - 4] = tmp[i][j];
 
 		return inv;
 	}
@@ -232,11 +231,11 @@ namespace ilg
 	{
 		Matrix mn = {};
 
-		for(m::i32 i = 0; i < 4; ++i)
+		for (m::i32 i = 0; i < 4; ++i)
 		{
-			for(m::i32 j = 0; j < 4; ++j)
+			for (m::i32 j = 0; j < 4; ++j)
 			{
-				for(m::i32 k = 0; k < 4; ++k)
+				for (m::i32 k = 0; k < 4; ++k)
 					mn[i][j] += n[i][k] * (*this)[k][j];
 			}
 		}
@@ -246,8 +245,8 @@ namespace ilg
 	Matrix Matrix::operator*(m::f32 k) const
 	{
 		Matrix n = *this;
-		for(m::i32 i = 0; i < 4; ++i)
-			for(m::i32 j = 0; j < 4; ++j)
+		for (m::i32 i = 0; i < 4; ++i)
+			for (m::i32 j = 0; j < 4; ++j)
 				n[i][j] *= k;
 		return n;
 	}
@@ -255,7 +254,7 @@ namespace ilg
 	Matrix Matrix::operator/(m::f32 k) const
 	{
 		MUON_ASSERT_BREAK(k != 0.0f, "Matrix is being divided by 0 !");
-		if(k != 0.0f)
+		if (k != 0.0f)
 		{
 			return (*this * (1.f / k));
 		}
@@ -266,22 +265,22 @@ namespace ilg
 /*
 	memory::IStream& MatrixRow::operator<<(memory::IStream& stream)
 	{
-		return stream << x << y << z << w;
+	return stream << x << y << z << w;
 	}
 
 	memory::IStream& MatrixRow::operator>>(memory::IStream& stream)
 	{
-		return stream >> x >> y >> z >> w;
+	return stream >> x >> y >> z >> w;
 	}
 
 	memory::IStream& Matrix::operator<<(memory::IStream& stream)
 	{
-		return stream << x << y << z << w;
+	return stream << x << y << z << w;
 	}
 
 	memory::IStream& Matrix::operator>>(memory::IStream& stream)
 	{
-		return stream >> x >> y >> z >> w;
+	return stream >> x >> y >> z >> w;
 	}
 	//*/
 
@@ -289,7 +288,6 @@ m::system::Log& operator<<(m::system::Log& stream, const ilg::MatrixRow& r)
 {
 	return stream << "[" << r.x << ", " << r.y << ", " << r.z << ", " << r.w << "]";
 }
-
 
 m::system::Log& operator<<(m::system::Log& stream, const ilg::Matrix& m)
 {

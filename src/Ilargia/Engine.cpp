@@ -91,18 +91,11 @@ namespace ilg
 			engine._programPath = (_argv.substr(0, pos) + m::PATH_SEPARATOR).c_str();
 		}
 
-		//auto& keyValue = m::system::KeyValue::getInstance();
 		auto& script = system::ScriptDriver::createInstance();
 		auto& sharedLib = SharedLibrary::createInstance();
 		sharedLib.forwardArg(argc, argv);
 
-#if defined(MUON_DEBUG)
-		//keyValue.store("MUON_DEBUG", true);
-#else
-		//keyValue.store("MUON_DEBUG", false);
-#endif
-
-		// Registering core AS classes
+		// Registering core classes
 		if (!engine._registerClasses())
 		{
 			return false;
@@ -233,7 +226,7 @@ namespace ilg
 		while (!failed.empty())
 		{
 			m::i32 i = failed.back();
-			IComponentManager* manager = managerList[i].manager;
+			IBaseManager* manager = managerList[i].manager;
 			engine._log(m::LOG_WARNING) << "Removing \"" << manager->getManagerName() << "\" due to onInit() failure. Calling onTerm() ..." << m::endl;
 
 			bool success = manager->onTerm();
@@ -244,7 +237,7 @@ namespace ilg
 		}
 
 		//onUpdte fonctions
-#ifdef EMSCRIPTEN
+#ifdef MUON_PLATFORM_WEB
 		emscripten_set_main_loop(_run, 0, _running);
 #else
 		while (engine._running)

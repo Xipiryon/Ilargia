@@ -30,7 +30,11 @@
 namespace ilg
 {
 	// We don't need to expose more than the main engine function
-	class ILARGIA_API Engine { public: static int main(int argc, char** argv); };
+	class ILARGIA_API Engine
+	{
+	public:
+		static int main(int argc, char** argv);
+	};
 }
 
 int main(int argc, char** argv)

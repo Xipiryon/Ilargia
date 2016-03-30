@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_ENTITYMANAGER_H_INCLUDED
-#define _ILARGIA_ENTITYMANAGER_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_ENTITYMANAGER_HPP
+#define INCLUDE_ILARGIA_ENTITYMANAGER_HPP
 
 #include <deque>
 #include <vector>

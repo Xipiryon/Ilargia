@@ -25,12 +25,12 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_ENTITY_H_INCLUDED
-#define _ILARGIA_ENTITY_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_ENTITY_HPP
+#define INCLUDE_ILARGIA_ENTITY_HPP
 
 #include <Muon/Helper/NonCopyable.hpp>
 #include "Ilargia/Component/Component.hpp"
-#include "Ilargia/Component/Array.hpp"
+#include "Ilargia/Component/ComponentStorage.hpp"
 
 namespace ilg
 {
@@ -62,7 +62,7 @@ namespace ilg
 		friend class EntityManager;
 		Entity();
 
-		Array<Component, 8>* _components;
+		ComponentStorage<Component, 8>* _components;
 
 		Component _addComponent(m::i32);
 		Component _getComponent(m::i32);

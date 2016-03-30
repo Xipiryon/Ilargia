@@ -28,19 +28,19 @@
 #include "ColorConsole.hpp"
 ilg::mod::ColorConsole* impl = NULL;
 
-ILARGIA_MODULE_CHECK_FILENAME
-ILARGIA_MODULE_INIT_BEGIN
+ILARGIA_MODULE_CHECK_FILENAME()
+ILARGIA_MODULE_INIT_BEGIN(argc, argv)
 {
 	impl = MUON_NEW(ilg::mod::ColorConsole);
 	m::system::Log::registerLogImpl(impl);
 	m::system::Log::unregisterDefaultLogImpl();
-	ILARGIA_MODULE_RETURN_SUCCESS;
+	ILARGIA_MODULE_RETURN_SUCCESS();
 }
-ILARGIA_MODULE_INIT_END
+ILARGIA_MODULE_INIT_END()
 
-ILARGIA_MODULE_TERM_BEGIN
+ILARGIA_MODULE_TERM_BEGIN()
 {
 	m::system::Log::unregisterLogImpl(impl);
 	MUON_DELETE(impl);
 }
-ILARGIA_MODULE_TERM_END
+ILARGIA_MODULE_TERM_END()

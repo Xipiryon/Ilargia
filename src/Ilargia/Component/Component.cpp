@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#include "Ilargia/Component/IComponentManager.hpp"
-#include "Ilargia/Component/ComponentManagerFactory.hpp"
+#include "Ilargia/Manager/IComponentManager.hpp"
+#include "Ilargia/Manager/ManagerFactory.hpp"
 #include "Ilargia/Component/Component.hpp"
 
 namespace ilg
@@ -63,12 +63,11 @@ namespace ilg
 		return *this;
 	}
 
-
 	m::i32 Component::instanceId() const
 	{
 		return _instance;
 	}
-	
+
 	m::u64 Component::instanceType() const
 	{
 		return _type;
@@ -89,17 +88,17 @@ namespace ilg
 			return NULL;
 		}
 
-		IComponentManager* manager = ComponentManagerFactory::getInstance().getComponentManager(type);
+		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
 		MUON_ASSERT(manager != NULL,
-			"There is no ComponentManager matching the type %u (%s)",
-			type, type_name);
+					"There is no ComponentManager matching the type %u (%s)",
+					type, type_name);
 
-		if(manager != NULL)
+		if (manager != NULL)
 		{
 			MUON_ASSERT(type == _type,
-				"Cast Type (%s) does not match Component Type (%s)",
-				type_name, _type);
-			if(type == _type)
+						"Cast Type (%s) does not match Component Type (%s)",
+						type_name, _type);
+			if (type == _type)
 			{
 				return manager->getComponent(_instance);
 			}

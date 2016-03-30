@@ -67,21 +67,21 @@ namespace ilg
 			switch(msg->type)
 			{
 			case asMSGTYPE_ERROR:
-				l = LOG_ERROR;
-				break;
+			l = LOG_ERROR;
+			break;
 			case asMSGTYPE_WARNING:
-				l = LOG_WARNING;
-				break;
+			l = LOG_WARNING;
+			break;
 			case asMSGTYPE_INFORMATION:
-				l = LOG_INFO;
-				break;
+			l = LOG_INFO;
+			break;
 			default:
-				l = LOG_DEBUG;
-				break;
+			l = LOG_DEBUG;
+			break;
 			};
 			_log(l) << "In section \n\t>'" << msg->section
-				<< "' (line " << msg->row
-				<< "):\n\t>'" << msg->message << "'" << endl;
+			<< "' (line " << msg->row
+			<< "):\n\t>'" << msg->message << "'" << endl;
 			//*/
 		}
 
@@ -125,23 +125,23 @@ namespace ilg
 			ScriptState sls = _load(completePath, moduleName);
 			switch (sls)
 			{
-			case SCRIPT_FAILED_OPEN:
-				_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" not found" << m::endl;
-				break;
-			case SCRIPT_FAILED_LOAD:
-				_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be loaded" << m::endl;
-				break;
-			case SCRIPT_FAILED_SECTION:
-				_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be added in Script Engine correctly!" << m::endl;
-				break;
-			case SCRIPT_FAILED_BUILD:
-				_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be build." << m::endl;
-				_log(m::LOG_ERROR) << "\t>Please check syntax errors or use of unbinded classes" << m::endl;
-				break;
-			case SCRIPT_SUCCESS:
+				case SCRIPT_FAILED_OPEN:
+					_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" not found" << m::endl;
+					break;
+				case SCRIPT_FAILED_LOAD:
+					_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be loaded" << m::endl;
+					break;
+				case SCRIPT_FAILED_SECTION:
+					_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be added in Script Engine correctly!" << m::endl;
+					break;
+				case SCRIPT_FAILED_BUILD:
+					_log(m::LOG_ERROR) << "Script file \"" << completePath << "\" couldn't be build." << m::endl;
+					_log(m::LOG_ERROR) << "\t>Please check syntax errors or use of unbinded classes" << m::endl;
+					break;
+				case SCRIPT_SUCCESS:
 				{
 					m::String moduleNameLog = (moduleName.empty() ? "" : " (Module: " + moduleName + ") ");
-					_log(m::LOG_INFO) << "Script \"" << filename << "\"" << moduleNameLog <<" is correctly loaded!" << m::endl;
+					_log(m::LOG_INFO) << "Script \"" << filename << "\"" << moduleNameLog << " is correctly loaded!" << m::endl;
 				}
 				break;
 			}
@@ -156,7 +156,7 @@ namespace ilg
 			FILE* file = fopen(filename.cStr(), "rb");
 			if(file == 0)
 			{
-				return SCRIPT_FAILED_OPEN;
+			return SCRIPT_FAILED_OPEN;
 			}
 
 			fseek(file, 0, SEEK_END);
@@ -168,8 +168,8 @@ namespace ilg
 			fclose(file);
 			if(r == 0)
 			{
-				free(script);
-				return SCRIPT_FAILED_OPEN;
+			free(script);
+			return SCRIPT_FAILED_OPEN;
 			}
 			script[len] = 0;
 
@@ -178,7 +178,7 @@ namespace ilg
 			free(script);
 			if( r < 0 )
 			{
-				return SCRIPT_FAILED_SECTION;
+			return SCRIPT_FAILED_SECTION;
 			}
 			//*/
 			return SCRIPT_SUCCESS;
@@ -195,14 +195,14 @@ namespace ilg
 			IScriptModule* mod = _engine->GetModule(moduleName.cStr(), asGM_ONLY_IF_EXISTS);
 			if(!mod)
 			{
-				_log(m::LOG_ERROR) << "No module \"" << moduleName << "\" found!" << endl;
-				return SCRIPT_FAILED_BUILD;
+			_log(m::LOG_ERROR) << "No module \"" << moduleName << "\" found!" << endl;
+			return SCRIPT_FAILED_BUILD;
 			}
 
 			if(mod->Build() < 0)
 			{
-				_log(m::LOG_ERROR) << "Failed to build the module \"" << moduleName << "\"!" << endl;
-				return SCRIPT_FAILED_BUILD;
+			_log(m::LOG_ERROR) << "Failed to build the module \"" << moduleName << "\"!" << endl;
+			return SCRIPT_FAILED_BUILD;
 			}
 			(*_moduleCompiled)[moduleName] = true;
 			//*/
@@ -219,30 +219,30 @@ namespace ilg
 			/*
 			if(_moduleCompiled->find(moduleName) == _moduleCompiled->end() || (*_moduleCompiled)[moduleName] == false)
 			{
-				_log(m::LOG_ERROR) << "Module \"" << moduleName << "\" has not been compiled, cannot execute!" << endl;
-				return SCRIPT_FAILED_PREPARE;
+			_log(m::LOG_ERROR) << "Module \"" << moduleName << "\" has not been compiled, cannot execute!" << endl;
+			return SCRIPT_FAILED_PREPARE;
 			}
 
 			_context->Unprepare();
 			IScriptFunction* func = _engine->GetModule(moduleName.cStr())->GetFunctionByDecl(funcName.cStr());
 			if(func == 0)
 			{
-				// The function couldn't be found. Instruct the script writer
-				// to include the expected function in the script.
-				_log(m::LOG_ERROR) << "The script must have the function '" << funcName << "'. Please add it and try again." << endl;
-				return SCRIPT_FAILED_LOAD;
+			// The function couldn't be found. Instruct the script writer
+			// to include the expected function in the script.
+			_log(m::LOG_ERROR) << "The script must have the function '" << funcName << "'. Please add it and try again." << endl;
+			return SCRIPT_FAILED_LOAD;
 			}
 			else
 			{
-				int r = _context->Prepare(func);
-				if(r != 0)
-				{
-					return SCRIPT_FAILED_PREPARE;
-				}
+			int r = _context->Prepare(func);
+			if(r != 0)
+			{
+			return SCRIPT_FAILED_PREPARE;
+			}
 			}
 			if (ctx != NULL)
 			{
-				*ctx = _context;
+			*ctx = _context;
 			}
 			//*/
 			return SCRIPT_SUCCESS;
@@ -254,16 +254,16 @@ namespace ilg
 			int r = _context->Execute();
 			if (r != asEXECUTION_FINISHED)
 			{
-				// The execution didn't complete as expected. Determine what happened.
-				if (r == asEXECUTION_EXCEPTION)
-				{
-					// An exception occurred, let the script writer know what happened so it can be corrected.
-					_log(m::LOG_ERROR) << "An exception '%s' occurred. "
-						<< "Please correct the code and try again:\n\t>"
-						<< _context->GetExceptionString()
-						<< endl;
-					return SCRIPT_FAILED_EXECUTE;
-				}
+			// The execution didn't complete as expected. Determine what happened.
+			if (r == asEXECUTION_EXCEPTION)
+			{
+			// An exception occurred, let the script writer know what happened so it can be corrected.
+			_log(m::LOG_ERROR) << "An exception '%s' occurred. "
+			<< "Please correct the code and try again:\n\t>"
+			<< _context->GetExceptionString()
+			<< endl;
+			return SCRIPT_FAILED_EXECUTE;
+			}
 			}
 			//*/
 			return SCRIPT_SUCCESS;

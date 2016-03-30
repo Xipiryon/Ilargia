@@ -27,21 +27,21 @@
 
 #include <Muon/System/Log.hpp>
 #include <Muon/System/Assert.hpp>
-#include "Ilargia/Component/IComponentManager.hpp"
-#include "Ilargia/Component/ComponentManagerFactory.hpp"
+#include "Ilargia/Manager/IBaseManager.hpp"
+#include "Ilargia/Manager/ManagerFactory.hpp"
 #include "../SharedLibrary.hpp"
 
 namespace ilg
 {
-	ComponentManagerFactory::ComponentManagerFactory()
-	{
-	}
-	
-	ComponentManagerFactory::~ComponentManagerFactory()
+	ManagerFactory::ManagerFactory()
 	{
 	}
 
-	bool ComponentManagerFactory::checkComponentManager(const m::String& name)
+	ManagerFactory::~ManagerFactory()
+	{
+	}
+
+	bool ManagerFactory::checkComponentManager(const m::String& name)
 	{
 		//Check if manager isn't already loaded
 		bool found = false;
@@ -58,7 +58,7 @@ namespace ilg
 		return !found;
 	}
 
-	bool ComponentManagerFactory::registerComponentManager(IComponentManager* manager, const m::String& name)
+	bool ManagerFactory::registerComponentManager(IBaseManager* manager, const m::String& name)
 	{
 		//Module coulnd't be allocated
 		MUON_ASSERT(manager != NULL, "Couldn't allocate manager \"%s\"!\n", name.cStr());
@@ -71,7 +71,7 @@ namespace ilg
 		return true;
 	}
 
-	IComponentManager* ComponentManagerFactory::getComponentManager(m::u64 type)
+	IBaseManager* ManagerFactory::getComponentManager(m::u64 type)
 	{
 		auto& managerList = SharedLibrary::getInstance()._managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
@@ -85,7 +85,7 @@ namespace ilg
 		return NULL;
 	}
 
-	IComponentManager* ComponentManagerFactory::getComponentManager(const m::String& name)
+	IBaseManager* ManagerFactory::getComponentManager(const m::String& name)
 	{
 		auto& managerList = SharedLibrary::getInstance()._managers;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)

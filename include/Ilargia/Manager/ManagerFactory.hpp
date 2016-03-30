@@ -25,50 +25,44 @@
 *
 *************************************************************************/
 
-#include <Muon/System/Log.hpp>
-#include <Muon/System/Assert.hpp>
-#include "Ilargia/Component/IComponentManager.hpp"
-#include "../SharedLibrary.hpp"
+#ifndef INCLUDE_ILARGIA_MANAGERFACTORY_HPP
+#define INCLUDE_ILARGIA_MANAGERFACTORY_HPP
+
+#include <Muon/Helper/Singleton.hpp>
+#include "Ilargia/Manager/IBaseManager.hpp"
 
 namespace ilg
 {
-
-	IComponentManager::IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
-		: _log(name)
-		, _managerName(name)
-		, _componentType(componentType)
-		, _updateOrder(updateOrder)
+	class ILARGIA_API ManagerFactory : public m::helper::Singleton<ManagerFactory>
 	{
-	}
+		friend class m::helper::Singleton<ManagerFactory>;
+	public:
 
-	IComponentManager::~IComponentManager()
-	{
-	}
+		template<typename T, typename ...Args>
+		bool registerComponentManager(Args...args)
+		{
+			if (checkComponentManager(T::name()))
+			{
+				//TODO Fix it
+				//return registerComponentManager(MUON_NEW(T, std::forward<Args>(args)...), T::name());
+			}
+			return false;
+		}
 
-	const m::String& IComponentManager::getManagerName() const
-	{
-		return _managerName;
-	}
+		IBaseManager* getComponentManager(m::u64 componentType);
+		IBaseManager* getComponentManager(const m::String& name);
 
-	m::u64 IComponentManager::getComponentType() const
-	{
-		return _componentType;
-	}
+	private:
+		bool checkComponentManager(const m::String&);
+		bool registerComponentManager(IBaseManager*, const m::String&);
 
-	m::i32 IComponentManager::getUpdateOrder() const
-	{
-		return _updateOrder;
-	}
+		ManagerFactory();
+		ManagerFactory(const ManagerFactory&);
+		ManagerFactory& operator = (const ManagerFactory&);
+		virtual ~ManagerFactory();
+	};
 
-	void IComponentManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
-	{
-	}
-
-	void IComponentManager::onComponentAdd(Entity* entity, Component& component)
-	{
-	}
-
-	void IComponentManager::onComponentRemove(Entity* entity, Component& component)
-	{
-	}
+#define ILARGIA_CMANAGER_TYPE(Manager, ComponentType) ((Manager*)ManagerFactory::getInstance().getComponentManager(ComponentType))
+#define ILARGIA_CMANAGER_NAME(Manager, Name) ((Manager*)ManagerFactory::getInstance().getComponentManager(Name))
 }
+#endif

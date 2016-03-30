@@ -32,8 +32,7 @@
 
 namespace ilg
 {
-
-	const Quaternion Quaternion::identity = {0, 0, 0, 1};
+	const Quaternion Quaternion::identity = { 0, 0, 0, 1 };
 
 	Quaternion::Quaternion(m::f32 _x, m::f32 _y, m::f32 _z, m::f32 _w)
 		: x(_x)
@@ -45,7 +44,7 @@ namespace ilg
 
 	bool Quaternion::operator==(const Quaternion& p) const
 	{
-		return (w == p.w && Vector(x,y,z) == Vector(p.x, p.y, p.z));
+		return (w == p.w && Vector(x, y, z) == Vector(p.x, p.y, p.z));
 	}
 
 	bool Quaternion::operator!=(const Quaternion& p) const
@@ -56,10 +55,10 @@ namespace ilg
 	Quaternion Quaternion::operator*(const Quaternion& p) const
 	{
 		Quaternion qp;
-		Vector vI = Vector(x,y,z);
-		Vector vP = Vector(p.x,p.y,p.z);
-		qp.w = w * p.w - Vector::dot(vP,vI);
-		Vector v = vI*w + vP*w + Vector::cross(vI,vP);
+		Vector vI = Vector(x, y, z);
+		Vector vP = Vector(p.x, p.y, p.z);
+		qp.w = w * p.w - Vector::dot(vP, vI);
+		Vector v = vI*w + vP*w + Vector::cross(vI, vP);
 		qp.x = v.x;
 		qp.y = v.y;
 		qp.z = v.z;
@@ -70,7 +69,6 @@ namespace ilg
 	{
 		return toMatrix() * v;
 	}
-
 
 	Quaternion Quaternion::conjugate() const
 	{
@@ -104,10 +102,9 @@ namespace ilg
 		return qi;
 	}
 
-
 	m::f32 Quaternion::squareLength() const
 	{
-		return w * w + Vector(x,y,z).squareLength();
+		return w * w + Vector(x, y, z).squareLength();
 	}
 
 	m::f32 Quaternion::length() const
@@ -124,12 +121,12 @@ namespace ilg
 			::cos(0.5f * rad.x),
 			::cos(0.5f * rad.y),
 			::cos(0.5f * rad.z)
-		);
+			);
 		Vector s(
 			::sin(0.5f * rad.x),
 			::sin(0.5f * rad.y),
 			::sin(0.5f * rad.z)
-		);
+			);
 
 		q.x = s.x*c.y*c.z - c.x*s.y*s.z;
 		q.y = c.x*s.y*c.z + s.x*c.y*s.z;
@@ -156,9 +153,9 @@ namespace ilg
 
 	Quaternion Quaternion::fromMatrix(const Matrix& matrix)
 	{
-		Quaternion q = {0.f, 0.f, 0.f, 1.f};
+		Quaternion q = { 0.f, 0.f, 0.f, 1.f };
 		m::f32 trace = matrix.x.x + matrix.y.y + matrix.z.z + 1.f;
-		if(trace > 0.f)
+		if (trace > 0.f)
 		{
 			m::f32 s = 0.5f / ::sqrt(trace);
 			q.w = 0.25f / s;
@@ -180,7 +177,7 @@ namespace ilg
 			};
 
 			m::f32 s = 0.f;
-			if(major[0] > major[1] && major[0] > major[2])
+			if (major[0] > major[1] && major[0] > major[2])
 			{
 				s = ::sqrtf(1.f + matrix.x.x - matrix.y.y - matrix.z.z) * 2.f;
 				q.x = 0.5f / s;
@@ -188,7 +185,7 @@ namespace ilg
 				q.z = (matrix.x.z + matrix.z.x) * s;
 				q.w = (matrix.z.y + matrix.y.z) * s;
 			}
-			else if(major[1] > major[2])
+			else if (major[1] > major[2])
 			{
 				s = ::sqrtf(1.f - matrix.x.x + matrix.y.y - matrix.z.z) * 2.f;
 				q.x = (matrix.y.x + matrix.x.y) * s;
@@ -212,7 +209,7 @@ namespace ilg
 	{
 		const Quaternion& q = *this;
 		angle = ::acos(q.w);
-		Vector v = Vector(x,y,z) * (1.f / ::sin(angle));
+		Vector v = Vector(x, y, z) * (1.f / ::sin(angle));
 		angle *= 360.f / m::PI_f;
 		return v;
 	}
@@ -258,25 +255,25 @@ namespace ilg
 
 		MatrixRow rx =
 		{
-			1.f - 2.f * ( yy + zz ),
-			2.f * ( xy - zw ),
-			2.f * ( xz + yw ),
+			1.f - 2.f * (yy + zz),
+			2.f * (xy - zw),
+			2.f * (xz + yw),
 			0.f
 		};
 
 		MatrixRow ry =
 		{
-			2.f * ( xy + zw ),
-			1.f - 2.f * ( xx + zz ),
-			2.f * ( yz - xw ),
+			2.f * (xy + zw),
+			1.f - 2.f * (xx + zz),
+			2.f * (yz - xw),
 			0.f
 		};
 
 		MatrixRow rz =
 		{
-			2.f * ( xz - yw ),
-			2.f * ( yz + xw ),
-			1.f - 2.f * ( xx + yy ),
+			2.f * (xz - yw),
+			2.f * (yz + xw),
+			1.f - 2.f * (xx + yy),
 			0.f
 		};
 

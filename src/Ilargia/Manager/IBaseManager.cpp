@@ -25,69 +25,48 @@
 *
 *************************************************************************/
 
+#include <Muon/System/Log.hpp>
 #include <Muon/System/Assert.hpp>
-#include <Muon/Memory/Allocator.hpp>
-#include "Ilargia/Component/Entity.hpp"
-#include "Ilargia/Manager/IComponentManager.hpp"
-#include "Ilargia/Manager/ManagerFactory.hpp"
+#include "Ilargia/Manager/IBaseManager.hpp"
 
 namespace ilg
 {
-	Entity::Entity()
+	IBaseManager::IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
+		: _log(name)
+		, _managerName(name)
+		, _componentType(componentType)
+		, _updateOrder(updateOrder)
 	{
-		typedef ComponentStorage<Component, 8> ComponentArray;
-		_components = MUON_NEW(ComponentArray);
 	}
 
-	Entity::~Entity()
+	IBaseManager::~IBaseManager()
 	{
-		MUON_DELETE(_components);
 	}
 
-	Component Entity::_addComponent(m::i32 type)
+	const m::String& IBaseManager::getManagerName() const
 	{
-		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
-		Component c;
-		if (manager)
-		{
-			c = manager->createComponent();
-			_components->add(c);
-			manager->onComponentAdd(this, c);
-		}
-		return c;
+		return _managerName;
 	}
 
-	Component Entity::_getComponent(m::i32 type)
+	m::u64 IBaseManager::getComponentType() const
 	{
-		for (m::i32 i = 0; i < _components->size(); ++i)
-		{
-			Component c = _components->get(i);
-			if (c.instanceType() == type)
-			{
-				return c;
-			}
-		}
-		return Component();
+		return _componentType;
 	}
 
-	bool Entity::_removeComponent(m::i32 type)
+	m::i32 IBaseManager::getUpdateOrder() const
 	{
-		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
-		Component c;
-		if (manager)
-		{
-			for (m::i32 i = 0; i < _components->size(); ++i)
-			{
-				Component c = _components->get(i);
-				if (c.instanceType() == type)
-				{
-					manager->onComponentRemove(this, c);
-					manager->destroyComponent(c);
-					_components->remove(i);
-					return true;
-				}
-			}
-		}
-		return false;
+		return _updateOrder;
+	}
+
+	void IBaseManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
+	{
+	}
+
+	void IBaseManager::onComponentAdd(Entity* entity, Component& component)
+	{
+	}
+
+	void IBaseManager::onComponentRemove(Entity* entity, Component& component)
+	{
 	}
 }

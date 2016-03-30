@@ -25,47 +25,33 @@
 *
 *************************************************************************/
 
-#ifndef INCLUDE_ILARGIA_COLOR_HPP
-#define INCLUDE_ILARGIA_COLOR_HPP
+#ifndef INCLUDE_ILARGIA_ICOMPONENTLESSMANAGER_HPP
+#define INCLUDE_ILARGIA_ICOMPONENTLESSMANAGER_HPP
 
-#include <Muon/System/Log.hpp>
-#include "Ilargia/Core/Define.hpp"
+#include "Ilargia/Manager/IBaseManager.hpp"
 
 namespace ilg
 {
-	class ILARGIA_API Color
+	class ManagerFactory;
+	class ILARGIA_API IComponentlessManager : public IBaseManager
 	{
 	public:
+		IComponentlessManager(const m::String& name, m::i32 updateOrder);
+		virtual ~IComponentlessManager();
 
-		m::f32 r;
-		m::f32 g;
-		m::f32 b;
-		m::f32 a;
+		virtual bool onInit() = 0;
+		virtual bool onUpdate(m::f32 deltaTime) = 0;
+		virtual bool onTerm() = 0;
 
-		Color(m::f32 r = 0.f, m::f32 g = 0.f, m::f32 b = 0.f, m::f32 a = 0.f);
+		virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
+		virtual void onComponentAdd(Entity* entity, Component& component);
+		virtual void onComponentRemove(Entity* entity, Component& component);
 
-		bool operator==(const Color& v) const;
-		bool operator!=(const Color& v) const;
-		Color operator*(const m::f32 s) const;
-		Color operator/(const m::f32 s) const;
-
-		Color operator*(const Color& v) const;
-		Color operator/(const Color& v) const;
-		Color operator+(const Color& v) const;
-		Color operator-(const Color& v) const;
-
-		Color operator*=(const m::f32 s);
-		Color operator/=(const m::f32 s);
-
-		Color operator*=(const Color& v);
-		Color operator/=(const Color& v);
-		Color operator+=(const Color& v);
-		Color operator-=(const Color& v);
-
-		static Color lerp(const Color& u, const Color& v, m::f32 t);
+	private:
+		virtual Component createComponent();
+		virtual void destroyComponent(Component& component);
+		virtual void* getComponent(m::i32 index);
+		virtual Component getComponent(void* object);
 	};
 }
-
-m::system::Log& operator<<(m::system::Log& stream, const ilg::Color& c);
-
 #endif

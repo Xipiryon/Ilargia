@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_SCRIPTENGINE_H_INCLUDED
-#define _ILARGIA_SCRIPTENGINE_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_ISCRIPTENGINE_HPP
+#define INCLUDE_ILARGIA_ISCRIPTENGINE_HPP
 
 #include "Ilargia/Core/Define.hpp"
 
@@ -34,13 +34,8 @@ namespace ilg
 {
 	namespace system
 	{
+		class IScriptContext;
 		class IScriptEngine
-		{
-		public:
-		protected:
-		};
-
-		class IScriptContext
 		{
 		public:
 		protected:
@@ -49,4 +44,3 @@ namespace ilg
 }
 
 #endif
-

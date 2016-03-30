@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_TEXCOORD_H_INCLUDED
-#define _ILARGIA_TEXCOORD_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_TEXCOORD_HPP
+#define INCLUDE_ILARGIA_TEXCOORD_HPP
 
 #include <Muon/System/Log.hpp>
 #include "Ilargia/Core/Define.hpp"

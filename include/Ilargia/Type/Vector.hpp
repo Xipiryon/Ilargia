@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_VECTOR_H_INCLUDED
-#define _ILARGIA_VECTOR_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_VECTOR_HPP
+#define INCLUDE_ILARGIA_VECTOR_HPP
 
 #include <Muon/System/Log.hpp>
 #include "Ilargia/Core/Define.hpp"

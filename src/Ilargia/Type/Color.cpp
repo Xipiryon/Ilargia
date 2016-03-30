@@ -123,7 +123,7 @@ namespace ilg
 
 	Color Color::operator/(const Color& v) const
 	{
-		return Color(r/v.r, g/v.g, b/v.b, a/v.a);
+		return Color(r / v.r, g / v.g, b / v.b, a / v.a);
 	}
 
 	Color Color::operator+(const Color& v) const
@@ -145,14 +145,14 @@ namespace ilg
 /*
 	memory::IStream& Color::operator<<(memory::IStream& stream)
 	{
-		return stream << r << g << b << a;
+	return stream << r << g << b << a;
 	}
 
 	memory::IStream& Color::operator>>(memory::IStream& stream)
 	{
-		return stream >> r >> g >> b >> a;
+	return stream >> r >> g >> b >> a;
 	}
-//*/
+	//*/
 
 m::system::Log& operator<<(m::system::Log& stream, const ilg::Color& c)
 {

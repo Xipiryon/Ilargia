@@ -52,9 +52,9 @@ namespace ilg
 	{
 		Vector v(x, y, z);
 		m::f32 len = v.length();
-		if(len != 0)
+		if (len != 0)
 		{
-			m::f32 coef = 1.f/len;
+			m::f32 coef = 1.f / len;
 			v.x *= coef;
 			v.y *= coef;
 			v.z *= coef;

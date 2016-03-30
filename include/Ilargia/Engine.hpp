@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_ENGINE_H_INCLUDED
-#define _ILARGIA_ENGINE_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_ENGINE_HPP
+#define INCLUDE_ILARGIA_ENGINE_HPP
 
 //C/Cpp Standard
 #include <ctime>
@@ -42,8 +42,9 @@
 
 //Base classes required by extended modules
 #include "Ilargia/Component/EntityManager.hpp"
-#include "Ilargia/Component/IComponentManager.hpp"
-#include "Ilargia/Component/ComponentManagerFactory.hpp"
+#include "Ilargia/Manager/IComponentManager.hpp"
+#include "Ilargia/Manager/IComponentlessManager.hpp"
+#include "Ilargia/Manager/ManagerFactory.hpp"
 
 /*!
 * @brief Main engine namespace
@@ -67,9 +68,9 @@ namespace ilg
 #define ILARGIA_MODULE_CHECK_FILENAME
 #else
 #	ifndef ILARGIA_MODULE_NAME
-#		define ILARGIA_MODULE_CHECK_FILENAME static_assert(false, "ILARGIA_MODULE_NAME is not defined!");
+#		define ILARGIA_MODULE_CHECK_FILENAME() static_assert(false, "ILARGIA_MODULE_NAME is not defined!");
 #	else
-#		define ILARGIA_MODULE_CHECK_FILENAME
+#		define ILARGIA_MODULE_CHECK_FILENAME()
 #	endif
 #endif
 
@@ -79,29 +80,29 @@ namespace ilg
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_INIT_BEGIN		EXTERN_C_BEGIN int ILARGIA_API _ILARGIA_MODULE_LOAD_FUNC (int argc, char** argv, char* _ilargia_error) {
+#define ILARGIA_MODULE_INIT_BEGIN(argc, argv) EXTERN_C_BEGIN int ILARGIA_API _ILARGIA_MODULE_LOAD_FUNC (int argc, char** argv, char* _ilargia_error) {
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_INIT_END		} EXTERN_C_END
+#define ILARGIA_MODULE_INIT_END()	} EXTERN_C_END
 
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_TERM_BEGIN		EXTERN_C_BEGIN void ILARGIA_API _ILARGIA_MODULE_UNLOAD_FUNC () {
+#define ILARGIA_MODULE_TERM_BEGIN()		EXTERN_C_BEGIN void ILARGIA_API _ILARGIA_MODULE_UNLOAD_FUNC () {
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_TERM_END		} EXTERN_C_END
+#define ILARGIA_MODULE_TERM_END()	} EXTERN_C_END
 
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_RETURN_SUCCESS	{return 0;};
+#define ILARGIA_MODULE_RETURN_SUCCESS()	{return 0;};
 	/*!
 	*
 	*/
-#define ILARGIA_MODULE_RETURN_FAILED	{::strcpy(_ilargia_error, error_str); return -1;};
+#define ILARGIA_MODULE_RETURN_FAILED(error_str)		{::strcpy(_ilargia_error, error_str); return -1;};
 
 	//class WorldModule;
 	//class GraphicsModule;

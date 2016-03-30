@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_DEFINE_H_INCLUDED
-#define _ILARGIA_DEFINE_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_DEFINE_HPP
+#define INCLUDE_ILARGIA_DEFINE_HPP
 
 #include <Muon/Core/Define.hpp>
 #include <Muon/Core/Typedef.hpp>

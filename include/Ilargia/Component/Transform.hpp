@@ -25,12 +25,12 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_TRANSFORM_H_INCLUDED
-#define _ILARGIA_TRANSFORM_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_TRANSFORM_HPP
+#define INCLUDE_ILARGIA_TRANSFORM_HPP
 
 #include <Muon/Helper/NonCopyable.hpp>
 #include <Muon/Traits/TypeTraits.hpp>
-#include "Ilargia/Component/Array.hpp"
+#include "Ilargia/Component/ComponentStorage.hpp"
 #include "Ilargia/Component/Component.hpp"
 
 #include "Ilargia/Type/Vector.hpp"
@@ -60,7 +60,7 @@ namespace ilg
 
 		Matrix		_model;
 		Component	_parent;
-		typedef Array<Component, 8> ChildArray;
+		typedef ComponentStorage<Component, 8> ChildArray;
 		ChildArray* _children;
 	};
 }
