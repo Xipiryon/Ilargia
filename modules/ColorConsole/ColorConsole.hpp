@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_COLORCONSOLE_H_INCLUDED
-#define _ILARGIA_COLORCONSOLE_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_COLORCONSOLE_HPP
+#define INCLUDE_ILARGIA_COLORCONSOLE_HPP
 
 #include <Muon/System/Log.hpp>
 #include <Ilargia/Engine.hpp>

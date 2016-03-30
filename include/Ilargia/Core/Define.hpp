@@ -50,4 +50,4 @@
 #		endif
 #	endif
 
-#endif //_ILARGIA_DEFINE_H_INCLUDED
+#endif //INCLUDE_ILARGIA_DEFINE_HPP

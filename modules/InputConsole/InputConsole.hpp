@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef _ILARGIA_INPUTCONSOLEMODULE_H_INCLUDED
-#define _ILARGIA_INPUTCONSOLEMODULE_H_INCLUDED
+#ifndef INCLUDE_ILARGIA_INPUTCONSOLEMODULE_HPP
+#define INCLUDE_ILARGIA_INPUTCONSOLEMODULE_HPP
 
 #include "Ilargia/Manager/IComponentlessManager.hpp"
 namespace std
