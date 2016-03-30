@@ -68,10 +68,19 @@ namespace ilg
 			return Component(MUON_META(T)->id(), instance, MUON_META(T)->name());
 		}
 
-		m::system::Log _log;
+		m::system::Log& getLog()
+		{
+			return m_log();
+		}
+
+		m::system::Log& getLog(m::LogLevel level)
+		{
+			return m_log(level);
+		}
 
 	private:
 		friend class ManagerFactory;
+		m::system::Log m_log;
 		m::String	m_managerName;
 		m::u64		m_componentType;
 		m::i32		m_updateOrder;

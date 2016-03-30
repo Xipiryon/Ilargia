@@ -32,7 +32,7 @@
 namespace ilg
 {
 	IBaseManager::IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
-		: _log(name)
+		: m_log(name)
 		, m_managerName(name)
 		, m_componentType(componentType)
 		, m_updateOrder(updateOrder)

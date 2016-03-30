@@ -238,7 +238,7 @@ namespace ilg
 
 		//onUpdte fonctions
 #ifdef MUON_PLATFORM_WEB
-		emscripten_set_main_loop(_run, 0, _running);
+		emscripten_set_main_loop(_run, 0, m_running);
 #else
 		while (engine.m_running)
 		{
