@@ -55,6 +55,8 @@ namespace ilg
 		// and thus, must inherit from "reflect::Object"
 		//
 		// *** Type
+
+		MUON_META_REGISTER(ilg::Component);
 #if 0
 		auto& odb = reflect::ObjectDatabase::getInstance();
 		odb.registerClass<Vector>();
