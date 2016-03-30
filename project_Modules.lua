@@ -6,6 +6,7 @@
 -- You can simply comment / uncomment to build / unbuild
 G_ModuleToBuild = {
 	"ColorConsole",
+	"InputConsole",
 	--"LogHTML"
 	--"Network"
 }
