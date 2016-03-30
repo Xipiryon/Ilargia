@@ -3,11 +3,10 @@ Ilargia
 
 C++ Modular Game Engine
 
-[![Build Status](http://ci.louis-schnellbach.com/buildStatus/icon?job=Ilargia/master)](http://ci.louis-schnellbach.com/job/Ilargia/branch/master)
+[![Travis](https://travis-ci.org/Xipiryon/Ilargia.svg)](https://travis-ci.org/Xipiryon/Ilargia)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/kt1ylr5d8d48pfe0/branch/master?svg=true)](https://ci.appveyor.com/project/Xleek/haize/branch/master)
 
-[![CppCheck](http://ci.louis-schnellbach.com/job/Ilargia/branch/master/cppcheckResult/graph)](http://ci.louis-schnellbach.com/job/Ilargia/branch/master/cppcheckResult)
-[![Valgrind](http://ci.louis-schnellbach.com/job/Ilargia/branch/master/valgrindResult/graph)](http://ci.louis-schnellbach.com/job/Ilargia/branch/master/valgrindResult/)
+[![Coverity](https://scan.coverity.com/projects/8400/badge.svg)](https://scan.coverity.com/projects/xipiryon-ilargia)
 
 How to compile
 ====================
