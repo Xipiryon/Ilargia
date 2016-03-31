@@ -33,7 +33,7 @@ ILARGIA_MODULE_CHECK_FILENAME()
 ILARGIA_MODULE_INIT_BEGIN(argc, argv)
 {
 	input = MUON_NEW(ilg::mod::InputConsole, "InputConsole", 0);
-	ilg::ManagerFactory::getInstance().registerComponentManager(input);
+	ilg::manager::ManagerFactory::getInstance().registerComponentManager(input);
 	ILARGIA_MODULE_RETURN_SUCCESS();
 }
 ILARGIA_MODULE_INIT_END()
