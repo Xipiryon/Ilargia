@@ -25,53 +25,36 @@
 *
 *************************************************************************/
 
-#include <Muon/System/Log.hpp>
-#include <Muon/System/Assert.hpp>
-#include "Ilargia/Manager/IComponentlessManager.hpp"
+#ifndef INCLUDE_ILARGIA_ISIMPLEMANAGER_HPP
+#define INCLUDE_ILARGIA_ISIMPLEMANAGER_HPP
+
+#include "Ilargia/Manager/IBaseManager.hpp"
 
 namespace ilg
 {
 	namespace manager
 	{
-		IComponentlessManager::IComponentlessManager(const m::String& name, m::i32 updateOrder)
-			: IBaseManager(name, MUON_META(Component)->id(), updateOrder)
+		class ManagerFactory;
+		class ILARGIA_API ISimpleManager : public IBaseManager
 		{
-		}
+		public:
+			ISimpleManager(const m::String& name, m::i32 updateOrder);
+			virtual ~ISimpleManager();
 
-		IComponentlessManager::~IComponentlessManager()
-		{
-		}
+			virtual bool onInit() = 0;
+			virtual bool onUpdate(m::f32 deltaTime) = 0;
+			virtual bool onTerm() = 0;
 
-		void IComponentlessManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
-		{
-		}
+			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
+			virtual void onComponentAdd(Entity* entity, Component& component);
+			virtual void onComponentRemove(Entity* entity, Component& component);
 
-		void IComponentlessManager::onComponentAdd(Entity* entity, Component& component)
-		{
-		}
-
-		void IComponentlessManager::onComponentRemove(Entity* entity, Component& component)
-		{
-		}
-
-		// Private override
-		Component IComponentlessManager::createComponent()
-		{
-			return Component();
-		}
-
-		void IComponentlessManager::destroyComponent(Component& component)
-		{
-		}
-
-		void* IComponentlessManager::getComponent(m::i32 index)
-		{
-			return NULL;
-		}
-
-		Component IComponentlessManager::getComponent(void* object)
-		{
-			return Component();
-		}
+		private:
+			virtual Component createComponent();
+			virtual void destroyComponent(Component& component);
+			virtual void* getComponent(m::i32 index);
+			virtual Component getComponent(void* object);
+		};
 	}
 }
+#endif

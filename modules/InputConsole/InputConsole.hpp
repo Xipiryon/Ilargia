@@ -28,7 +28,7 @@
 #ifndef INCLUDE_ILARGIA_INPUTCONSOLEMODULE_HPP
 #define INCLUDE_ILARGIA_INPUTCONSOLEMODULE_HPP
 
-#include "Ilargia/Manager/IComponentlessManager.hpp"
+#include "Ilargia/Manager/ISimpleManager.hpp"
 namespace std
 {
 	class thread;
@@ -38,10 +38,10 @@ namespace ilg
 {
 	namespace mod
 	{
-		class ILARGIA_API InputConsole : public ilg::IComponentlessManager
+		class ILARGIA_API InputConsole : public ilg::manager::ISimpleManager
 		{
 		public:
-			InputConsole(const m::String& name, m::i32 execIndex);
+			InputConsole(const m::String& name, m::i32 updateOrder);
 			virtual ~InputConsole();
 
 			virtual bool onInit();

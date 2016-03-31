@@ -34,8 +34,8 @@ namespace ilg
 {
 	namespace mod
 	{
-		InputConsole::InputConsole(const m::String& name, m::i32 execIndex)
-			: IComponentlessManager(name, execIndex)
+		InputConsole::InputConsole(const m::String& name, m::i32 updateOrder)
+			: ISimpleManager(name, updateOrder)
 			, m_running(true)
 			, m_thread(NULL)
 		{

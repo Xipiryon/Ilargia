@@ -25,36 +25,53 @@
 *
 *************************************************************************/
 
-#ifndef INCLUDE_ILARGIA_ICOMPONENTLESSMANAGER_HPP
-#define INCLUDE_ILARGIA_ICOMPONENTLESSMANAGER_HPP
-
-#include "Ilargia/Manager/IBaseManager.hpp"
+#include <Muon/System/Log.hpp>
+#include <Muon/System/Assert.hpp>
+#include "Ilargia/Manager/ISimpleManager.hpp"
 
 namespace ilg
 {
 	namespace manager
 	{
-		class ManagerFactory;
-		class ILARGIA_API IComponentlessManager : public IBaseManager
+		ISimpleManager::ISimpleManager(const m::String& name, m::i32 updateOrder)
+			: IBaseManager(name, MUON_META(Component)->id(), updateOrder)
 		{
-		public:
-			IComponentlessManager(const m::String& name, m::i32 updateOrder);
-			virtual ~IComponentlessManager();
+		}
 
-			virtual bool onInit() = 0;
-			virtual bool onUpdate(m::f32 deltaTime) = 0;
-			virtual bool onTerm() = 0;
+		ISimpleManager::~ISimpleManager()
+		{
+		}
 
-			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
-			virtual void onComponentAdd(Entity* entity, Component& component);
-			virtual void onComponentRemove(Entity* entity, Component& component);
+		void ISimpleManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
+		{
+		}
 
-		private:
-			virtual Component createComponent();
-			virtual void destroyComponent(Component& component);
-			virtual void* getComponent(m::i32 index);
-			virtual Component getComponent(void* object);
-		};
+		void ISimpleManager::onComponentAdd(Entity* entity, Component& component)
+		{
+		}
+
+		void ISimpleManager::onComponentRemove(Entity* entity, Component& component)
+		{
+		}
+
+		// Private override
+		Component ISimpleManager::createComponent()
+		{
+			return Component();
+		}
+
+		void ISimpleManager::destroyComponent(Component& component)
+		{
+		}
+
+		void* ISimpleManager::getComponent(m::i32 index)
+		{
+			return NULL;
+		}
+
+		Component ISimpleManager::getComponent(void* object)
+		{
+			return Component();
+		}
 	}
 }
-#endif
