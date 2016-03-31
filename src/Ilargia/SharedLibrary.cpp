@@ -82,7 +82,7 @@ namespace ilg
 		m_static = true;
 	}
 
-	void SharedLibrary::_addModuleRef(IBaseManager* manager)
+	void SharedLibrary::_addModuleRef(manager::IBaseManager* manager)
 	{
 		m_managers.push_back({ manager, currentLibRef });
 		m_log(m::LOG_DEBUG) << "Manager added: \"" << manager->getManagerName() << "\"" << m::endl;

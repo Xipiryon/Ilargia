@@ -46,7 +46,7 @@ namespace ilg
 
 	Component Entity::_addComponent(m::i32 type)
 	{
-		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
+		manager::IBaseManager* manager = manager::ManagerFactory::getInstance().getComponentManager(type);
 		Component c;
 		if (manager)
 		{
@@ -72,7 +72,7 @@ namespace ilg
 
 	bool Entity::_removeComponent(m::i32 type)
 	{
-		IBaseManager* manager = ManagerFactory::getInstance().getComponentManager(type);
+		manager::IBaseManager* manager = manager::ManagerFactory::getInstance().getComponentManager(type);
 		Component c;
 		if (manager)
 		{

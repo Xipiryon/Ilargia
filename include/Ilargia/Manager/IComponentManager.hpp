@@ -32,24 +32,27 @@
 
 namespace ilg
 {
-	class ILARGIA_API IComponentManager : public IBaseManager
+	namespace manager
 	{
-	public:
-		IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder);
-		virtual ~IComponentManager();
+		class ILARGIA_API IComponentManager : public IBaseManager
+		{
+		public:
+			IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder);
+			virtual ~IComponentManager();
 
-		virtual bool onInit() = 0;
-		virtual bool onUpdate(m::f32 deltaTime) = 0;
-		virtual bool onTerm() = 0;
+			virtual bool onInit() = 0;
+			virtual bool onUpdate(m::f32 deltaTime) = 0;
+			virtual bool onTerm() = 0;
 
-		virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
-		virtual void onComponentAdd(Entity* entity, Component& component);
-		virtual void onComponentRemove(Entity* entity, Component& component);
+			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
+			virtual void onComponentAdd(Entity* entity, Component& component);
+			virtual void onComponentRemove(Entity* entity, Component& component);
 
-		virtual Component createComponent() = 0;
-		virtual void destroyComponent(Component& component) = 0;
-		virtual void* getComponent(m::i32 index) = 0;
-		virtual Component getComponent(void* object) = 0;
-	};
+			virtual Component createComponent() = 0;
+			virtual void destroyComponent(Component& component) = 0;
+			virtual void* getComponent(m::i32 index) = 0;
+			virtual Component getComponent(void* object) = 0;
+		};
+	}
 }
 #endif

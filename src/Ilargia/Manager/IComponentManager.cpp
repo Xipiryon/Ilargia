@@ -31,24 +31,27 @@
 
 namespace ilg
 {
-	IComponentManager::IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
-		: IBaseManager(name, componentType, updateOrder)
+	namespace manager
 	{
-	}
+		IComponentManager::IComponentManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
+			: IBaseManager(name, componentType, updateOrder)
+		{
+		}
 
-	IComponentManager::~IComponentManager()
-	{
-	}
+		IComponentManager::~IComponentManager()
+		{
+		}
 
-	void IComponentManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
-	{
-	}
+		void IComponentManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
+		{
+		}
 
-	void IComponentManager::onComponentAdd(Entity* entity, Component& component)
-	{
-	}
+		void IComponentManager::onComponentAdd(Entity* entity, Component& component)
+		{
+		}
 
-	void IComponentManager::onComponentRemove(Entity* entity, Component& component)
-	{
+		void IComponentManager::onComponentRemove(Entity* entity, Component& component)
+		{
+		}
 	}
 }

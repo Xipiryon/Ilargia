@@ -33,26 +33,29 @@
 
 namespace ilg
 {
-	class ILARGIA_API ManagerFactory : public m::helper::NonCopyable
+	namespace manager
 	{
-	public:
-		MUON_SINGLETON_GET(ManagerFactory);
+		class ILARGIA_API ManagerFactory : public m::helper::NonCopyable
+		{
+		public:
+			MUON_SINGLETON_GET(ManagerFactory);
 
-		bool registerComponentManager(IBaseManager* manager);
+			bool registerComponentManager(IBaseManager* manager);
 
-		IBaseManager* getComponentManager(m::u64 componentType);
-		IBaseManager* getComponentManager(const m::String& name);
+			IBaseManager* getComponentManager(m::u64 componentType);
+			IBaseManager* getComponentManager(const m::String& name);
 
-	private:
-		bool checkComponentManager(const m::String&);
+		private:
+			bool checkComponentManager(const m::String&);
 
-		ManagerFactory();
-		ManagerFactory(const ManagerFactory&);
-		ManagerFactory& operator = (const ManagerFactory&);
-		virtual ~ManagerFactory();
-	};
+			ManagerFactory();
+			ManagerFactory(const ManagerFactory&);
+			ManagerFactory& operator = (const ManagerFactory&);
+			virtual ~ManagerFactory();
+		};
 
-#define ILARGIA_CMANAGER_TYPE(Manager, ComponentType) ((Manager*)ManagerFactory::getInstance().getComponentManager(ComponentType))
-#define ILARGIA_CMANAGER_NAME(Manager, Name) ((Manager*)ManagerFactory::getInstance().getComponentManager(Name))
+#define ILARGIA_COMPONENT_MANAGER_TYPE(ManagerType, ComponentType) ((ManagerType*)::ilg::manager::ManagerFactory::getInstance().getComponentManager(ComponentType))
+#define ILARGIA_COMPONENT_MANAGER_NAME(ManagerType, Name) ((ManagerType*)::ilg::manager::ManagerFactory::getInstance().getComponentManager(Name))
+	}
 }
 #endif

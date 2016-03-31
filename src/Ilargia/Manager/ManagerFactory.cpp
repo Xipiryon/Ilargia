@@ -33,67 +33,70 @@
 
 namespace ilg
 {
-	ManagerFactory::ManagerFactory()
+	namespace manager
 	{
-	}
-
-	ManagerFactory::~ManagerFactory()
-	{
-	}
-
-	bool ManagerFactory::registerComponentManager(IBaseManager* manager)
-	{
-		MUON_ASSERT_BREAK(manager != NULL, "Can't register a non allocated manager!");
-		if (checkComponentManager(manager->getManagerName()))
+		ManagerFactory::ManagerFactory()
 		{
-			SharedLibrary::getInstance()._addModuleRef(manager);
-			return true;
 		}
-		return false;
-	}
 
-	bool ManagerFactory::checkComponentManager(const m::String& name)
-	{
-		//Check if manager isn't already loaded
-		bool found = false;
-		auto& managerList = SharedLibrary::getInstance().m_managers;
-		for (auto it = managerList.begin(); it != managerList.end(); ++it)
+		ManagerFactory::~ManagerFactory()
 		{
-			if ((*it).manager->m_managerName == name)
+		}
+
+		bool ManagerFactory::registerComponentManager(IBaseManager* manager)
+		{
+			MUON_ASSERT_BREAK(manager != NULL, "Can't register a non allocated manager!");
+			if (checkComponentManager(manager->getManagerName()))
 			{
-				found = true;
-				break;
+				SharedLibrary::getInstance()._addModuleRef(manager);
+				return true;
 			}
+			return false;
 		}
-		MUON_ASSERT(found == false, "Module \"%s\" alread added: aborting...\n", name.cStr());
-		return !found;
-	}
 
-	IBaseManager* ManagerFactory::getComponentManager(m::u64 type)
-	{
-		auto& managerList = SharedLibrary::getInstance().m_managers;
-		for (auto it = managerList.begin(); it != managerList.end(); ++it)
+		bool ManagerFactory::checkComponentManager(const m::String& name)
 		{
-			if ((*it).manager->getComponentType() == type)
+			//Check if manager isn't already loaded
+			bool found = false;
+			auto& managerList = SharedLibrary::getInstance().m_managers;
+			for (auto it = managerList.begin(); it != managerList.end(); ++it)
 			{
-				return (*it).manager;
-				break;
+				if ((*it).manager->m_managerName == name)
+				{
+					found = true;
+					break;
+				}
 			}
+			MUON_ASSERT(found == false, "Module \"%s\" alread added: aborting...\n", name.cStr());
+			return !found;
 		}
-		return NULL;
-	}
 
-	IBaseManager* ManagerFactory::getComponentManager(const m::String& name)
-	{
-		auto& managerList = SharedLibrary::getInstance().m_managers;
-		for (auto it = managerList.begin(); it != managerList.end(); ++it)
+		IBaseManager* ManagerFactory::getComponentManager(m::u64 type)
 		{
-			if ((*it).manager->m_managerName == name)
+			auto& managerList = SharedLibrary::getInstance().m_managers;
+			for (auto it = managerList.begin(); it != managerList.end(); ++it)
 			{
-				return (*it).manager;
-				break;
+				if ((*it).manager->getComponentType() == type)
+				{
+					return (*it).manager;
+					break;
+				}
 			}
+			return NULL;
 		}
-		return NULL;
+
+		IBaseManager* ManagerFactory::getComponentManager(const m::String& name)
+		{
+			auto& managerList = SharedLibrary::getInstance().m_managers;
+			for (auto it = managerList.begin(); it != managerList.end(); ++it)
+			{
+				if ((*it).manager->m_managerName == name)
+				{
+					return (*it).manager;
+					break;
+				}
+			}
+			return NULL;
+		}
 	}
 }

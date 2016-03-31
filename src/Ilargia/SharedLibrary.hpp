@@ -36,7 +36,12 @@
 
 namespace ilg
 {
-	class ManagerFactory;
+	namespace manager
+	{
+		class ManagerFactory;
+		class IBaseManager;
+	}
+
 	struct SharedLibraryInfo
 	{
 		typedef int(*FuncLoad)(int, char**, char*);
@@ -52,7 +57,7 @@ namespace ilg
 
 	struct CManagerPair
 	{
-		IBaseManager *manager;
+		manager::IBaseManager *manager;
 		void* library;
 	};
 
@@ -74,10 +79,10 @@ namespace ilg
 		int m_argc;
 		char** m_argv;
 
-		friend class ManagerFactory;
+		friend class manager::ManagerFactory;
 		friend class Engine;
 
-		void _addModuleRef(IBaseManager*);
+		void _addModuleRef(manager::IBaseManager*);
 		bool _loadLibrary(SharedLibraryInfo&, const char*);
 		bool _loadLibraryLoad(SharedLibraryInfo&, const char*);
 		bool _loadLibraryUnload(SharedLibraryInfo&, const char*);

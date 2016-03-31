@@ -35,7 +35,10 @@
 
 namespace ilg
 {
-	class IBaseManager;
+	namespace manager
+	{
+		class IBaseManager;
+	}
 	class Entity;
 	class ILARGIA_API Component
 	{
@@ -65,7 +68,7 @@ namespace ilg
 		}
 
 	private:
-		friend class IBaseManager;
+		friend class manager::IBaseManager;
 		friend class Entity;
 
 		Component(m::u64, m::i32, const m::String&);

@@ -32,26 +32,29 @@
 
 namespace ilg
 {
-	class ManagerFactory;
-	class ILARGIA_API IComponentlessManager : public IBaseManager
+	namespace manager
 	{
-	public:
-		IComponentlessManager(const m::String& name, m::i32 updateOrder);
-		virtual ~IComponentlessManager();
+		class ManagerFactory;
+		class ILARGIA_API IComponentlessManager : public IBaseManager
+		{
+		public:
+			IComponentlessManager(const m::String& name, m::i32 updateOrder);
+			virtual ~IComponentlessManager();
 
-		virtual bool onInit() = 0;
-		virtual bool onUpdate(m::f32 deltaTime) = 0;
-		virtual bool onTerm() = 0;
+			virtual bool onInit() = 0;
+			virtual bool onUpdate(m::f32 deltaTime) = 0;
+			virtual bool onTerm() = 0;
 
-		virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
-		virtual void onComponentAdd(Entity* entity, Component& component);
-		virtual void onComponentRemove(Entity* entity, Component& component);
+			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
+			virtual void onComponentAdd(Entity* entity, Component& component);
+			virtual void onComponentRemove(Entity* entity, Component& component);
 
-	private:
-		virtual Component createComponent();
-		virtual void destroyComponent(Component& component);
-		virtual void* getComponent(m::i32 index);
-		virtual Component getComponent(void* object);
-	};
+		private:
+			virtual Component createComponent();
+			virtual void destroyComponent(Component& component);
+			virtual void* getComponent(m::i32 index);
+			virtual Component getComponent(void* object);
+		};
+	}
 }
 #endif

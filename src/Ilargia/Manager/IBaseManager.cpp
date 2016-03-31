@@ -31,42 +31,45 @@
 
 namespace ilg
 {
-	IBaseManager::IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
-		: m_log(name)
-		, m_managerName(name)
-		, m_componentType(componentType)
-		, m_updateOrder(updateOrder)
+	namespace manager
 	{
-	}
+		IBaseManager::IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
+			: m_log(name)
+			, m_managerName(name)
+			, m_componentType(componentType)
+			, m_updateOrder(updateOrder)
+		{
+		}
 
-	IBaseManager::~IBaseManager()
-	{
-	}
+		IBaseManager::~IBaseManager()
+		{
+		}
 
-	const m::String& IBaseManager::getManagerName() const
-	{
-		return m_managerName;
-	}
+		const m::String& IBaseManager::getManagerName() const
+		{
+			return m_managerName;
+		}
 
-	m::u64 IBaseManager::getComponentType() const
-	{
-		return m_componentType;
-	}
+		m::u64 IBaseManager::getComponentType() const
+		{
+			return m_componentType;
+		}
 
-	m::i32 IBaseManager::getUpdateOrder() const
-	{
-		return m_updateOrder;
-	}
+		m::i32 IBaseManager::getUpdateOrder() const
+		{
+			return m_updateOrder;
+		}
 
-	void IBaseManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
-	{
-	}
+		void IBaseManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
+		{
+		}
 
-	void IBaseManager::onComponentAdd(Entity* entity, Component& component)
-	{
-	}
+		void IBaseManager::onComponentAdd(Entity* entity, Component& component)
+		{
+		}
 
-	void IBaseManager::onComponentRemove(Entity* entity, Component& component)
-	{
+		void IBaseManager::onComponentRemove(Entity* entity, Component& component)
+		{
+		}
 	}
 }

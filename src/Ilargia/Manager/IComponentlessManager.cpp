@@ -31,44 +31,47 @@
 
 namespace ilg
 {
-	IComponentlessManager::IComponentlessManager(const m::String& name, m::i32 updateOrder)
-		: IBaseManager(name, MUON_META(Component)->id(), updateOrder)
+	namespace manager
 	{
-	}
+		IComponentlessManager::IComponentlessManager(const m::String& name, m::i32 updateOrder)
+			: IBaseManager(name, MUON_META(Component)->id(), updateOrder)
+		{
+		}
 
-	IComponentlessManager::~IComponentlessManager()
-	{
-	}
+		IComponentlessManager::~IComponentlessManager()
+		{
+		}
 
-	void IComponentlessManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
-	{
-	}
+		void IComponentlessManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
+		{
+		}
 
-	void IComponentlessManager::onComponentAdd(Entity* entity, Component& component)
-	{
-	}
+		void IComponentlessManager::onComponentAdd(Entity* entity, Component& component)
+		{
+		}
 
-	void IComponentlessManager::onComponentRemove(Entity* entity, Component& component)
-	{
-	}
+		void IComponentlessManager::onComponentRemove(Entity* entity, Component& component)
+		{
+		}
 
-	// Private override
-	Component IComponentlessManager::createComponent()
-	{
-		return Component();
-	}
+		// Private override
+		Component IComponentlessManager::createComponent()
+		{
+			return Component();
+		}
 
-	void IComponentlessManager::destroyComponent(Component& component)
-	{
-	}
+		void IComponentlessManager::destroyComponent(Component& component)
+		{
+		}
 
-	void* IComponentlessManager::getComponent(m::i32 index)
-	{
-		return NULL;
-	}
+		void* IComponentlessManager::getComponent(m::i32 index)
+		{
+			return NULL;
+		}
 
-	Component IComponentlessManager::getComponent(void* object)
-	{
-		return Component();
+		Component IComponentlessManager::getComponent(void* object)
+		{
+			return Component();
+		}
 	}
 }

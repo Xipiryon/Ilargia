@@ -92,7 +92,7 @@ namespace ilg
 		}
 
 		auto& metadb = m::meta::MetaDatabase::getInstance();
-		auto& manager = ManagerFactory::getInstance();
+		auto& manager = manager::ManagerFactory::getInstance();
 		auto& script = system::ScriptDriver::getInstance();
 		auto& sharedLib = SharedLibrary::getInstance();
 		sharedLib.forwardArg(argc, argv);
@@ -228,7 +228,7 @@ namespace ilg
 		while (!failed.empty())
 		{
 			m::i32 i = failed.back();
-			IBaseManager* manager = managerList[i].manager;
+			manager::IBaseManager* manager = managerList[i].manager;
 			engine.m_log(m::LOG_WARNING) << "Removing \"" << manager->getManagerName() << "\" due to onInit() failure. Calling onTerm() ..." << m::endl;
 
 			bool success = manager->onTerm();

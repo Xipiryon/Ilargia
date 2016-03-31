@@ -35,55 +35,58 @@
 
 namespace ilg
 {
-	class ManagerFactory;
-	class ILARGIA_API IBaseManager : public m::helper::NonCopyable
+	namespace manager
 	{
-	protected:
-		IBaseManager();
-		IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder);
-	public:
-		virtual ~IBaseManager();
-
-		const m::String&	getManagerName() const;
-		m::u64			getComponentType() const;
-		m::i32			getUpdateOrder() const;
-
-		virtual bool onInit() = 0;
-		virtual bool onUpdate(m::f32 deltaTime) = 0;
-		virtual bool onTerm() = 0;
-
-		virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier) = 0;
-		virtual void onComponentAdd(Entity* entity, Component& component) = 0;
-		virtual void onComponentRemove(Entity* entity, Component& component) = 0;
-
-		virtual Component createComponent() = 0;
-		virtual void destroyComponent(Component& component) = 0;
-		virtual void* getComponent(m::i32 index) = 0;
-		virtual Component getComponent(void* object) = 0;
-
-	protected:
-		template<typename T>
-		Component setupComponent(m::i32 instance)
+		class ManagerFactory;
+		class ILARGIA_API IBaseManager : public m::helper::NonCopyable
 		{
-			return Component(MUON_META(T)->id(), instance, MUON_META(T)->name());
-		}
+		protected:
+			IBaseManager();
+			IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder);
+		public:
+			virtual ~IBaseManager();
 
-		m::system::Log& getLog()
-		{
-			return m_log();
-		}
+			const m::String&	getManagerName() const;
+			m::u64			getComponentType() const;
+			m::i32			getUpdateOrder() const;
 
-		m::system::Log& getLog(m::LogLevel level)
-		{
-			return m_log(level);
-		}
+			virtual bool onInit() = 0;
+			virtual bool onUpdate(m::f32 deltaTime) = 0;
+			virtual bool onTerm() = 0;
 
-	private:
-		friend class ManagerFactory;
-		m::system::Log m_log;
-		m::String	m_managerName;
-		m::u64		m_componentType;
-		m::i32		m_updateOrder;
-	};
+			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier) = 0;
+			virtual void onComponentAdd(Entity* entity, Component& component) = 0;
+			virtual void onComponentRemove(Entity* entity, Component& component) = 0;
+
+			virtual Component createComponent() = 0;
+			virtual void destroyComponent(Component& component) = 0;
+			virtual void* getComponent(m::i32 index) = 0;
+			virtual Component getComponent(void* object) = 0;
+
+		protected:
+			template<typename T>
+			Component setupComponent(m::i32 instance)
+			{
+				return Component(MUON_META(T)->id(), instance, MUON_META(T)->name());
+			}
+
+			m::system::Log& getLog()
+			{
+				return m_log();
+			}
+
+			m::system::Log& getLog(m::LogLevel level)
+			{
+				return m_log(level);
+			}
+
+		private:
+			friend class ManagerFactory;
+			m::system::Log m_log;
+			m::String	m_managerName;
+			m::u64		m_componentType;
+			m::i32		m_updateOrder;
+		};
+	}
 }
 #endif
