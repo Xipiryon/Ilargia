@@ -24,8 +24,8 @@ project(G_ProjectName)
 	end
 
 	files {
-		SolutionRoot.."/modules/"..G_ProjectName.."/**.cpp",
-		SolutionRoot.."/modules/"..G_ProjectName.."/**.hpp",
+		ProjectRoot.."/**.cpp",
+		ProjectRoot.."/**.hpp",
 	}
 
 	defines { ProjectNameDefine }
