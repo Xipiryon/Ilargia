@@ -151,7 +151,7 @@ namespace ilg
 		LPTSTR lpErrorText = NULL;
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER
 					  , 0, GetLastError(), 0, lpErrorText, MAX_PATH, 0);
-		const char* error = (lpErrorText == NULL ? "File doesn't exist" : lpErrorText);
+		const char* error = (lpErrorText == NULL ? "Unknown error" : lpErrorText);
 		LocalFree(lpErrorText);
 #elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
 		void* lib_handle = dlopen(c_libPath, RTLD_LAZY);
