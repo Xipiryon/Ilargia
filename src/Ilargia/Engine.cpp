@@ -163,8 +163,7 @@ namespace ilg
 		//Modules update
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
-			bool success = (*it).manager->onUpdate(m_deltaTime);
-			MUON_ASSERT(success, "Module: \"%s\" onUpdate() failed!", (*it).manager->getManagerName().cStr());
+			(*it).manager->onUpdate(m_deltaTime);
 		}
 
 		// Retrieve time information
@@ -207,36 +206,14 @@ namespace ilg
 		);
 
 		//onInit functions
-		std::vector<m::i32> failed;
-		failed.reserve(modSize);
 		m::i32 count = 0;
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
-			bool success = (*it).manager->onInit();
-			MUON_ASSERT(success, "Module: \"%s\" onInit() failed!", (*it).manager->getManagerName().cStr());
-			if (!success)
-			{
-				failed.push_back(count);
-				engine.m_log(m::LOG_WARNING) << "Module: \"" << (*it).manager->getManagerName() << "\" onInit() failed!" << m::endl;
-			}
+			(*it).manager->onInit();
 			++count;
 		}
 
-		//Remove all "onInit" fail manager
-		while (!failed.empty())
-		{
-			m::i32 i = failed.back();
-			manager::IBaseManager* manager = managerList[i].manager;
-			engine.m_log(m::LOG_WARNING) << "Removing \"" << manager->getManagerName() << "\" due to onInit() failure. Calling onTerm() ..." << m::endl;
-
-			bool success = manager->onTerm();
-			MUON_ASSERT(success, "Module: \"%s\" onTerm() failed!", manager->getManagerName().cStr());
-			MUON_DELETE(manager);
-			managerList.erase(managerList.begin() + i);
-			failed.pop_back();
-		}
-
-		//onUpdte fonctions
+		//onUpdate functions
 #ifdef MUON_PLATFORM_WEB
 		emscripten_set_main_loop(_run, 0, m_running);
 #else
@@ -248,8 +225,7 @@ namespace ilg
 		//onTerm functions
 		for (auto it = managerList.begin(); it != managerList.end(); ++it)
 		{
-			bool success = (*it).manager->onTerm();
-			MUON_ASSERT(success, "Module: \"%s\" onTerm() failed!", (*it).manager->getManagerName().cStr());
+			(*it).manager->onTerm();
 		}
 	}
 

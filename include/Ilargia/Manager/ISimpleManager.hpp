@@ -41,9 +41,9 @@ namespace ilg
 			ISimpleManager(const m::String& name, m::i32 updateOrder);
 			virtual ~ISimpleManager();
 
-			virtual bool onInit() = 0;
-			virtual bool onUpdate(m::f32 deltaTime) = 0;
-			virtual bool onTerm() = 0;
+			virtual void onInit() = 0;
+			virtual void onUpdate(m::f32 deltaTime) = 0;
+			virtual void onTerm() = 0;
 
 			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
 			virtual void onComponentAdded(Entity* entity, Component& component);

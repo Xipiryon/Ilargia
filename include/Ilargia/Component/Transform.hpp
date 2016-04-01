@@ -62,9 +62,9 @@ namespace ilg
 		ILARGIA_COMPONENT_MANAGER_NAME(Transform)();
 		virtual ~ILARGIA_COMPONENT_MANAGER_NAME(Transform)();
 
-		virtual bool onInit();
-		virtual bool onUpdate(m::f32);
-		virtual bool onTerm();
+		virtual void onInit();
+		virtual void onUpdate(m::f32);
+		virtual void onTerm();
 
 		virtual void onComponentAdded(Entity* entity, Component& component);
 		virtual void onComponentRemoved(Entity* entity, Component& component);

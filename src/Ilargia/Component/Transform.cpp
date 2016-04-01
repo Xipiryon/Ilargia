@@ -60,7 +60,7 @@ namespace ilg
 	{
 	}
 
-	bool ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onInit()
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onInit()
 	{
 		/*
 		uint32_t chunk = 64;
@@ -69,10 +69,9 @@ namespace ilg
 		m_rootTransforms = new Array<Component>(chunk);
 		Log::debug("[TRANSFORM] Initialized (%d)", chunk);
 		//*/
-		return true;
 	}
 
-	bool ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onUpdate(m::f32 dt)
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onUpdate(m::f32 dt)
 	{
 		/*
 		updateRootList();
@@ -83,10 +82,9 @@ namespace ilg
 		updateRecursive(it.value());
 		}
 		//*/
-		return true;
 	}
 
-	bool ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onTerm()
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onTerm()
 	{
 		/*
 		if(m_components != NULL)
@@ -105,7 +103,6 @@ namespace ilg
 		m_rootTransforms = NULL;
 		}
 		//*/
-		return true;
 	}
 
 	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onEntityHierarchyChanged(Entity* entity, Entity* previousParent, Entity* newParent)
