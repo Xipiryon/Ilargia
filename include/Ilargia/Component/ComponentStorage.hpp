@@ -139,7 +139,7 @@ namespace ilg
 			m::i32 nbElement = m_size;
 			for (auto it = m_index.begin(); it != m_index.end(); ++it)
 			{
-				it->second.~T();
+				it->second->~T();
 			}
 
 			free(m_buffer);

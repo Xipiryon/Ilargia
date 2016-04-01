@@ -32,23 +32,23 @@
 namespace ilg
 {
 	Component::Component()
-		: m_type(MUON_META(Component)->id())
-		, m_instance(m::INVALID_INDEX)
-		, m_name(MUON_META(Component)->name())
+		: m_instanceTypeId(MUON_META(Component)->id())
+		, m_instanceIndex(m::INVALID_INDEX)
+		, m_instanceName(MUON_META(Component)->name())
 	{
 	}
 
 	Component::Component(m::u64 type, m::i32 instance, const m::String& name)
-		: m_type(type)
-		, m_instance(instance)
-		, m_name(name)
+		: m_instanceTypeId(type)
+		, m_instanceIndex(instance)
+		, m_instanceName(name)
 	{
 	}
 
 	Component::Component(const Component& c)
-		: m_type(c.m_type)
-		, m_instance(c.m_instance)
-		, m_name(c.m_name)
+		: m_instanceTypeId(c.m_instanceTypeId)
+		, m_instanceIndex(c.m_instanceIndex)
+		, m_instanceName(c.m_instanceName)
 	{
 	}
 
@@ -56,34 +56,34 @@ namespace ilg
 	{
 		if (this != &c)
 		{
-			m_type = c.m_type;
-			m_instance = c.m_instance;
-			m_name = c.m_name;
+			m_instanceTypeId = c.m_instanceTypeId;
+			m_instanceIndex = c.m_instanceIndex;
+			m_instanceName = c.m_instanceName;
 		}
 		return *this;
 	}
 
-	m::i32 Component::instanceId() const
+	m::i32 Component::getInstanceIndex() const
 	{
-		return m_instance;
+		return m_instanceIndex;
 	}
 
-	m::u64 Component::instanceType() const
+	m::u64 Component::getInstanceTypeId() const
 	{
-		return m_type;
+		return m_instanceTypeId;
 	}
 
-	m::String Component::instanceName() const
+	m::String Component::getInstanceName() const
 	{
-		return m_name;
+		return m_instanceName;
 	}
 
 	void* Component::_cast(m::u64 type, const char* type_name) const
 	{
-		MUON_ASSERT(m_instance != m::INVALID_INDEX, "Component instance is invalid!");
+		MUON_ASSERT(m_instanceIndex != m::INVALID_INDEX, "Component instance is invalid!");
 		MUON_ASSERT(type != m::INVALID_INDEX, "Trying to cast to an invalid type!");
 		if (type == m::INVALID_INDEX
-			|| m_instance == m::INVALID_INDEX)
+			|| m_instanceIndex == m::INVALID_INDEX)
 		{
 			return NULL;
 		}
@@ -95,12 +95,12 @@ namespace ilg
 
 		if (manager != NULL)
 		{
-			MUON_ASSERT(type == m_type,
+			MUON_ASSERT(type == m_instanceTypeId,
 						"Cast Type (%s) does not match Component Type (%s)",
-						type_name, m_type);
-			if (type == m_type)
+						type_name, m_instanceTypeId);
+			if (type == m_instanceTypeId)
 			{
-				return manager->getComponent(m_instance);
+				return manager->getComponent(m_instanceIndex);
 			}
 		}
 		return NULL;

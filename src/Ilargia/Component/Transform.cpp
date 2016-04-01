@@ -28,7 +28,6 @@
 #include <Muon/System/Assert.hpp>
 
 #include "Ilargia/Manager/ManagerFactory.hpp"
-#include "Ilargia/Component/TransformManager.hpp"
 #include "Ilargia/Component/Transform.hpp"
 
 namespace ilg
@@ -38,52 +37,220 @@ namespace ilg
 		, scale(1.f, 1.f, 1.f)
 		, rotation(Quaternion::Identity)
 		, m_model(Matrix::Identity)
-		, m_children(MUON_NEW(ChildArray))
 	{
 	}
 
 	Transform::~Transform()
 	{
-		MUON_DELETE(m_children);
 	}
 
 	void Transform::setParent(Component parent)
 	{
-		TransformManager* manager = ILARGIA_COMPONENT_MANAGER_TYPE(TransformManager, MUON_META(Transform)->id());
-
-		//Remove myself from my previous parent if any
-		if (m_parent.instanceId() != m::INVALID_INDEX)
-		{
-			Transform* myParent = m_parent;
-			myParent->m_children->remove(manager->getComponent(this).instanceId());
-		}
-
-		if (m_parent.instanceId() != m::INVALID_INDEX)
-		{
-			//Notify my parent it has a new child!
-			Transform* tParent = parent;
-			tParent->m_children->add(manager->getComponent(this));
-		}
-
-		//Either valid or not
 		m_parent = parent;
+		TransformManager* manager = ILARGIA_GET_COMPONENT_MANAGER_FROM_TYPE(TransformManager, MUON_META(Transform)->id());
 		manager->requireRootListUpdate();
 	}
 
-	void Transform::addChild(Component child)
+	Component Transform::getParent() const
 	{
-		MUON_ASSERT(child.instanceId() != m::INVALID_INDEX, "Adding an invalid child!");
-		if (child.instanceId() != m::INVALID_INDEX)
+		return m_parent;
+	}
+
+	Matrix Transform::getMatrix() const
+	{
+		return m_model;
+	}
+
+	TransformManager::TransformManager()
+		: IComponentManager(160)
+		, m_requireRootListUpdate(true)
+		, m_rootTransforms(NULL)
+	{
+	}
+
+	TransformManager::~TransformManager()
+	{
+	}
+
+	bool TransformManager::onInit()
+	{
+		/*
+		uint32_t chunk = 64;
+		Global::retrieve<uint32_t>("MEMCHUNK_TRANSFORM", &chunk);
+		m_components = new Array<Transform>(chunk);
+		m_rootTransforms = new Array<Component>(chunk);
+		Log::debug("[TRANSFORM] Initialized (%d)", chunk);
+		//*/
+		return true;
+	}
+
+	bool TransformManager::onUpdate(m::f32 dt)
+	{
+		/*
+		updateRootList();
+		for (auto it = m_rootTransforms->iterator(); it; ++it)
 		{
-			Transform* childPtr = child;
-			Transform* childParentPtr = (childPtr->m_parent.instanceId() == m::INVALID_INDEX ? NULL : (Transform*)childPtr->m_parent);
-			//Don't update parent if we're already the one or if NULL
-			if (childParentPtr != NULL && childParentPtr != this)
-			{
-				childParentPtr->m_children->remove(child.instanceId());
-			}
-			m_children->add(child);
-			ILARGIA_COMPONENT_MANAGER_TYPE(TransformManager, MUON_META(Transform)->id())->requireRootListUpdate();
+		//Fast retrieve of the Transform* from the Component
+		//(We don't go with it.value()->cast<>()...
+		updateRecursive(it.value());
 		}
+		//*/
+		return true;
+	}
+
+	bool TransformManager::onTerm()
+	{
+		/*
+		if(m_components != NULL)
+		{
+		for(auto it = m_components->iterator(); it; ++it)
+		{
+		it.value().~Transform();
+		}
+		delete m_components;
+		m_components = NULL;
+		}
+
+		if(m_rootTransforms != NULL)
+		{
+		delete m_rootTransforms;
+		m_rootTransforms = NULL;
+		}
+		//*/
+		return true;
+	}
+
+	void TransformManager::requireRootListUpdate()
+	{
+		m_requireRootListUpdate = true;
+	}
+
+	void TransformManager::updateRootList()
+	{
+		if (m_requireRootListUpdate)
+		{
+			/*
+			//Recreate the whole list
+			m::i32 transform_type = type_id<Transform>();
+			m_rootTransforms->clear();
+			for (auto it = m_components->iterator(); it; ++it)
+			{
+			Transform& t = it.value();
+			//Only had if the Transform have no valid parent
+			if (!t._parent.isValid())
+			{
+			m_rootTransforms->add(makeComponent(it.index(), transform_type));
+			}
+			}
+			//*/
+		}
+	}
+
+	void TransformManager::updateRecursive(Component& component)
+	{
+		/*
+		Transform* transform = &(*m_components)[component.getID()];
+		//Check for a Destroy flag
+		if(transform->flags & ObjectType::REQUIRE_DELETE)
+		{
+		destroy(component);
+		rootListChanged();
+		}
+		else
+		{
+		//Update itself
+		if(transform->_parent.getID() == INVALID_INDEX)
+		{
+		transform->_model = Matrix::identity;
+		}
+		else
+		{
+		transform->_model = (*m_components)[transform->_parent.getID()]._model;
+		}
+
+		transform->_model = transform->_model.translate(transform->position);
+		transform->_model = transform->_model.rotate(transform->rotation);
+		transform->_model = transform->_model.scale(transform->scale);
+		}
+
+		//Update next child
+		for(auto it = transform->_children->iterator(); it; ++it)
+		{
+		updateRecursive(it.value());
+		}
+		//*/
+	}
+
+	void TransformManager::callbackNewComponent(Entity* entity, Component& component)
+	{
+		/*
+		Transform* t = component;
+
+		uint32_t chunk = 8;
+		Global::retrieve<uint32_t>("MEMCHUNK_TRANSFORM_CHILDREN", &chunk);
+		m_rootTransforms->add(component);
+		//*/
+	}
+
+	void TransformManager::callbackRemoveComponent(Entity* entity, Component& component)
+	{
+		/*
+		for(auto it = m_rootTransforms->iterator(); it; ++it)
+		{
+		Component c = it.value();
+		if(c == component)
+		{
+		Transform* t = component;
+		t->flags |= ObjectType::REQUIRE_DELETE;
+		return;
+		}
+		}
+		//*/
+	}
+
+	Component TransformManager::createComponent()
+	{
+		return setupComponent<Transform>(m_components->add());
+	}
+
+	void TransformManager::destroyComponent(Component& component)
+	{
+		//m::i32 i = component.getInstanceIndex();
+		//_components->remove(i);
+		/*
+		MUON_ASSERT(component.isValid()
+		, "[MODULE] (%s) Trying to destroy an Invalid Component!"
+		, _name);
+		if(Transform* ptr = component)
+		{
+		//Make its children have a new parent
+		for(auto it = ptr->_children->iterator(); it; ++it)
+		{
+		(*m_components)[it.index()]._parent = makeComponent();
+		}
+		m_components->remove(component);
+		ptr->Transform::~Transform();
+		//Invalidate the component
+		component = makeComponent();
+		ptr->_parent = component;
+		}
+		//*/
+	}
+
+	void* TransformManager::getComponent(m::i32 index)
+	{
+		return &m_components->get(index);
+	}
+
+	Component TransformManager::getComponent(void* object)
+	{
+		for (m::i32 i = 0; i < m_components->size(); ++i)
+		{
+			if (object == &(m_components->get(i)))
+			{
+				return setupComponent<Transform>(i);
+			}
+		}
+		return Component();
 	}
 }

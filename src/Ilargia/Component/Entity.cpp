@@ -62,7 +62,7 @@ namespace ilg
 		for (m::i32 i = 0; i < m_components->size(); ++i)
 		{
 			Component c = m_components->get(i);
-			if (c.instanceType() == type)
+			if (c.getInstanceTypeId() == type)
 			{
 				return c;
 			}
@@ -79,7 +79,7 @@ namespace ilg
 			for (m::i32 i = 0; i < m_components->size(); ++i)
 			{
 				Component c = m_components->get(i);
-				if (c.instanceType() == type)
+				if (c.getInstanceTypeId() == type)
 				{
 					manager->onComponentRemove(this, c);
 					manager->destroyComponent(c);

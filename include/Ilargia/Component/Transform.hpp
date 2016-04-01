@@ -30,6 +30,7 @@
 
 #include <Muon/Helper/NonCopyable.hpp>
 #include <Muon/Traits/TypeTraits.hpp>
+#include "Ilargia/Manager/IComponentManager.hpp"
 #include "Ilargia/Component/ComponentStorage.hpp"
 #include "Ilargia/Component/Component.hpp"
 
@@ -39,9 +40,10 @@
 
 namespace ilg
 {
-	class MeshRendererModule;
-	class ILARGIA_API Transform
+	ILARGIA_COMPONENT_DECL(Transform)
 	{
+		ILARGIA_COMPONENT_FRIEND_MANAGER(Transform);
+		ILARGIA_COMPONENT_HAS_STATIC_MANAGER(Transform);
 	public:
 		Transform();
 		~Transform();
@@ -51,17 +53,40 @@ namespace ilg
 		Quaternion rotation;
 
 		void setParent(Component parent);
+		Component getParent() const;
 
+		Matrix getMatrix() const;
 	private:
-		friend class TransformModule;
-		friend class MeshRendererModule;
-
-		void addChild(Component child);
-
 		Matrix		m_model;
 		Component	m_parent;
-		typedef ComponentStorage<Component, 8> ChildArray;
-		ChildArray* m_children;
+	};
+
+	ILARGIA_COMPONENT_MANAGER_DECL_SIZE(Transform, 256)
+	{
+	public:
+		TransformManager();
+		virtual ~TransformManager();
+
+		virtual bool onInit();
+		virtual bool onUpdate(m::f32);
+		virtual bool onTerm();
+
+		virtual void callbackNewComponent(Entity* entity, Component& component);
+		virtual void callbackRemoveComponent(Entity* entity, Component& component);
+
+		virtual Component createComponent();
+		virtual void destroyComponent(Component& component);
+		virtual void* getComponent(m::i32 index);
+		virtual Component getComponent(void* object);
+
+		void requireRootListUpdate();
+	private:
+		void updateRootList();
+		void updateRecursive(Component& component);
+
+		bool m_requireRootListUpdate;
+
+		ComponentStorage<Component, 64>* m_rootTransforms;
 	};
 }
 MUON_TRAITS_DECL(ilg::Transform);

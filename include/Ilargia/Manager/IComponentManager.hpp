@@ -34,13 +34,16 @@ namespace ilg
 {
 	namespace manager
 	{
-		template<typename ComponentType, m::u32 BlockSize = 64>
+		static const m::u32 ComponentManagerChunkSize = 64;
+		template<typename ComponentType, m::u32 ChunkSize = ComponentManagerChunkSize>
 		class IComponentManager : public IBaseManager
 		{
+			typedef ComponentStorage<ComponentType, ChunkSize> ComponentList;
 		public:
 			IComponentManager(m::i32 updateOrder)
 				: IBaseManager(MUON_TRAITS_NAME(ComponentType), MUON_TRAITS_ID(ComponentType), updateOrder)
 			{
+				m_components = MUON_NEW(ComponentList);
 			}
 
 			virtual ~IComponentManager()
@@ -67,7 +70,17 @@ namespace ilg
 			virtual void destroyComponent(Component& component) = 0;
 			virtual void* getComponent(m::i32 index) = 0;
 			virtual Component getComponent(void* object) = 0;
+
+		protected:
+			ComponentList* m_components;
 		};
 	}
 }
+#define ILARGIA_COMPONENT_MANAGER_NAME(Component) Component##Manager
+#define ILARGIA_COMPONENT_DECL(Type) class ILARGIA_COMPONENT_MANAGER_NAME(Type); class ILARGIA_API Type : public ::ilg::Component
+#define ILARGIA_COMPONENT_HAS_STATIC_MANAGER(Type) static ILARGIA_COMPONENT_MANAGER_NAME(Type)* s_Manager
+#define ILARGIA_COMPONENT_FRIEND_MANAGER(Type) friend class ILARGIA_COMPONENT_MANAGER_NAME(Type)
+
+#define ILARGIA_COMPONENT_MANAGER_DECL_SIZE(Component, ChunkSize) class ILARGIA_API ILARGIA_COMPONENT_MANAGER_NAME(Component) : public ::ilg::manager::IComponentManager<Component, ChunkSize>
+#define ILARGIA_COMPONENT_MANAGER_DECL(Component) ILARGIA_COMPONENT_MANAGER_DECL_SIZE(Component, ilg::manager::ComponentManagerChunkSize)
 #endif

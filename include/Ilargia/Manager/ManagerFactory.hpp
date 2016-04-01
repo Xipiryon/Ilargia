@@ -54,8 +54,8 @@ namespace ilg
 			virtual ~ManagerFactory();
 		};
 
-#define ILARGIA_COMPONENT_MANAGER_TYPE(ManagerType, ComponentType) ((ManagerType*)::ilg::manager::ManagerFactory::getInstance().getComponentManager(ComponentType))
-#define ILARGIA_COMPONENT_MANAGER_NAME(ManagerType, Name) ((ManagerType*)::ilg::manager::ManagerFactory::getInstance().getComponentManager(Name))
+#define ILARGIA_GET_COMPONENT_MANAGER_FROM_TYPE(ManagerType, ComponentType) ((ManagerType*)::ilg::manager::ManagerFactory::getInstance().getComponentManager(ComponentType))
+#define ILARGIA_GET_COMPONENT_MANAGER_FROM_NAME(ManagerType, Name) ((ManagerType*)::ilg::manager::ManagerFactory::getInstance().getComponentManager(Name))
 	}
 }
 #endif

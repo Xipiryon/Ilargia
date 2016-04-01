@@ -47,9 +47,9 @@ namespace ilg
 		Component(const Component& c);
 		Component& operator=(const Component& c);
 
-		m::i32 instanceId() const;
-		m::u64 instanceType() const;
-		m::String instanceName() const;
+		m::i32 getInstanceIndex() const;
+		m::u64 getInstanceTypeId() const;
+		m::String getInstanceName() const;
 
 		template<typename T>
 		MUON_INLINE T* cast() const
@@ -74,9 +74,10 @@ namespace ilg
 		Component(m::u64, m::i32, const m::String&);
 		void* _cast(m::u64, const char*) const;
 
-		m::u64 m_type;
-		m::i32 m_instance;
-		m::String m_name;
+	protected:
+		m::u64 m_instanceTypeId;
+		m::i32 m_instanceIndex;
+		m::String m_instanceName;
 	};
 }
 MUON_TRAITS_DECL(ilg::Component);
