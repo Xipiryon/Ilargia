@@ -55,19 +55,19 @@ namespace ilg
 		template<typename T>
 		Component addComponent()
 		{
-			return _addComponent(T::id());
+			return _addComponent(MUON_TRAITS(T)::id());
 		}
 
 		template<typename T>
 		Component getComponent()
 		{
-			return _getComponent(T::id());
+			return _getComponent(MUON_TRAITS(T)::id());
 		}
 
 		template<typename T>
 		bool removeComponent()
 		{
-			return _removeComponent(T::id());
+			return _removeComponent(MUON_TRAITS(T)::id());
 		}
 
 	private:
