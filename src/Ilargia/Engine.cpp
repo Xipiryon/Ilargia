@@ -98,10 +98,8 @@ namespace ilg
 		sharedLib.forwardArg(argc, argv);
 
 		// Registering core classes
-		if (!engine._registerClasses())
-		{
-			return false;
-		}
+		engine._registerCoreClass();
+		engine._registerCoreComponentManager();
 
 		//Load configuration file
 		if (!engine._loadConfig())

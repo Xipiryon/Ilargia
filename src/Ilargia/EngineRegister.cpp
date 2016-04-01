@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#include <algorithm>
-#include <fstream>
+// ***  SYSTEM  ***
+#include <Muon/System/Time.hpp>
 
 // ***  CORE    ***
 #include "Ilargia/Engine.hpp"
@@ -40,15 +40,21 @@
 #include "Ilargia/Type/Matrix.hpp"
 #include "Ilargia/Type/Quaternion.hpp"
 
-// ***  SYSTEM  ***
-#include <Muon/System/Time.hpp>
+// **** COMPONENTS ***
+#include "Ilargia/Component/Transform.hpp"
 
 namespace ilg
 {
-	bool Engine::_registerClasses()
+	void Engine::_registerCoreClass()
 	{
-		MUON_META_REGISTER(ilg::Component);
+		m::meta::MetaDatabase& db = m::meta::MetaDatabase::getInstance();
+		db.registerMeta<ilg::Component>();
+		db.registerMeta<ilg::Transform>();
+	}
 
-		return true;
+	void Engine::_registerCoreComponentManager()
+	{
+		ilg::manager::ManagerFactory& factory = ilg::manager::ManagerFactory::getInstance();
+		factory.registerComponentManager(MUON_NEW(ILARGIA_COMPONENT_MANAGER_NAME(Transform)));
 	}
 }

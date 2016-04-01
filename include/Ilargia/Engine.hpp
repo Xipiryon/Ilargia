@@ -151,7 +151,8 @@ namespace ilg
 
 		void _run();
 		bool _loadConfig();
-		bool _registerClasses();
+		void _registerCoreClass();
+		void _registerCoreComponentManager();
 
 		m::system::Time m_clock;
 		m::system::Log m_log;
