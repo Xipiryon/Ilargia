@@ -9,15 +9,16 @@ project "IlargiaExecutable"
 	language "C++"
 	targetname "Ilargia"
 	targetdir (SolutionRoot.."/bin")
-	kind "ConsoleApp"
 
 	files	{
 		ProjectRoot.."/main/main.cpp"
 	}
 
 	filter "Debug*"
+		kind "ConsoleApp"
 		links	{ "Ilargia-d", "Muon-d" }
 		defines { "ILARGIA_DEBUG" }
 
 	filter "Release*"
+		kind "WindowedApp"
 		links { "Ilargia", "Muon" }
