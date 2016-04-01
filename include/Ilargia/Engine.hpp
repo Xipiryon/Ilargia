@@ -41,7 +41,7 @@
 #include "Ilargia/Core/Define.hpp"
 
 //Base classes required by extended modules
-#include "Ilargia/Component/EntityManager.hpp"
+#include "Ilargia/Component/Entity.hpp"
 #include "Ilargia/Manager/IComponentManager.hpp"
 #include "Ilargia/Manager/ISimpleManager.hpp"
 #include "Ilargia/Manager/ManagerFactory.hpp"

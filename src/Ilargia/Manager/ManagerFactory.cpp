@@ -98,5 +98,17 @@ namespace ilg
 			}
 			return NULL;
 		}
+
+		m::u32 ManagerFactory::getComponentManagerCount() const
+		{
+			return SharedLibrary::getInstance().m_managers.size();
+		}
+
+		IBaseManager* ManagerFactory::getComponentManagerFromIndex(m::u32 index)
+		{
+			auto& managerList = SharedLibrary::getInstance().m_managers;
+			MUON_ASSERT_BREAK(index < managerList.size(), "No Manager at index %d!", index);
+			return managerList[index].manager;
+		}
 	}
 }

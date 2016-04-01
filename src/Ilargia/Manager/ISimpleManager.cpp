@@ -73,5 +73,9 @@ namespace ilg
 		{
 			return Component();
 		}
+
+		void ISimpleManager::onEntityHierarchyChanged(Entity* entity, Entity* previousParent, Entity* newParent)
+		{
+		}
 	}
 }

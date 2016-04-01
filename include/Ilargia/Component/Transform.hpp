@@ -43,7 +43,6 @@ namespace ilg
 	ILARGIA_COMPONENT_DECL(Transform)
 	{
 		ILARGIA_COMPONENT_FRIEND_MANAGER(Transform);
-		ILARGIA_COMPONENT_HAS_STATIC_MANAGER(Transform);
 	public:
 		Transform();
 		~Transform();
@@ -52,20 +51,16 @@ namespace ilg
 		Vector scale;
 		Quaternion rotation;
 
-		void setParent(Component parent);
-		Component getParent() const;
-
 		Matrix getMatrix() const;
 	private:
 		Matrix		m_model;
-		Component	m_parent;
 	};
 
 	ILARGIA_COMPONENT_MANAGER_DECL_SIZE(Transform, 256)
 	{
 	public:
-		TransformManager();
-		virtual ~TransformManager();
+		ILARGIA_COMPONENT_MANAGER_NAME(Transform)();
+		virtual ~ILARGIA_COMPONENT_MANAGER_NAME(Transform)();
 
 		virtual bool onInit();
 		virtual bool onUpdate(m::f32);
@@ -79,7 +74,7 @@ namespace ilg
 		virtual void* getComponent(m::i32 index);
 		virtual Component getComponent(void* object);
 
-		void requireRootListUpdate();
+		virtual void onEntityHierarchyChanged(Entity* entity, Entity* previousParent, Entity* newParent);
 	private:
 		void updateRootList();
 		void updateRecursive(Component& component);

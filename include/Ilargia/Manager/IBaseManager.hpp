@@ -55,6 +55,7 @@ namespace ilg
 			virtual bool onTerm() = 0;
 
 			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier) = 0;
+
 			virtual void onComponentAdd(Entity* entity, Component& component) = 0;
 			virtual void onComponentRemove(Entity* entity, Component& component) = 0;
 
@@ -63,6 +64,7 @@ namespace ilg
 			virtual void* getComponent(m::i32 index) = 0;
 			virtual Component getComponent(void* object) = 0;
 
+			virtual void onEntityHierarchyChanged(Entity* entity, Entity* previousParent, Entity* newParent) = 0;
 		protected:
 			template<typename T>
 			Component setupComponent(m::i32 instance)

@@ -54,6 +54,7 @@ namespace ilg
 			virtual void destroyComponent(Component& component);
 			virtual void* getComponent(m::i32 index);
 			virtual Component getComponent(void* object);
+			virtual void onEntityHierarchyChanged(Entity* entity, Entity* previousParent, Entity* newParent);
 		};
 	}
 }

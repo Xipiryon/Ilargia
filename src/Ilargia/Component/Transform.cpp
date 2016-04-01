@@ -44,35 +44,23 @@ namespace ilg
 	{
 	}
 
-	void Transform::setParent(Component parent)
-	{
-		m_parent = parent;
-		TransformManager* manager = ILARGIA_GET_COMPONENT_MANAGER_FROM_TYPE(TransformManager, MUON_META(Transform)->id());
-		manager->requireRootListUpdate();
-	}
-
-	Component Transform::getParent() const
-	{
-		return m_parent;
-	}
-
 	Matrix Transform::getMatrix() const
 	{
 		return m_model;
 	}
 
-	TransformManager::TransformManager()
+	ILARGIA_COMPONENT_MANAGER_NAME(Transform)::ILARGIA_COMPONENT_MANAGER_NAME(Transform)()
 		: IComponentManager(160)
 		, m_requireRootListUpdate(true)
 		, m_rootTransforms(NULL)
 	{
 	}
 
-	TransformManager::~TransformManager()
+	ILARGIA_COMPONENT_MANAGER_NAME(Transform)::~ILARGIA_COMPONENT_MANAGER_NAME(Transform)()
 	{
 	}
 
-	bool TransformManager::onInit()
+	bool ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onInit()
 	{
 		/*
 		uint32_t chunk = 64;
@@ -84,7 +72,7 @@ namespace ilg
 		return true;
 	}
 
-	bool TransformManager::onUpdate(m::f32 dt)
+	bool ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onUpdate(m::f32 dt)
 	{
 		/*
 		updateRootList();
@@ -98,7 +86,7 @@ namespace ilg
 		return true;
 	}
 
-	bool TransformManager::onTerm()
+	bool ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onTerm()
 	{
 		/*
 		if(m_components != NULL)
@@ -120,12 +108,11 @@ namespace ilg
 		return true;
 	}
 
-	void TransformManager::requireRootListUpdate()
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onEntityHierarchyChanged(Entity* entity, Entity* previousParent, Entity* newParent)
 	{
-		m_requireRootListUpdate = true;
 	}
 
-	void TransformManager::updateRootList()
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::updateRootList()
 	{
 		if (m_requireRootListUpdate)
 		{
@@ -146,7 +133,7 @@ namespace ilg
 		}
 	}
 
-	void TransformManager::updateRecursive(Component& component)
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::updateRecursive(Component& component)
 	{
 		/*
 		Transform* transform = &(*m_components)[component.getID()];
@@ -181,7 +168,7 @@ namespace ilg
 		//*/
 	}
 
-	void TransformManager::callbackNewComponent(Entity* entity, Component& component)
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::callbackNewComponent(Entity* entity, Component& component)
 	{
 		/*
 		Transform* t = component;
@@ -192,7 +179,7 @@ namespace ilg
 		//*/
 	}
 
-	void TransformManager::callbackRemoveComponent(Entity* entity, Component& component)
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::callbackRemoveComponent(Entity* entity, Component& component)
 	{
 		/*
 		for(auto it = m_rootTransforms->iterator(); it; ++it)
@@ -208,12 +195,12 @@ namespace ilg
 		//*/
 	}
 
-	Component TransformManager::createComponent()
+	Component ILARGIA_COMPONENT_MANAGER_NAME(Transform)::createComponent()
 	{
 		return setupComponent<Transform>(m_components->add());
 	}
 
-	void TransformManager::destroyComponent(Component& component)
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::destroyComponent(Component& component)
 	{
 		//m::i32 i = component.getInstanceIndex();
 		//_components->remove(i);
@@ -237,12 +224,12 @@ namespace ilg
 		//*/
 	}
 
-	void* TransformManager::getComponent(m::i32 index)
+	void* ILARGIA_COMPONENT_MANAGER_NAME(Transform)::getComponent(m::i32 index)
 	{
 		return &m_components->get(index);
 	}
 
-	Component TransformManager::getComponent(void* object)
+	Component ILARGIA_COMPONENT_MANAGER_NAME(Transform)::getComponent(void* object)
 	{
 		for (m::i32 i = 0; i < m_components->size(); ++i)
 		{

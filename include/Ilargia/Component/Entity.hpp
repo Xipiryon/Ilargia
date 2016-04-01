@@ -28,7 +28,9 @@
 #ifndef INCLUDE_ILARGIA_ENTITY_HPP
 #define INCLUDE_ILARGIA_ENTITY_HPP
 
+#include <deque>
 #include <Muon/Helper/NonCopyable.hpp>
+#include <Muon/Helper/Singleton.hpp>
 #include "Ilargia/Component/Component.hpp"
 #include "Ilargia/Component/ComponentStorage.hpp"
 
@@ -37,8 +39,18 @@ namespace ilg
 	class EntityManager;
 	class ILARGIA_API Entity : public m::helper::NonCopyable
 	{
+		friend class EntityManager;
 	public:
 		~Entity();
+
+		static Entity* create();
+		static void destroy(Entity* entity);
+
+		void setParent(Entity* parent);
+		void addChild(Entity* child);
+
+		void removeParent();
+		void removeChild(Entity* child);
 
 		template<typename T>
 		Component addComponent()
@@ -59,14 +71,33 @@ namespace ilg
 		}
 
 	private:
-		friend class EntityManager;
 		Entity();
 
 		ComponentStorage<Component, 8>* m_components;
 
-		Component _addComponent(m::i32);
-		Component _getComponent(m::i32);
-		bool _removeComponent(m::i32);
+		Entity* m_parent;
+		std::deque<Entity*>* m_children;
+
+		Component _addComponent(m::u64);
+		Component _getComponent(m::u64);
+		bool _removeComponent(m::u64);
+	};
+
+	class ILARGIA_API EntityManager : public m::helper::NonCopyable
+	{
+		friend class Entity;
+	public:
+		MUON_SINGLETON_GET(EntityManager);
+
+		Entity* create();
+		void destroy(Entity* e);
+
+	private:
+		EntityManager();
+		~EntityManager();
+
+		void dispatchEntityHierarchyChange(Entity*, Entity*, Entity*);
+		std::deque<Entity*>* m_entities;
 	};
 }
 

@@ -45,6 +45,8 @@ namespace ilg
 			IBaseManager* getComponentManager(m::u64 componentType);
 			IBaseManager* getComponentManager(const m::String& name);
 
+			m::u32 getComponentManagerCount() const;
+			IBaseManager* getComponentManagerFromIndex(m::u32);
 		private:
 			bool checkComponentManager(const m::String&);
 
