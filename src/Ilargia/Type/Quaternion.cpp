@@ -32,7 +32,7 @@
 
 namespace ilg
 {
-	const Quaternion Quaternion::identity = { 0, 0, 0, 1 };
+	const Quaternion Quaternion::Identity = { 0, 0, 0, 1 };
 
 	Quaternion::Quaternion(m::f32 _x, m::f32 _y, m::f32 _z, m::f32 _w)
 		: x(_x)

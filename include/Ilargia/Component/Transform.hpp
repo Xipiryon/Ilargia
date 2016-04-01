@@ -40,7 +40,7 @@
 namespace ilg
 {
 	class MeshRendererModule;
-	class ILARGIA_API Transform //: public m::helper::NonCopyable
+	class ILARGIA_API Transform
 	{
 	public:
 		Transform();

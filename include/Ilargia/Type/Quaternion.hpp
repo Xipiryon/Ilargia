@@ -45,7 +45,7 @@ namespace ilg
 	public:
 
 		//! Equivalent to Quaternion(0, 0, 0, 1) (x,y,z,w)
-		static const Quaternion identity;
+		static const Quaternion Identity;
 
 		m::f32 x; //! X Attribute
 		m::f32 y; //! Y Attribute

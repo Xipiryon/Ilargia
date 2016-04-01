@@ -32,7 +32,7 @@
 
 namespace ilg
 {
-	const Matrix Matrix::identity =
+	const Matrix Matrix::Identity =
 	{
 		{ 1, 0, 0, 0 },
 		{ 0, 1, 0, 0 },
@@ -40,7 +40,7 @@ namespace ilg
 		{ 0, 0, 0, 1 }
 	};
 
-	const Matrix Matrix::zero =
+	const Matrix Matrix::Zero =
 	{
 		{ 0, 0, 0, 0 },
 		{ 0, 0, 0, 0 },
@@ -101,7 +101,7 @@ namespace ilg
 	{
 		//Gaussian Elimination
 
-		Matrix inv = Matrix::zero;
+		Matrix inv = Matrix::Zero;
 		m::f32 tmp[4][8] = { { 0 } };
 
 		//Copy matrix

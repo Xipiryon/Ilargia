@@ -83,9 +83,9 @@ namespace ilg
 	public:
 
 		//! 4x4 Identity Matrix
-		static const Matrix identity;
+		static const Matrix Identity;
 		//! 4x4 Zero Matrix
-		static const Matrix zero;
+		static const Matrix Zero;
 
 		//! First row (Index array are [0..3])
 		MatrixRow x;

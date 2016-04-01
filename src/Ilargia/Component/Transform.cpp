@@ -36,8 +36,8 @@ namespace ilg
 	Transform::Transform()
 		: position(0.f, 0.f, 0.f)
 		, scale(1.f, 1.f, 1.f)
-		, rotation(Quaternion::identity)
-		, m_model(Matrix::identity)
+		, rotation(Quaternion::Identity)
+		, m_model(Matrix::Identity)
 		, m_children(MUON_NEW(ChildArray))
 	{
 	}
