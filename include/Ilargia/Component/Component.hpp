@@ -79,6 +79,6 @@ namespace ilg
 		m::String m_name;
 	};
 }
-MUON_TRAITS(ilg::Component);
+MUON_TRAITS_DECL(ilg::Component);
 
 #endif

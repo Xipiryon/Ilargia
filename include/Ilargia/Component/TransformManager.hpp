@@ -33,7 +33,7 @@
 
 namespace ilg
 {
-	class ILARGIA_API TransformManager : public ilg::manager::IComponentManager
+	class ILARGIA_API TransformManager : public ilg::manager::IComponentManager<Transform>
 	{
 	public:
 		TransformManager();

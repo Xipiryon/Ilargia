@@ -64,6 +64,6 @@ namespace ilg
 		ChildArray* m_children;
 	};
 }
-MUON_TRAITS(ilg::Transform);
+MUON_TRAITS_DECL(ilg::Transform);
 
 #endif
