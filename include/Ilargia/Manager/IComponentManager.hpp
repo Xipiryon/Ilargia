@@ -58,11 +58,11 @@ namespace ilg
 			{
 			}
 
-			virtual void onComponentAdd(Entity* entity, Component& component)
+			virtual void onComponentAdded(Entity* entity, Component& component)
 			{
 			}
 
-			virtual void onComponentRemove(Entity* entity, Component& component)
+			virtual void onComponentRemoved(Entity* entity, Component& component)
 			{
 			}
 

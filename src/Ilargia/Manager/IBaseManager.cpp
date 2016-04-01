@@ -64,11 +64,11 @@ namespace ilg
 		{
 		}
 
-		void IBaseManager::onComponentAdd(Entity* entity, Component& component)
+		void IBaseManager::onComponentAdded(Entity* entity, Component& component)
 		{
 		}
 
-		void IBaseManager::onComponentRemove(Entity* entity, Component& component)
+		void IBaseManager::onComponentRemoved(Entity* entity, Component& component)
 		{
 		}
 	}

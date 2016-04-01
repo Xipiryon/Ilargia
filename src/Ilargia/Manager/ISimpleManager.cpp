@@ -46,11 +46,11 @@ namespace ilg
 		{
 		}
 
-		void ISimpleManager::onComponentAdd(Entity* entity, Component& component)
+		void ISimpleManager::onComponentAdded(Entity* entity, Component& component)
 		{
 		}
 
-		void ISimpleManager::onComponentRemove(Entity* entity, Component& component)
+		void ISimpleManager::onComponentRemoved(Entity* entity, Component& component)
 		{
 		}
 

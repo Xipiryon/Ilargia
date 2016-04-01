@@ -56,8 +56,8 @@ namespace ilg
 
 			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier) = 0;
 
-			virtual void onComponentAdd(Entity* entity, Component& component) = 0;
-			virtual void onComponentRemove(Entity* entity, Component& component) = 0;
+			virtual void onComponentAdded(Entity* entity, Component& component) = 0;
+			virtual void onComponentRemoved(Entity* entity, Component& component) = 0;
 
 			virtual Component createComponent() = 0;
 			virtual void destroyComponent(Component& component) = 0;

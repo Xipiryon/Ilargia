@@ -66,8 +66,8 @@ namespace ilg
 		virtual bool onUpdate(m::f32);
 		virtual bool onTerm();
 
-		virtual void callbackNewComponent(Entity* entity, Component& component);
-		virtual void callbackRemoveComponent(Entity* entity, Component& component);
+		virtual void onComponentAdded(Entity* entity, Component& component);
+		virtual void onComponentRemoved(Entity* entity, Component& component);
 
 		virtual Component createComponent();
 		virtual void destroyComponent(Component& component);

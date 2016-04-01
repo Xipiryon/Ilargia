@@ -167,7 +167,7 @@ namespace ilg
 		{
 			c = manager->createComponent();
 			m_components->add(c);
-			manager->onComponentAdd(this, c);
+			manager->onComponentAdded(this, c);
 		}
 		return c;
 	}
@@ -196,7 +196,7 @@ namespace ilg
 				Component c = m_components->get(i);
 				if (c.getInstanceTypeId() == type)
 				{
-					manager->onComponentRemove(this, c);
+					manager->onComponentRemoved(this, c);
 					manager->destroyComponent(c);
 					m_components->remove(i);
 					return true;

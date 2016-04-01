@@ -168,7 +168,7 @@ namespace ilg
 		//*/
 	}
 
-	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::callbackNewComponent(Entity* entity, Component& component)
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onComponentAdded(Entity* entity, Component& component)
 	{
 		/*
 		Transform* t = component;
@@ -179,7 +179,7 @@ namespace ilg
 		//*/
 	}
 
-	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::callbackRemoveComponent(Entity* entity, Component& component)
+	void ILARGIA_COMPONENT_MANAGER_NAME(Transform)::onComponentRemoved(Entity* entity, Component& component)
 	{
 		/*
 		for(auto it = m_rootTransforms->iterator(); it; ++it)
