@@ -2,7 +2,7 @@
 -- Library
 -------------------------------------------
 
-project "IlargiaLibrary"
+project "Ilargia"
 	local ProjectRoot = os.getcwd()
 
 	language "C++"
@@ -13,16 +13,19 @@ project "IlargiaLibrary"
 		linkoptions {"-ldl"}
 	end
 
+	if _OPTIONS["buildmuon"] then
+		dependson("Muon")
+	end
+
 	if os.is("windows") then
-		postbuildcommands { string.gsub("copy bin/lib/Ilargia*.dll bin/", "/", "\\") }
+		postbuildcommands { string.gsub("copy "..SolutionRoot.."/bin/lib/Ilargia*.dll "..SolutionRoot.."/bin/", "/", "\\") }
 	else
-		postbuildcommands { "cp bin/lib/Ilargia*.so bin/" }
+		postbuildcommands { "find "..SolutionRoot.."/bin/lib/ -name libIlargia*.so -exec cp {} "..SolutionRoot.."/bin/ \\;" }
 	end
 
 	files {
-		ProjectRoot.."/src/**.cpp",
-		ProjectRoot.."/include/**.hpp",
-		ProjectRoot.."/src/**SharedLibrary.*pp",
+		ProjectRoot.."/src/**",
+		ProjectRoot.."/include/**",
 	}
 	filter "Debug*"
 		links	{ "Muon-d" }

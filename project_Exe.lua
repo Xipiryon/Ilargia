@@ -5,7 +5,7 @@
 project "IlargiaExecutable"
 	local ProjectRoot = os.getcwd()
 	
-	dependson("IlargiaLibrary")
+	dependson("Ilargia")
 	language "C++"
 	targetname "Ilargia"
 	targetdir (SolutionRoot.."/bin")

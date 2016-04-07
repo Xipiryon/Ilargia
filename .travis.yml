@@ -19,14 +19,11 @@ env:
     - BUILD_CONFIG=releasedll
     - BUILD_CONFIG=releaselib
 
-before_install:
-  - chmod +x premake5
-
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 
 before_script:
-  - ./premake5 gmake
+  - sh travis_setup.sh
 
 script:
   - if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then make config=${BUILD_CONFIG} ; fi
@@ -47,6 +44,6 @@ addons:
       name: "Xipiryon/Ilargia"
       description: "Build submitted via Travis CI"
     notification_email: louis.schnellbach@gmail.com
-    build_command_prepend: "chmod +x premake5; ./premake5 gmake"
+    build_command_prepend: "sh travis_setup.sh"
     build_command:   "make config=releasedll"
     branch_pattern: coverity_scan
