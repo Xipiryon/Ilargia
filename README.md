@@ -4,7 +4,7 @@ Ilargia
 C++ Modular Game Engine
 
 [![Travis](https://travis-ci.org/Xipiryon/Ilargia.svg)](https://travis-ci.org/Xipiryon/Ilargia)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/kt1ylr5d8d48pfe0/branch/master?svg=true)](https://ci.appveyor.com/project/Xleek/haize/branch/master)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/kt1ylr5d8d48pfe0/branch/master?svg=true)](https://ci.appveyor.com/project/Xipiryon/ilargia/branch/master)
 
 [![Coverity](https://scan.coverity.com/projects/8400/badge.svg)](https://scan.coverity.com/projects/xipiryon-ilargia)
 
