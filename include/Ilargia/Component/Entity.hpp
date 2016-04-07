@@ -40,6 +40,8 @@ namespace ilg
 	class ILARGIA_API Entity : public m::helper::NonCopyable
 	{
 		friend class EntityManager;
+		friend class m::memory::RawAllocator<Entity>;
+		Entity();
 	public:
 		~Entity();
 
@@ -71,7 +73,6 @@ namespace ilg
 		}
 
 	private:
-		Entity();
 
 		ComponentStorage<Component, 8>* m_components;
 
