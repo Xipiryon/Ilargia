@@ -34,7 +34,7 @@ namespace ilg
 	namespace manager
 	{
 		ISimpleManager::ISimpleManager(const m::String& name, m::i32 updateOrder)
-			: IBaseManager(name, MUON_META(Component)->id(), updateOrder)
+			: IBaseManager(name, MUON_TRAITS_ID(Component), updateOrder)
 		{
 		}
 

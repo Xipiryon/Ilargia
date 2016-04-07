@@ -35,10 +35,11 @@ namespace ilg
 	{
 		IBaseManager::IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
 			: m_log(name)
-			, m_managerName(name)
 			, m_componentType(componentType)
 			, m_updateOrder(updateOrder)
 		{
+			m_managerName = (componentType != MUON_TRAITS_ID(Component) ? "ComponentManager::" : "SimpleManager::");
+			m_managerName += name;
 		}
 
 		IBaseManager::~IBaseManager()

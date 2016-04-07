@@ -183,14 +183,10 @@ namespace ilg
 		m::i32 modSize = SharedLibrary::getInstance().getManagers().size();
 		if (modSize == 0)
 		{
-			engine.m_log(m::LOG_WARNING) << "No manager loaded, nothing to do: exiting!" << m::endl;
+			engine.m_log(m::LOG_WARNING) << "No Manager loaded, nothing to do: exiting!" << m::endl;
 			return;
 		}
-		else
-		{
-			engine.m_running = true;
-			engine.m_log(m::LOG_INFO) << "Running with " << modSize << " IComponentManager instance(s) loaded!" << m::endl;
-		}
+		engine.m_running = true;
 
 		//Main loop execution time start
 		engine.m_clock.start();
@@ -213,6 +209,14 @@ namespace ilg
 			++count;
 		}
 
+#if defined(ILARGIA_DEBUG)
+		engine.m_log(m::LOG_INFO) << "Loaded Manager:" << m::endl;
+		for (auto it = managerList.begin(); it != managerList.end(); ++it)
+		{
+			engine.m_log(m::LOG_INFO) << "\t" << it->manager->getManagerName() << m::endl;
+		}
+		engine.m_log(m::LOG_INFO) << "Total: " << managerList.size() << m::endl;
+#endif
 		//onUpdate functions
 #ifdef MUON_PLATFORM_WEB
 		emscripten_set_main_loop(_run, 0, m_running);
