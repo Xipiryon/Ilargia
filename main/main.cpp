@@ -25,17 +25,7 @@
 *
 *************************************************************************/
 
-#include <Ilargia/Core/Define.hpp>
-
-namespace ilg
-{
-	// We don't need to expose more than the main engine function
-	class ILARGIA_API Engine
-	{
-	public:
-		static int main(int argc, char** argv);
-	};
-}
+#include <Ilargia/Engine.hpp>
 
 int main(int argc, char** argv)
 {

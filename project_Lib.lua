@@ -17,23 +17,25 @@ project "Ilargia"
 		dependson("Muon")
 	end
 
-	if os.is("windows") then
-		postbuildcommands { string.gsub("copy "..SolutionRoot.."/bin/lib/Ilargia*.dll "..SolutionRoot.."/bin/", "/", "\\") }
-	else
-		postbuildcommands { "find "..SolutionRoot.."/bin/lib/ -name libIlargia*.so -exec cp {} "..SolutionRoot.."/bin/ \\;" }
-	end
-
 	files {
 		ProjectRoot.."/src/**",
 		ProjectRoot.."/include/**",
 	}
+
 	filter "Debug*"
 		links	{ "Muon-d" }
-		defines { "ILARGIA_DEBUG" }
 
 	filter "Release*"
-		links { "Muon" }
+		links { "Muon-r" }
+
+	filter "Final*"
+		links { "Muon-f" }
 
 	filter "*DLL"
-		defines { "ILARGIA_EXPORTS" }
+		if os.is("windows") then
+			postbuildcommands { string.gsub("copy "..SolutionRoot.."/bin/lib/Ilargia*.dll "..SolutionRoot.."/bin/", "/", "\\") }
+		else
+			postbuildcommands { "find "..SolutionRoot.."/bin/lib/ -name libIlargia*.so -exec cp {} "..SolutionRoot.."/bin/ \\;" }
+		end
 
+	filter {}

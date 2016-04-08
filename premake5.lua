@@ -27,14 +27,14 @@ end
 
 solution "Ilargia"
 	startproject "IlargiaExecutable"
-	configurations { "DebugDLL", "DebugLib", "ReleaseLib", "ReleaseDLL" }
+	configurations { "DebugDLL", "DebugLib", "ReleaseLib", "ReleaseDLL", "FinalLib", "FinalDLL" }
 
 	implibdir "bin/lib"
 	if os.is("windows") then
 		buildoptions { "/GR-" }
 
 	else
-		buildoptions { "--std=c++11 -fno-rtti" }
+		buildoptions { "--std=c++11" }
 	end
 
 	-- If option exists, then override G_Install
@@ -63,11 +63,18 @@ solution "Ilargia"
 	filter "Debug*"
 		targetsuffix "-d"
 		optimize "Debug"
-        flags   { "Symbols" }
+		flags   { "Symbols" }
+		defines { "ILARGIA_DEBUG"}
 
 	filter "Release*"
+		targetsuffix "-r"
 		optimize "Speed"
-		flags   { "LinkTimeOptimization", "NoRTTI" }
+		flags   { "Symbols" }
+
+	filter "Final*"
+		targetsuffix "-f"
+		optimize "Speed"
+		flags   { "LinkTimeOptimization" }
 
 	filter  "*Lib"
 		kind "StaticLib"
@@ -81,17 +88,16 @@ solution "Ilargia"
 
 -- Muon
 if _OPTIONS["buildmuon"] then
-	include(SolutionRoot.."/extern/Muon/project_Lib")
+	include("extern/Muon/project_Lib")
 end
 
+include("project_Modules")
 include("project_Lib")
 include("project_Exe")
 
 if _OPTIONS["unittests"] then
 	include("project_UnitTests")
 end
-
-include("project_Modules")
 
 ------------------------------
 -- Options

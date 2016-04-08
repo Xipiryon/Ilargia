@@ -4,7 +4,7 @@
 
 project "IlargiaExecutable"
 	local ProjectRoot = os.getcwd()
-	
+
 	dependson("Ilargia")
 	language "C++"
 	targetname "Ilargia"
@@ -16,9 +16,27 @@ project "IlargiaExecutable"
 
 	filter "Debug*"
 		kind "ConsoleApp"
-		links	{ "Ilargia-d", "Muon-d" }
-		defines { "ILARGIA_DEBUG" }
+		links { "Muon-d", "Ilargia-d" }
 
 	filter "Release*"
+		links { "Muon-r", "Ilargia-r" }
+
+	filter "Final*"
 		kind "WindowedApp"
-		links { "Ilargia", "Muon" }
+		links { "Muon-f", "Ilargia-f" }
+
+	filter {}
+
+	for _,project in pairs(G_ModuleToBuild) do
+
+		filter "DebugLib"
+			links{ project.."-d" }
+
+		filter "ReleaseLib"
+			links{ project.."-r" }
+
+		filter "FinalLib"
+			links{ project.."-f" }
+	end
+
+	filter {}
