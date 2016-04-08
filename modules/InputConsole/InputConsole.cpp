@@ -67,33 +67,31 @@ namespace ilg
 			}
 		}
 
-		bool InputConsole::onInit()
+		void InputConsole::onInit()
 		{
 			getLog() << "Starting InputConsole thread..." << m::endl;
 			m_thread = new std::thread(&InputConsole::_run, this);
 			getLog() << "... Thread started" << m::endl;
-			return true;
 		}
 
-		bool InputConsole::onUpdate(m::f32 dt)
+		void InputConsole::onUpdate(m::f32 dt)
 		{
 			if (!m_running)
 			{
 				// Ask to close the engine if not _running
 				Engine::stop();
 			}
-			return true;
 		}
 
-		bool InputConsole::onTerm()
+		void InputConsole::onTerm()
 		{
 			if (m_thread->joinable())
 			{
+				m_running = false;
 				getLog() << "Stopping thread ..." << m::endl;
 				m_thread->join();
 				getLog() << "... Thread stopped" << m::endl;
 			}
-			return true;
 		}
 	}
 }

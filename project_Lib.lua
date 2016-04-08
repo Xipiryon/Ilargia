@@ -22,6 +22,9 @@ project "Ilargia"
 		ProjectRoot.."/include/**",
 	}
 
+
+	defines { "ILARGIA_EXPORTS" }
+
 	filter "Debug*"
 		links	{ "Muon-d" }
 

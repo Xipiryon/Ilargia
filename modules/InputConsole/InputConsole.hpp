@@ -44,9 +44,9 @@ namespace ilg
 			InputConsole(const m::String& name, m::i32 updateOrder);
 			virtual ~InputConsole();
 
-			virtual bool onInit();
-			virtual bool onUpdate(m::f32);
-			virtual bool onTerm();
+			virtual void onInit();
+			virtual void onUpdate(m::f32);
+			virtual void onTerm();
 
 		private:
 			void _run();
