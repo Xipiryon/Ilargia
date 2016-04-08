@@ -35,7 +35,7 @@
 #elif defined(MUON_PLATFORM_APPLE)
 #endif
 
-#include "Ilargia/manager/IBaseManager.hpp"
+#include "Ilargia/Manager/IBaseManager.hpp"
 #include "SharedLibrary.hpp"
 
 namespace
