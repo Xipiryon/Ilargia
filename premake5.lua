@@ -47,7 +47,8 @@ solution "Ilargia"
 
 	includedirs {
 		SolutionRoot.."/include",
-		G_Install.Header
+		G_Install.Header,
+		SolutionRoot.."/extern/gl3w",
 	}
 
 	-- Add external include
@@ -90,7 +91,7 @@ solution "Ilargia"
 if _OPTIONS["buildmuon"] then
 	include("extern/Muon/project_Lib")
 end
-
+include("extern/gl3w/project_Lib")
 include("project_Modules")
 include("project_Lib")
 include("project_Exe")

@@ -29,6 +29,8 @@ project "IlargiaExecutable"
 
 	for _,project in pairs(G_ModuleToBuild) do
 
+		dependson(project)
+
 		filter "DebugLib"
 			links{ project.."-d" }
 

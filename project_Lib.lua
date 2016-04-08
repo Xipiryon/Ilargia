@@ -5,6 +5,7 @@
 project "Ilargia"
 	local ProjectRoot = os.getcwd()
 
+	dependson ("gl3w")
 	language "C++"
 	targetname "Ilargia"
 	targetdir (SolutionRoot.."/bin/lib")
@@ -22,6 +23,10 @@ project "Ilargia"
 		ProjectRoot.."/include/**",
 	}
 
+	links {
+		"opengl32",
+		"gl3w",
+	}
 
 	defines { "ILARGIA_EXPORTS" }
 
