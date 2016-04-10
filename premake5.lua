@@ -26,7 +26,7 @@ end
 ------------------------------
 
 solution "Ilargia"
-	startproject "IlargiaExecutable"
+	startproject "Ilargia_Executable"
 	configurations { "DebugDLL", "DebugLib", "ReleaseLib", "ReleaseDLL", "FinalLib", "FinalDLL" }
 
 	implibdir "bin/lib"
@@ -53,6 +53,9 @@ solution "Ilargia"
 	-- Add external include
 	if _OPTIONS["buildmuon"] then
 		includedirs { SolutionRoot.."/extern/Muon/include" }
+	end
+	if _OPTIONS["buildhaize"] then
+		includedirs { SolutionRoot.."/extern/Haize/include" }
 	end
 
 	libdirs {
@@ -90,6 +93,11 @@ solution "Ilargia"
 if _OPTIONS["buildmuon"] then
 	include("extern/Muon/project_Lib")
 end
+-- Haize
+if _OPTIONS["buildhaize"] then
+	include("extern/Muon/project_Lib")
+end
+-- Ilargia
 include("extern/gl3w/project_Lib")
 include("project_Modules")
 include("project_Lib")
@@ -117,6 +125,11 @@ newoption {
 newoption {
 	trigger     = "buildmuon",
 	description = "Add Muon external project to the solution",
+}
+
+newoption {
+	trigger     = "buildhaize",
+	description = "Add Haize external project to the solution",
 }
 
 ------------------------------

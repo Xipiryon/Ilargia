@@ -2,20 +2,21 @@
 -- Library
 -------------------------------------------
 
-project "Ilargia"
+project "Ilargia_Core"
 	local ProjectRoot = os.getcwd()
 
-	dependson ("gl3w")
+
+	if _OPTIONS["buildmuon"] then
+		dependson { "Muon_Core" }
+	end
+
+	dependson { "gl3w" }
 	language "C++"
 	targetname "Ilargia"
 	targetdir (SolutionRoot.."/bin/lib")
 
 	if not os.is("windows") then
 		linkoptions {"-ldl"}
-	end
-
-	if _OPTIONS["buildmuon"] then
-		dependson("Muon")
 	end
 
 	files {

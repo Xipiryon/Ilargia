@@ -7,13 +7,13 @@
 -- Project
 ------------------------------
 
-G_ProjectName = "ColorConsole"
+G_ProjectName = "InputConsole"
 
-project(G_ProjectName)
+project("Module_"..G_ProjectName)
 	local ProjectRoot = os.getcwd()
 	local ProjectNameDefine = "ILARGIA_MODULE_NAME="..G_ProjectName
 
-	dependson("Ilargia")
+	dependson("Ilargia_Core")
 	language "C++"
 	targetdir(SolutionRoot.."/bin/lib")
 

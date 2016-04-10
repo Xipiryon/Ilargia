@@ -13,5 +13,5 @@ G_ModuleToBuild = {
 
 for _,project in pairs(G_ModuleToBuild) do
 	print('Building Module: "'..project..'"')
-	dofile("./modules/"..project.."/premake5_project.lua");
+	dofile("./modules/"..project.."/project_Lib.lua");
 end

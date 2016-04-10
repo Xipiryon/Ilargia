@@ -2,10 +2,15 @@
 -- Executable
 -------------------------------------------
 
-project "IlargiaExecutable"
+project "Ilargia_Executable"
 	local ProjectRoot = os.getcwd()
 
-	dependson("Ilargia")
+	dependson("Ilargia_Core")
+
+	if _OPTIONS["buildhaize"] then
+		dependson { "Muon_Haize" }
+	end
+
 	language "C++"
 	targetname "Ilargia"
 	targetdir (SolutionRoot.."/bin")
@@ -29,7 +34,7 @@ project "IlargiaExecutable"
 
 	for _,project in pairs(G_ModuleToBuild) do
 
-		dependson(project)
+		dependson("Module_"..project)
 
 		filter "DebugLib"
 			links{ project.."-d" }
