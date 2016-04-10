@@ -95,7 +95,7 @@ if _OPTIONS["buildmuon"] then
 end
 -- Haize
 if _OPTIONS["buildhaize"] then
-	include("extern/Muon/project_Lib")
+	include("extern/Haize/project_Lib")
 end
 -- Ilargia
 include("extern/gl3w/project_Lib")
