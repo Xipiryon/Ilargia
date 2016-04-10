@@ -16,8 +16,8 @@ env:
    - secure: "kHg6XFkSx8SM8rNMTjdxC7q9feZTF3TDokiBQBgIjEdoLlcHDSsrKeI2iynKo0OXtKrioyP3Ds1D2Oyx5hHoCVq7aaiUuDMyyjN3ROzpkFSqmQaZomffc1myHVeW/uCK6Xm3j5kSdmYLi3K/3kHgWK9LJ7ZiKEjTvvDXAAnE0t+WhqeDZ4aMS/YWVYxvkXoY60L0F4GrD42MAEQnyL6h6r8/3SKGF1ankOoYxZvI9ix7BaDCFKw7Dcv8bxMQXdY+hF9JSat7o5FQTsivTL74OKyKXY0ssy/MdypBQjNFC+a4F2wvTsOw6V9abPwYg0nn//DtcgrzuMZ+ojYptitv4QyLijR5HA28yFMw+Y/bJyNZkr8KJC4TtcrnypYoKbCYm6t2OUdSCGHS7W/dV4N9ictYqLb7GnWXOJjKl/9KBolBG10HKMj5i1OEL33UzVe4lVEZkveHgxwfgarHTG7KijukJ1n6KJkMlfmjpknIJ7sAiU55m4qq8jQpB0gkKD/nrjhtKXTouvBau401KOq2aQUw3s+kcNXPQV2RSHkrIgNTyrc3QnUT6ugJyklNHCbzGrDlT0AOPbPNrWNcgwmrzQnotZIBgqvqguNAlLu8nfQ183OdrMvamY3/QLfPwQLLp21AyXt+/6bKxjfoqsY8YgTORO0H3TV1SqdxIF0Phdo="
 
   matrix:
-    - BUILD_CONFIG=releasedll
-    - BUILD_CONFIG=releaselib
+    - BUILD_CONFIG=finaldll
+    - BUILD_CONFIG=finallib
 
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
@@ -45,5 +45,5 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: louis.schnellbach@gmail.com
     build_command_prepend: "sh travis_setup.sh"
-    build_command:   "make config=releasedll"
+    build_command:   "make config=finaldll"
     branch_pattern: coverity_scan
