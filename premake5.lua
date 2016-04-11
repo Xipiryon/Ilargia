@@ -21,6 +21,8 @@ if SolutionRoot == nil then
 	SolutionRoot = os.getcwd()
 end
 
+-- Default value for _OPTIONS
+if _OPTIONS["renderer"] == nil then _OPTIONS["renderer"] = "opengl" end
 ------------------------------
 -- Solution
 ------------------------------
@@ -100,7 +102,9 @@ if _OPTIONS["buildhaize"] then
 	include("extern/Haize/project_Lib")
 end
 -- Ilargia
-include("extern/gl3w/project_Lib")
+if _OPTIONS["renderer"] == "opengl" then
+	include("extern/gl3w/project_Lib")
+end
 include("project_Modules")
 include("project_Lib")
 include("project_Exe")
@@ -134,6 +138,15 @@ newoption {
 	description = "Add Haize external project to the solution",
 }
 
+newoption {
+   trigger     = "renderer",
+   value       = "API",
+   description = "Choose a particular 3D API for rendering (default: opengl)",
+   allowed = {
+      { "opengl",    "OpenGL" },
+      { "none",  "No Renderer" }
+   }
+}
 ------------------------------
 -- Actions
 ------------------------------

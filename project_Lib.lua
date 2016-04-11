@@ -19,15 +19,29 @@ project "Ilargia_Core"
 		linkoptions {"-ldl"}
 	end
 
+	-- Core Engine files
 	files {
-		ProjectRoot.."/src/**",
-		ProjectRoot.."/include/**",
+		ProjectRoot.."/src/Ilargia/*",
+		ProjectRoot.."/include/Ilargia/*",
 	}
-
-	links {
-		"opengl32",
-		"gl3w",
-	}
+	-- Engine files
+	for _,folder in pairs({ "Core", "Component", "Manager", "System", "System/TinyXML2", "Type" }) do
+		files {
+			ProjectRoot.."/src/Ilargia/"..folder.."/*",
+			ProjectRoot.."/include/Ilargia/"..folder.."/*",
+		}
+	end
+	-- Renderer files
+	if _OPTIONS["renderer"] == "opengl" then
+		files {
+			ProjectRoot.."/src/Ilargia/Graphics/OpenGL/*",
+			ProjectRoot.."/include/Ilargia/Graphics/OpenGL/*",
+		}
+		links {
+			"opengl32",
+			"gl3w",
+		}
+	end
 
 	defines { "ILARGIA_EXPORTS" }
 
