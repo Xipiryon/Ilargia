@@ -10,7 +10,7 @@ project "gl3w"
 	targetdir (SolutionRoot.."/bin/lib")
 
 	files {
-		ProjectRoot.."/*.c",
+		ProjectRoot.."/*.cpp",
 		ProjectRoot.."/*.h",
 	}
 
