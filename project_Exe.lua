@@ -19,31 +19,20 @@ project "Ilargia_Executable"
 		ProjectRoot.."/main/main.cpp"
 	}
 
+	for _,project in pairs(G_ModuleToBuild) do
+		dependson(project.Name)
+		links{ project.Name }
+	end
+
+	links { "Muon_Core", "Ilargia_Core" }
+
 	filter "Debug*"
 		kind "ConsoleApp"
-		links { "Muon-d", "Ilargia-d" }
 
 	filter "Release*"
-		links { "Muon-r", "Ilargia-r" }
+		kind "ConsoleApp"
 
 	filter "Final*"
 		kind "WindowedApp"
-		links { "Muon-f", "Ilargia-f" }
-
-	filter {}
-
-	for _,project in pairs(G_ModuleToBuild) do
-
-		dependson("Module_"..project)
-
-		filter "DebugLib"
-			links{ project.."-d" }
-
-		filter "ReleaseLib"
-			links{ project.."-r" }
-
-		filter "FinalLib"
-			links{ project.."-f" }
-	end
 
 	filter {}

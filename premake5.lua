@@ -85,6 +85,8 @@ solution "Ilargia"
 	filter  "*DLL"
 		kind "SharedLib"
 
+	filter {}
+
 ------------------------------
 -- Project
 ------------------------------

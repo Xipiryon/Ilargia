@@ -7,9 +7,9 @@
 -- Project
 ------------------------------
 
-G_ProjectName = "ColorConsole"
+G_ProjectName = "Module_ColorConsole"
 
-project("Module_"..G_ProjectName)
+project(G_ProjectName)
 	local ProjectRoot = os.getcwd()
 	local ProjectNameDefine = "ILARGIA_MODULE_NAME="..G_ProjectName
 
@@ -27,21 +27,7 @@ project("Module_"..G_ProjectName)
 
 	defines { "ILARGIA_EXPORTS", ProjectNameDefine }
 
-	filter "Debug*"
-		links	{
-			"Muon-d",
-			"Ilargia-d"
-		}
-	filter "Release*"
-		links {
-			"Muon-r",
-			"Ilargia-r"
-		}
-	filter "Final*"
-		links {
-			"Muon-f",
-			"Ilargia-f"
-		}
+	links { "Muon_Core", "Ilargia_Core" }
 
 	filter "*DLL"
 		if os.is("windows") then

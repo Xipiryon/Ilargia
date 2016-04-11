@@ -31,14 +31,7 @@ project "Ilargia_Core"
 
 	defines { "ILARGIA_EXPORTS" }
 
-	filter "Debug*"
-		links	{ "Muon-d" }
-
-	filter "Release*"
-		links { "Muon-r" }
-
-	filter "Final*"
-		links { "Muon-f" }
+	links { "Muon_Core" }
 
 	filter "*DLL"
 		if os.is("windows") then
