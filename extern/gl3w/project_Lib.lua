@@ -22,3 +22,5 @@ project "gl3w"
 	filter "*"
 		kind "StaticLib"
 		targetsuffix ""
+
+	filter {}
