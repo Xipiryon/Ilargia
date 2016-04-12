@@ -34,6 +34,9 @@
 //		--------------------------
 //				EXPORT
 //		--------------------------
+#if defined(ILARGIA_STATIC)
+#	define ILARGIA_API
+#else
 //Windows
 #	ifdef _MSC_VER
 #		if ILARGIA_EXPORTS
@@ -49,5 +52,6 @@
 #			define ILARGIA_API
 #		endif
 #	endif
+#endif
 
 #endif //INCLUDE_ILARGIA_DEFINE_HPP

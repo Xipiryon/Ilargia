@@ -52,6 +52,12 @@ solution "Ilargia"
 		SolutionRoot.."/extern/gl3w",
 	}
 
+	flags {
+		"NoImplicitLink",
+		"NoIncrementalLink",
+		"NoEditAndContinue",
+	}
+
 	-- Add external include
 	if _OPTIONS["buildmuon"] then
 		includedirs { SolutionRoot.."/extern/Muon/include" }
@@ -78,11 +84,15 @@ solution "Ilargia"
 
 	filter "Final*"
 		targetsuffix "-f"
-		optimize "Speed"
+		optimize "Full"
 		flags   { "LinkTimeOptimization" }
 
 	filter  "*Lib"
 		kind "StaticLib"
+		flags { "StaticRuntime" }
+		defines { "ILARGIA_STATIC" }
+		if _OPTIONS["buildmuon"] then defines { "MUON_STATIC" } end
+		if _OPTIONS["buildhaize"] then defines { "HAIZE_STATIC" } end
 
 	filter  "*DLL"
 		kind "SharedLib"
