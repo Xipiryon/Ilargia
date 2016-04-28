@@ -49,7 +49,10 @@ solution "Ilargia"
 	includedirs {
 		SolutionRoot.."/include",
 		G_Install.Header,
+		-- External dependencies
 		SolutionRoot.."/extern/gl3w",
+		SolutionRoot.."/extern/picojson",
+		SolutionRoot.."/extern/dirent",
 	}
 
 	flags {

@@ -253,8 +253,8 @@ namespace ilg
 		return getInstance().m_programTime;
 	}
 
-	const char* Engine::getProgramPath()
+	const m::String& Engine::getProgramPath()
 	{
-		return getInstance().m_programPath.cStr();
+		return getInstance().m_programPath;
 	}
 }

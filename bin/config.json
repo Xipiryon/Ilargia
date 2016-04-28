@@ -1,0 +1,21 @@
+{
+	"Engine": {
+		"Log": {
+			"Filename": "engine",
+			"Level": "DEBUG",
+			"EnableDefaultLogImpl": true
+		},
+
+		"Modules": {
+			"List": [
+				{ "Name": "Module_ColorConsole"		, "Path": "plugins"		, "Load": true },
+				{ "Name": "Module_OpenGLRenderer"	, "Path": "plugins"		, "Load": true },
+				{ "Name": "Module_InputConsole"		, "Path": "plugins"		, "Load": false },
+				{ "Name": "Module_LogHTML"			, "Path": "plugins"		, "Load": false },
+				{ "Name": "Network"					, "Path": "plugins"		, "Load": false },
+				{ "Name": "XMLStream"				, "Path": "plugins"		, "Load": false },
+				{ "Name": "Test"					, "Path": "plugins"		, "Load": false }
+			]
+		}
+	}
+}

@@ -137,7 +137,7 @@ namespace ilg
 
 		static m::f32 getDeltaTime();
 		static m::f32 getProgramTime();
-		static const char* getProgramPath();
+		static const m::String& getProgramPath();
 
 		static bool isRunning();
 		static bool isPaused();

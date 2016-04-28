@@ -31,9 +31,9 @@ project(G_ProjectName)
 
 	filter "*DLL"
 		if os.is("windows") then
-			postbuildcommands { string.gsub("copy "..SolutionRoot.."/bin/lib/"..G_ProjectName.."*.dll "..SolutionRoot.."/bin/", "/", "\\") }
+			postbuildcommands { string.gsub("copy "..SolutionRoot.."/bin/lib/"..G_ProjectName.."*.dll "..SolutionRoot.."/bin/plugins/", "/", "\\") }
 		else
-			postbuildcommands { "find "..SolutionRoot.."/bin/lib/ -name lib"..G_ProjectName.."*.so -exec cp {} "..SolutionRoot.."/bin/ \\;" }
+			postbuildcommands { "find "..SolutionRoot.."/bin/lib/ -name lib"..G_ProjectName.."*.so -exec cp {} "..SolutionRoot.."/bin/plugins/ \\;" }
 		end
 
 	filter {}

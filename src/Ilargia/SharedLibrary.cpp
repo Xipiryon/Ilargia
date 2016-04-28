@@ -48,7 +48,6 @@ namespace ilg
 	SharedLibrary::SharedLibrary()
 		: m_argc(0)
 		, m_argv(NULL)
-		, m_static(false)
 		, m_log("SharedLibrary")
 	{
 	}
@@ -77,11 +76,6 @@ namespace ilg
 		m_argv = argv;
 	}
 
-	void SharedLibrary::setLinkStatic()
-	{
-		m_static = true;
-	}
-
 	void SharedLibrary::_addModuleRef(manager::IBaseManager* manager)
 	{
 		m_managers.push_back({ manager, currentLibRef });
@@ -104,26 +98,22 @@ namespace ilg
 		}
 	}
 
-	bool SharedLibrary::loadLibrary(const m::String& file, const m::String& path)
+	bool SharedLibrary::loadLibrary(const m::String& name, const m::String& filename)
 	{
-		m::String libPath;
-		//If not root, append the programPath
-		if (path[0] != m::PATH_SEPARATOR)
-		{
-			libPath = Engine::getProgramPath();
-		}
-		libPath += path;
-
 		SharedLibraryInfo lib;
-		lib.name = file;
+		lib.name = name;
 
-		m::String func = file.replace("-", "_");
+		m::String func = name.replace("-", "_");
 		lib.funcLoadName = func + "_load";
 		lib.funcUnloadName = func + "_unload";
 
-		m_log(m::LOG_INFO) << "Loading \"" << libPath << "\"" << m::endl;
+		m_log(m::LOG_INFO) << "Loading \"" << name << "\" from \"" << filename << "\"" << m::endl;
 
-		if (!_loadLibrary(lib, (m_static ? NULL : libPath.cStr())))
+#if defined(ILARGIA_STATIC)
+		if (!_loadLibrary(lib))
+#else
+		if (!_loadLibrary(lib, filename.cStr()))
+#endif
 		{
 			currentLibRef = NULL;
 			return false;
@@ -143,10 +133,35 @@ namespace ilg
 		return true;
 	}
 
+	bool SharedLibrary::_loadLibrary(SharedLibraryInfo& lib)
+	{
+#if defined(MUON_PLATFORM_WINDOWS)
+		HMODULE lib_handle;
+		lib_handle = GetModuleHandle(NULL);
+		char c[256];
+		auto t = GetModuleFileName(lib_handle, c, 256);
+
+		LPTSTR lpErrorText = NULL;
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER
+					  , 0, GetLastError(), 0, lpErrorText, MAX_PATH, 0);
+		const char* error = (lib_handle == NULL ? "File not found!" : (lpErrorText == NULL ? "Unknown error" : lpErrorText));
+		LocalFree(lpErrorText);
+#elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
+#endif
+		if (!lib_handle)
+		{
+			m_log(m::LOG_ERROR) << "Couldn't load statically linked library: " << error << m::endl;
+			return false;
+		}
+
+		lib.libInstance = (void*)lib_handle;
+		return true;
+	}
+
 	bool SharedLibrary::_loadLibrary(SharedLibraryInfo& lib, const char* c_libPath)
 	{
 #if defined(MUON_PLATFORM_WINDOWS)
-		HINSTANCE lib_handle;
+		HMODULE lib_handle;
 		lib_handle = LoadLibrary(c_libPath);
 		LPTSTR lpErrorText = NULL;
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER
@@ -164,7 +179,6 @@ namespace ilg
 		}
 
 		lib.libInstance = (void*)lib_handle;
-		currentLibRef = lib.libInstance;
 		return true;
 	}
 
@@ -246,13 +260,12 @@ namespace ilg
 
 	void SharedLibrary::_closeLibrary(SharedLibraryInfo& lib)
 	{
-		if (!m_static)
-		{
 #if defined(MUON_PLATFORM_WINDOWS)
-			FreeLibrary((HINSTANCE)lib.libInstance);
+#	if !defined(ILARGIA_STATIC)
+		FreeLibrary((HINSTANCE)lib.libInstance);
+#	endif
 #elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
-			dlclose(lib.libInstance);
+		dlclose(lib.libInstance);
 #endif
-		}
 	}
 }

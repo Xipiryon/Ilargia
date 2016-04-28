@@ -69,10 +69,9 @@ namespace ilg
 		const std::vector<CManagerPair>& getManagers() const;
 		const std::vector<SharedLibraryInfo>& getLibraries() const;
 
-		bool loadLibrary(const m::String& file, const m::String& path);
+		bool loadLibrary(const m::String& name, const m::String& filename);
 
 		void forwardArg(int, char**);
-		void setLinkStatic();
 		void unloadLibraries();
 
 	private:
@@ -83,6 +82,7 @@ namespace ilg
 		friend class Engine;
 
 		void _addModuleRef(manager::IBaseManager*);
+		bool _loadLibrary(SharedLibraryInfo&);
 		bool _loadLibrary(SharedLibraryInfo&, const char*);
 		bool _loadLibraryLoad(SharedLibraryInfo&, const char*);
 		bool _loadLibraryUnload(SharedLibraryInfo&, const char*);
@@ -91,7 +91,6 @@ namespace ilg
 		SharedLibrary();
 		~SharedLibrary();
 
-		bool m_static;
 		m::system::Log m_log;
 		std::vector<SharedLibraryInfo> m_libraries;
 		std::vector<CManagerPair> m_managers;
