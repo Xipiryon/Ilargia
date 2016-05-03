@@ -52,8 +52,14 @@ solution "Ilargia"
 		-- External dependencies
 		SolutionRoot.."/extern/gl3w",
 		SolutionRoot.."/extern/picojson",
-		SolutionRoot.."/extern/dirent",
 	}
+
+	if os.is("windows") then
+		includedirs {
+			SolutionRoot.."/extern/dirent",
+		}
+	end
+
 
 	flags {
 		"NoImplicitLink",
