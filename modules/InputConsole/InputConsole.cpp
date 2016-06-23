@@ -30,6 +30,13 @@
 #include "Ilargia/Engine.hpp"
 #include "InputConsole.hpp"
 
+#include <sys/stat.h>
+#if defined(MUON_PLATFORM_WINDOWS)
+#	include <winsock2.h>
+// Because it's Posix, and doesn't exists on Windows
+#	define STDIN_FILENO 0
+#endif
+
 namespace ilg
 {
 	namespace mod
@@ -53,8 +60,11 @@ namespace ilg
 			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 			char buffer[256];
 			m::String cmd;
+			struct timeval timeout;
+			timeout.tv_sec = 1;
 			while (m_running)
 			{
+				/*
 				getLog() << "<Waiting for console input> (type 'exit' to leave)" << m::endl;
 				std::cin >> buffer;
 				getLog() << "Handling input: \"" << buffer << "\"" << m::endl;
@@ -62,8 +72,31 @@ namespace ilg
 				cmd = buffer;
 				if (cmd == "exit")
 				{
-					m_running = false;
+				m_running = false;
 				}
+				// */
+#if 0
+				FD_ZERO(&m_fd);
+				FD_SET(STDIN_FILENO, &m_fd);
+
+				m::i32 result = select(0, (fd_set*)&m_fd, NULL, NULL, &timeout);
+				if (result == -1 && errno != EINTR)
+				{
+					//cerr << "Error in select: " << strerror(errno) << "\n";
+					break;
+				}
+				else if (result == -1 && errno == EINTR)
+				{
+					//we've received and interrupt - handle this
+				}
+				else
+				{
+					if (FD_ISSET(STDIN_FILENO, &m_fd))
+					{
+						cmd = buffer;
+					}
+				}
+#endif
 			}
 		}
 

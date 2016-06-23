@@ -6,6 +6,7 @@
 -- You can simply comment / uncomment to build / unbuild
 G_ModuleToBuild = {
 	{ ["Folder"] = "ColorConsole",		["Name"] = "?"},
+	{ ["Folder"] = "OpenGLRenderer",	["Name"] = "?"},
 	{ ["Folder"] = "InputConsole",		["Name"] = "?"},
 	--"LogHTML"
 	--"Network"

@@ -1,5 +1,5 @@
 /*************************************************************************
-* Ilargia Engine - http://github.com/Xleek/Ilargia
+* Ilargia Engine - http://github.com/Xipiryon/Ilargia
 * C++ Modular Data Oriented Game Enginee
 *------------------------------------------------------------------------
 * Copyright (c) 2014-2015, Louis Schnellbach
@@ -184,7 +184,13 @@ namespace ilg
 #if defined(ILARGIA_STATIC)
 				SharedLibrary::getInstance().loadLibrary(mod.first, "");
 #else
-				SharedLibrary::getInstance().loadLibrary(mod.first, mod.second.path);
+				m::String filepath = mod.second.path + m::PATH_SEPARATOR + mod.first;
+#	if defined(MUON_PLATFORM_WINDOWS)
+				filepath += ".dll";
+#	else
+				filepath += ".so";
+#	endif
+				SharedLibrary::getInstance().loadLibrary(mod.first, filepath);
 #endif
 			}
 		}

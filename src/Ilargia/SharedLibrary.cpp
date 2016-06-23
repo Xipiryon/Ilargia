@@ -1,5 +1,5 @@
 /*************************************************************************
-* Ilargia Engine - http://github.com/Xleek/Ilargia
+* Ilargia Engine - http://github.com/Xipiryon/Ilargia
 * C++ Modular Data Oriented Game Enginee
 *------------------------------------------------------------------------
 * Copyright (c) 2014-2015, Louis Schnellbach
@@ -98,32 +98,28 @@ namespace ilg
 		}
 	}
 
-	bool SharedLibrary::loadLibrary(const m::String& name, const m::String& filename)
+	bool SharedLibrary::loadLibrary(const m::String& name, const m::String& filepath)
 	{
 		SharedLibraryInfo lib;
 		lib.name = name;
 
-		m::String func = name.replace("-", "_");
+		m::String func = name.replace("-", "_").replace(" ", "_");
 		lib.funcLoadName = func + "_load";
 		lib.funcUnloadName = func + "_unload";
 
-		m_log(m::LOG_INFO) << "Loading \"" << name << "\" from \"" << filename << "\"" << m::endl;
+		m_log(m::LOG_INFO) << "Loading \"" << name << "\" from \"" << filepath << "\"" << m::endl;
 
-#if defined(ILARGIA_STATIC)
-		if (!_loadLibrary(lib))
-#else
-		if (!_loadLibrary(lib, filename.cStr()))
-#endif
+		if (!_loadLibrary(lib, filepath.cStr()))
 		{
 			currentLibRef = NULL;
 			return false;
 		}
-		if (!_loadLibraryLoad(lib, lib.funcLoadName.cStr()))
+		if (!_loadLibrary_LoadFunction(lib, lib.funcLoadName.cStr()))
 		{
 			currentLibRef = NULL;
 			return false;
 		}
-		if (!_loadLibraryUnload(lib, lib.funcUnloadName.cStr()))
+		if (!_loadLibrary_UnloadFunction(lib, lib.funcUnloadName.cStr()))
 		{
 			currentLibRef = NULL;
 			return false;
@@ -133,88 +129,68 @@ namespace ilg
 		return true;
 	}
 
-	bool SharedLibrary::_loadLibrary(SharedLibraryInfo& lib)
-	{
-#if defined(MUON_PLATFORM_WINDOWS)
-		HMODULE lib_handle;
-		lib_handle = GetModuleHandle(NULL);
-		char c[256];
-		auto t = GetModuleFileName(lib_handle, c, 256);
-
-		LPTSTR lpErrorText = NULL;
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER
-					  , 0, GetLastError(), 0, lpErrorText, MAX_PATH, 0);
-		const char* error = (lib_handle == NULL ? "File not found!" : (lpErrorText == NULL ? "Unknown error" : lpErrorText));
-		LocalFree(lpErrorText);
-#elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
-#endif
-		if (!lib_handle)
-		{
-			m_log(m::LOG_ERROR) << "Couldn't load statically linked library: " << error << m::endl;
-			return false;
-		}
-
-		lib.libInstance = (void*)lib_handle;
-		return true;
-	}
-
 	bool SharedLibrary::_loadLibrary(SharedLibraryInfo& lib, const char* c_libPath)
 	{
-#if defined(MUON_PLATFORM_WINDOWS)
-		HMODULE lib_handle;
-		lib_handle = LoadLibrary(c_libPath);
+#if !defined(ILARGIA_STATIC)
+#	if defined(MUON_PLATFORM_WINDOWS)
+		HMODULE lib_handle = LoadLibrary(c_libPath);
 		LPTSTR lpErrorText = NULL;
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER
 					  , 0, GetLastError(), 0, lpErrorText, MAX_PATH, 0);
 		const char* error = (lib_handle == NULL ? "File not found!" : (lpErrorText == NULL ? "Unknown error" : lpErrorText));
 		LocalFree(lpErrorText);
-#elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
+#	elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
 		void* lib_handle = dlopen(c_libPath, RTLD_LAZY);
 		char* error = dlerror();
-#endif
+#	endif
 		if (!lib_handle)
 		{
 			m_log(m::LOG_ERROR) << "Couldn't load \"" << c_libPath << "\": " << error << m::endl;
 			return false;
 		}
-
+#else
+		void* lib_handle = NULL;
+#endif
 		lib.libInstance = (void*)lib_handle;
 		return true;
 	}
 
-	bool SharedLibrary::_loadLibraryLoad(SharedLibraryInfo& lib, const char* c_funcLoad)
+	bool SharedLibrary::_loadLibrary_LoadFunction(SharedLibraryInfo& lib, const char* c_funcLoad)
 	{
+		m::String error;
+		bool errorOccured = false;
 		if (c_funcLoad)
 		{
-			char error[2048];
-			error[0] = 0;
-#if defined(MUON_PLATFORM_WINDOWS)
+#if !defined(ILARGIA_STATIC)
+#	if defined(MUON_PLATFORM_WINDOWS)
 			HINSTANCE lib_handle = (HINSTANCE)lib.libInstance;
 			lib.funcLoadPtr = (SharedLibraryInfo::FuncLoad)GetProcAddress(lib_handle, c_funcLoad);
 			if (!lib.funcLoadPtr)
 			{
-				strcpy(error, "Couldn't find any function with that name.");
-#elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
+				error = "Couldn't find any function with that name.";
+				errorOccured = true;
+			}
+#	elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
 			void* lib_handle = lib.libInstance;
 			lib.funcLoadPtr = (SharedLibraryInfo::FuncLoad)dlsym(lib_handle, c_funcLoad);
-			const char* cerror = dlerror();
-			if (cerror)
+			error = dlerror();
+			if (!error.empty())
 			{
-				strcpy(error, cerror);
+				errorOccured = true;
 			}
-			if (error[0] != 0)
-			{
+#	endif
+#else
 #endif
+			if (errorOccured)
+			{
 				m_log(m::LOG_ERROR) << "Couldn't find any 'load' function \"" << c_funcLoad << "\": " << error << m::endl;
 				_closeLibrary(lib);
 				return false;
 			}
 
-			error[0] = 0;
-			// error handle
-			if (((*(lib.funcLoadPtr))(m_argc, m_argv, error)) != 0)
+			if (((*(lib.funcLoadPtr))(m_argc, m_argv)) != 0)
 			{
-				m_log(m::LOG_ERROR) << "Library \"" << lib.name << "\" exited with error: \"" << error << "\"" << m::endl;
+				m_log(m::LOG_ERROR) << "Library \"" << lib.name << "\" couldn't be loaded!" << m::endl;
 				_closeLibrary(lib);
 				return false;
 			}
@@ -227,24 +203,34 @@ namespace ilg
 		return true;
 	}
 
-	bool SharedLibrary::_loadLibraryUnload(SharedLibraryInfo& lib, const char* c_funcUnload)
+	bool SharedLibrary::_loadLibrary_UnloadFunction(SharedLibraryInfo& lib, const char* c_funcUnload)
 	{
+		m::String error;
+		bool errorOccured = false;
 		if (c_funcUnload)
 		{
-			m::String error;
-#if defined(MUON_PLATFORM_WINDOWS)
+#if !defined(ILARGIA_STATIC)
+#	if defined(MUON_PLATFORM_WINDOWS)
 			HINSTANCE lib_handle = (HINSTANCE)lib.libInstance;
 			lib.funcUnloadPtr = (SharedLibraryInfo::FuncUnload)GetProcAddress(lib_handle, c_funcUnload);
 			if (!lib.funcLoadPtr)
 			{
 				error = "Couldn't find any function with that name.";
-#elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
+				errorOccured = true;
+			}
+#	elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
 			void* lib_handle = lib.libInstance;
 			lib.funcUnloadPtr = (SharedLibraryInfo::FuncUnload)dlsym(lib_handle, c_funcUnload);
 			error = dlerror();
 			if (!error.empty())
 			{
+				errorOccured = true;
+			}
+#	endif
+#else
 #endif
+			if (errorOccured)
+			{
 				m_log(m::LOG_ERROR) << "Couldn't find any 'unload' function \"" << c_funcUnload << "\": " << error << m::endl;
 				_closeLibrary(lib);
 				return false;
@@ -260,12 +246,12 @@ namespace ilg
 
 	void SharedLibrary::_closeLibrary(SharedLibraryInfo& lib)
 	{
-#if defined(MUON_PLATFORM_WINDOWS)
-#	if !defined(ILARGIA_STATIC)
+#if !defined(ILARGIA_STATIC)
+#	if defined(MUON_PLATFORM_WINDOWS)
 		FreeLibrary((HINSTANCE)lib.libInstance);
-#	endif
-#elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
+#	elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)
 		dlclose(lib.libInstance);
+#	endif
 #endif
 	}
 }

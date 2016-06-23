@@ -25,22 +25,52 @@
 *
 *************************************************************************/
 
-#include "ColorConsole.hpp"
-ilg::mod::ColorConsole* impl = NULL;
+#ifndef INCLUDE_ILARGIA_OPENGLRENDERER_HPP
+#define INCLUDE_ILARGIA_OPENGLRENDERER_HPP
 
-ILARGIA_MODULE_CHECK_FILENAME()
-ILARGIA_LIBRARY_INIT_BEGIN(argc, argv)
-{
-	impl = MUON_NEW(ilg::mod::ColorConsole);
-	m::system::Log::registerLogImpl(impl);
-	m::system::Log::unregisterDefaultLogImpl();
-	ILARGIA_LIBRARY_RETURN_SUCCESS();
-}
-ILARGIA_LIBRARY_INIT_END()
+#include <Ilargia/Engine.hpp>
+#include <Ilargia/Manager/ISimpleManager.hpp>
 
-ILARGIA_LIBRARY_TERM_BEGIN()
+struct GLFWwindow;
+namespace ilg
 {
-	m::system::Log::unregisterLogImpl(impl);
-	MUON_DELETE(impl);
+	namespace graphics
+	{
+		class ILARGIA_API OpenGLRenderer : public ilg::manager::ISimpleManager
+		{
+		public:
+			OpenGLRenderer(const m::String& name, m::i32 updateOrder);
+			virtual ~OpenGLRenderer();
+
+			virtual void onInit();
+			virtual void onUpdate(m::f32);
+			virtual void onTerm();
+
+			virtual void onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier);
+
+			void setName(const m::String& name);
+			void setFullscreen(bool fullscreen);
+			void setDeferred(bool deferred);
+			void setWidth(m::u32 width);
+			void setHeight(m::u32 height);
+
+			const m::String& getName() const;
+			bool getFullscreen() const;
+			bool getDeferred() const;
+			m::u32 getWidth() const;
+			m::u32 getHeight() const;
+
+		private:
+			void _run();
+			bool m_initialized;
+			GLFWwindow* m_window;
+
+			m::String m_name;
+			bool m_fullscreen;
+			m::u32 m_width;
+			m::u32 m_height;
+		};
+	}
 }
-ILARGIA_LIBRARY*_TERM_END()
+
+#endif

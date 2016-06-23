@@ -1,5 +1,5 @@
 /*************************************************************************
-* Ilargia Engine - http://github.com/Xleek/Ilargia
+* Ilargia Engine - http://github.com/Xipiryon/Ilargia
 * C++ Modular Data Oriented Game Enginee
 *------------------------------------------------------------------------
 * Copyright (c) 2014-2015, Louis Schnellbach
@@ -25,6 +25,7 @@
 *
 *************************************************************************/
 
+#include <Ilargia/Type/Matrix.hpp>
 #include <Ilargia/Engine.hpp>
 
 int main(int argc, char** argv)

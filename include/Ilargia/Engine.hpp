@@ -1,5 +1,5 @@
 /*************************************************************************
-* Ilargia Engine - http://github.com/Xleek/Ilargia
+* Ilargia Engine - http://github.com/Xipiryon/Ilargia
 * C++ Modular Data Oriented Game Enginee
 *------------------------------------------------------------------------
 * Copyright (c) 2014-2015, Louis Schnellbach
@@ -74,38 +74,44 @@ namespace ilg
 #	endif
 #endif
 
-#define _ILARGIA_MODULE_LOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _load)
-#define _ILARGIA_MODULE_UNLOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _unload)
+#define _ILARGIA_LIBRARY_LOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _load)
+#define _ILARGIA_LIBRARY_UNLOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _unload)
+#if defined(ILARGIA_STATIC)
+	void ILARGIA_API registerStaticLibraryLoadFunction(const m::String& name, void* fptr);
+	void ILARGIA_API registerStaticLibraryUnloadFunction(const m::String& name, void* fptr);
+#	define _ILARGIA_LIBRARY_REGISTER_STATIC_LOAD
+#	define _ILARGIA_LIBRARY_REGISTER_STATIC_UNLOAD
+#else
+#	define _ILARGIA_LIBRARY_REGISTER_STATIC_LOAD
+#	define _ILARGIA_LIBRARY_REGISTER_STATIC_UNLOAD
+#endif
 
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_INIT_BEGIN(argc, argv) EXTERN_C_BEGIN int ILARGIA_API _ILARGIA_MODULE_LOAD_FUNC (int argc, char** argv, char* _ilargia_error) {
+#define ILARGIA_LIBRARY_INIT_BEGIN(argc, argv) EXTERN_C_BEGIN int ILARGIA_API _ILARGIA_LIBRARY_LOAD_FUNC (int argc, char** argv) {
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_INIT_END()	} EXTERN_C_END
+#define ILARGIA_LIBRARY_INIT_END()	} EXTERN_C_END
 
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_TERM_BEGIN()		EXTERN_C_BEGIN void ILARGIA_API _ILARGIA_MODULE_UNLOAD_FUNC () {
+#define ILARGIA_LIBRARY_TERM_BEGIN()		EXTERN_C_BEGIN void ILARGIA_API _ILARGIA_LIBRARY_UNLOAD_FUNC () {
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_TERM_END()	} EXTERN_C_END
+#define ILARGIA_LIBRARY_TERM_END()	} EXTERN_C_END
 
 	/*!
 	* @brief
 	*/
-#define ILARGIA_MODULE_RETURN_SUCCESS()	{return 0;};
+#define ILARGIA_LIBRARY_RETURN_SUCCESS()	{return 0;};
 	/*!
 	*
 	*/
-#define ILARGIA_MODULE_RETURN_FAILED(error_str)		{::strcpy(_ilargia_error, error_str); return -1;};
-
-	//class WorldModule;
-	//class GraphicsModule;
+#define ILARGIA_LIBRARY_RETURN_FAILED(error_str)		{return -1;};
 
 	//! Engine functions
 	class ILARGIA_API Engine : public m::helper::NonCopyable

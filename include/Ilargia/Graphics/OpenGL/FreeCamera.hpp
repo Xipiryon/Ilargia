@@ -25,52 +25,75 @@
 *
 *************************************************************************/
 
-#include <Muon/System/Log.hpp>
-#include <Muon/System/Assert.hpp>
-#include "Ilargia/Manager/IBaseManager.hpp"
+#ifndef INCLUDE_ILARGIA_FREECAMERA_HPP
+#define INCLUDE_ILARGIA_FREECAMERA_HPP
 
-namespace ilg
+#if 0
+#include <SFML/Window/Event.hpp>
+#include "Camera.h"
+#include "Frustum.h"
+
+namespace sf
 {
-	namespace manager
-	{
-		IBaseManager::IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
-			: m_log(name)
-			, m_componentType(componentType)
-			, m_updateOrder(updateOrder)
-		{
-			m_managerName = (componentType != MUON_TRAITS_ID(Component) ? "ComponentManager::" : "SimpleManager::");
-			m_managerName += name;
-		}
-
-		IBaseManager::~IBaseManager()
-		{
-		}
-
-		const m::String& IBaseManager::getManagerName() const
-		{
-			return m_managerName;
-		}
-
-		m::u64 IBaseManager::getComponentType() const
-		{
-			return m_componentType;
-		}
-
-		m::i32 IBaseManager::getUpdateOrder() const
-		{
-			return m_updateOrder;
-		}
-
-		void IBaseManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
-		{
-		}
-
-		void IBaseManager::onComponentAdded(Entity* entity, Component& component)
-		{
-		}
-
-		void IBaseManager::onComponentRemoved(Entity* entity, Component& component)
-		{
-		}
-	}
+	class RenderWindow;
 }
+
+namespace okz
+{
+	class FreeCamera : public Singleton<FreeCamera>
+	{
+		friend class Singleton<FreeCamera>;
+
+	private:
+		FreeCamera();
+		~FreeCamera();
+
+	public:
+		float getSpeed();
+		void getSensivity(float&, float&);
+		okz::fVertex getPosition() const;
+		void getAngle(float&, float&);
+
+		void setSpeed(float);
+		void setSensivity(float, float);
+		void setMinMaxAngle(float, float);
+		void setAngle(float, float);
+		void setPosition(okz::fVertex);
+		void reset();
+
+		okz::fVertex compute(const sf::Event&);
+		void animate(float);
+
+		Frustum frustum;
+	protected:
+		okz::Camera* _camera;
+		sf::RenderWindow* _window;
+
+		std::pair<float, float> _sensivity;
+		float _speed;
+
+		float _hAngle;
+		float _vAngle;
+		float _min;
+		float _max;
+
+		float _deltaTime;
+		bool _animate;
+
+		okz::fVertex _lastPosition;
+
+		okz::fVertex _position;
+		okz::fVertex _target;
+		okz::fVertex _forward;
+		okz::fVertex _side;
+
+		//Mouse specific
+		bool _forceMouse;
+		bool _shift;
+		okz::fVertex _center;
+		okz::fVertex _mouse;
+	};
+}
+#endif
+
+#endif

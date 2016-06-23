@@ -25,22 +25,21 @@
 *
 *************************************************************************/
 
-#include "ColorConsole.hpp"
-ilg::mod::ColorConsole* impl = NULL;
+#include <Ilargia/Engine.hpp>
+#include "OpenGLRenderer/OpenGLRenderer.hpp"
+ilg::graphics::OpenGLRenderer* window = NULL;
 
 ILARGIA_MODULE_CHECK_FILENAME()
 ILARGIA_LIBRARY_INIT_BEGIN(argc, argv)
 {
-	impl = MUON_NEW(ilg::mod::ColorConsole);
-	m::system::Log::registerLogImpl(impl);
-	m::system::Log::unregisterDefaultLogImpl();
+	window = MUON_NEW(ilg::graphics::OpenGLRenderer, "OpenGLRenderer", 5);
+	ilg::manager::ManagerFactory::getInstance().registerComponentManager(window);
 	ILARGIA_LIBRARY_RETURN_SUCCESS();
 }
 ILARGIA_LIBRARY_INIT_END()
 
 ILARGIA_LIBRARY_TERM_BEGIN()
 {
-	m::system::Log::unregisterLogImpl(impl);
-	MUON_DELETE(impl);
+	MUON_DELETE(window);
 }
 ILARGIA_LIBRARY*_TERM_END()

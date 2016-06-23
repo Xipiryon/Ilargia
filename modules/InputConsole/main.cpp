@@ -30,16 +30,16 @@
 ilg::mod::InputConsole* input = NULL;
 
 ILARGIA_MODULE_CHECK_FILENAME()
-ILARGIA_MODULE_INIT_BEGIN(argc, argv)
+ILARGIA_LIBRARY_INIT_BEGIN(argc, argv)
 {
 	input = MUON_NEW(ilg::mod::InputConsole, "InputConsole", 0);
 	ilg::manager::ManagerFactory::getInstance().registerComponentManager(input);
-	ILARGIA_MODULE_RETURN_SUCCESS();
+	ILARGIA_LIBRARY_RETURN_SUCCESS();
 }
-ILARGIA_MODULE_INIT_END()
+ILARGIA_LIBRARY_INIT_END()
 
-ILARGIA_MODULE_TERM_BEGIN()
+ILARGIA_LIBRARY_TERM_BEGIN()
 {
 	MUON_DELETE(input);
 }
-ILARGIA_MODULE_TERM_END()
+ILARGIA_LIBRARY*_TERM_END()

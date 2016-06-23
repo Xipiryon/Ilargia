@@ -1,5 +1,5 @@
 /*************************************************************************
-* Ilargia Engine - http://github.com/Xleek/Ilargia
+* Ilargia Engine - http://github.com/Xipiryon/Ilargia
 * C++ Modular Data Oriented Game Enginee
 *------------------------------------------------------------------------
 * Copyright (c) 2014-2015, Louis Schnellbach
@@ -48,6 +48,14 @@
 
 namespace ilg
 {
+	void registerStaticLibraryLoadFunction(const m::String& name, void* fptr)
+	{
+	}
+
+	void registerStaticLibraryUnloadFunction(const m::String& name, void* fptr)
+	{
+	}
+
 	void Engine::dispatchKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
 	{
 		auto managerList = SharedLibrary::getInstance().getManagers();

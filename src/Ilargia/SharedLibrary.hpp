@@ -1,5 +1,5 @@
 /*************************************************************************
-* Ilargia Engine - http://github.com/Xleek/Ilargia
+* Ilargia Engine - http://github.com/Xipiryon/Ilargia
 * C++ Modular Data Oriented Game Enginee
 *------------------------------------------------------------------------
 * Copyright (c) 2014-2015, Louis Schnellbach
@@ -44,7 +44,7 @@ namespace ilg
 
 	struct SharedLibraryInfo
 	{
-		typedef int(*FuncLoad)(int, char**, char*);
+		typedef int(*FuncLoad)(int, char**);
 		typedef void(*FuncUnload)();
 
 		void* libInstance;
@@ -82,10 +82,9 @@ namespace ilg
 		friend class Engine;
 
 		void _addModuleRef(manager::IBaseManager*);
-		bool _loadLibrary(SharedLibraryInfo&);
 		bool _loadLibrary(SharedLibraryInfo&, const char*);
-		bool _loadLibraryLoad(SharedLibraryInfo&, const char*);
-		bool _loadLibraryUnload(SharedLibraryInfo&, const char*);
+		bool _loadLibrary_LoadFunction(SharedLibraryInfo&, const char*);
+		bool _loadLibrary_UnloadFunction(SharedLibraryInfo&, const char*);
 		void _closeLibrary(SharedLibraryInfo&);
 
 		SharedLibrary();

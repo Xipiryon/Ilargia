@@ -25,52 +25,71 @@
 *
 *************************************************************************/
 
-#include <Muon/System/Log.hpp>
-#include <Muon/System/Assert.hpp>
-#include "Ilargia/Manager/IBaseManager.hpp"
+#ifndef INCLUDE_ILARGIA_CAMERA_HPP
+#define INCLUDE_ILARGIA_CAMERA_HPP
+
+#include <Ilargia/Type/Vector.hpp>
+#include <Ilargia/Type/Matrix.hpp>
 
 namespace ilg
 {
-	namespace manager
+	namespace graphics
 	{
-		IBaseManager::IBaseManager(const m::String& name, m::u64 componentType, m::i32 updateOrder)
-			: m_log(name)
-			, m_componentType(componentType)
-			, m_updateOrder(updateOrder)
+		class ILARGIA_API Camera
 		{
-			m_managerName = (componentType != MUON_TRAITS_ID(Component) ? "ComponentManager::" : "SimpleManager::");
-			m_managerName += name;
-		}
+		public:
+			~Camera();
 
-		IBaseManager::~IBaseManager()
-		{
-		}
+			void setPerspective(
+				float fov,
+				float aspect,
+				float near,
+				float far);
 
-		const m::String& IBaseManager::getManagerName() const
-		{
-			return m_managerName;
-		}
+			void setOrthographic(
+				float left,
+				float right,
+				float bottom,
+				float top,
+				float near,
+				float far);
 
-		m::u64 IBaseManager::getComponentType() const
-		{
-			return m_componentType;
-		}
+			void lookAt(
+				const Vector& position,
+				const Vector& center,
+				const Vector& up);
 
-		m::i32 IBaseManager::getUpdateOrder() const
-		{
-			return m_updateOrder;
-		}
+			Matrix setFrustum(
+				float left,
+				float right,
+				float bottom,
+				float top,
+				float near,
+				float far);
 
-		void IBaseManager::onKeyCallback(void* windowHandle, int key, int scancode, int action, int modifier)
-		{
-		}
+			Vector getPosition() const;
+			Vector getCenter() const;
+			Vector getUp() const;
 
-		void IBaseManager::onComponentAdded(Entity* entity, Component& component)
-		{
-		}
+			Matrix getViewMatrix() const;
+			Matrix getProjectionMatrix() const;
 
-		void IBaseManager::onComponentRemoved(Entity* entity, Component& component)
-		{
-		}
+			bool isOrthographic() const;
+
+		protected:
+			friend class CameraModule;
+			Camera();
+
+			Vector m_position;
+			Vector m_direction;
+			Vector m_up;
+
+			Matrix m_viewMatrix;
+			Matrix m_projMatrix;
+			bool m_isOrtho;
+			float m_near;
+			float m_far;
+		};
 	}
 }
+#endif

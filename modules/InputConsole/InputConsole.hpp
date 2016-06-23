@@ -51,6 +51,7 @@ namespace ilg
 		private:
 			void _run();
 			bool m_running;
+			void* m_fd;
 			std::thread* m_thread;
 		};
 	}
