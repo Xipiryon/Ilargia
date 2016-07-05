@@ -71,9 +71,6 @@ solution "Ilargia"
 	if _OPTIONS["buildmuon"] then
 		includedirs { SolutionRoot.."/extern/Muon/include" }
 	end
-	if _OPTIONS["buildhaize"] then
-		includedirs { SolutionRoot.."/extern/Haize/include" }
-	end
 
 	libdirs {
 		SolutionRoot.."/bin/lib",
@@ -101,7 +98,6 @@ solution "Ilargia"
 		flags { "StaticRuntime" }
 		defines { "ILARGIA_STATIC" }
 		if _OPTIONS["buildmuon"] then defines { "MUON_STATIC" } end
-		if _OPTIONS["buildhaize"] then defines { "HAIZE_STATIC" } end
 
 	filter  "*DLL"
 		kind "SharedLib"
@@ -115,10 +111,6 @@ solution "Ilargia"
 -- Muon
 if _OPTIONS["buildmuon"] then
 	include("extern/Muon/project_Lib")
-end
--- Haize
-if _OPTIONS["buildhaize"] then
-	include("extern/Haize/project_Lib")
 end
 -- Ilargia
 if _OPTIONS["renderer"] == "opengl" then
@@ -150,11 +142,6 @@ newoption {
 newoption {
 	trigger     = "buildmuon",
 	description = "Add Muon external project to the solution",
-}
-
-newoption {
-	trigger     = "buildhaize",
-	description = "Add Haize external project to the solution",
 }
 
 newoption {

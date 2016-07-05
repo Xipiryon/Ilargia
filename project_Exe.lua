@@ -7,10 +7,6 @@ project "Ilargia_Executable"
 
 	dependson("Ilargia_Core")
 
-	if _OPTIONS["buildhaize"] then
-		dependson { "Muon_Haize" }
-	end
-
 	language "C++"
 	targetname "Ilargia"
 	targetdir (SolutionRoot.."/bin")
