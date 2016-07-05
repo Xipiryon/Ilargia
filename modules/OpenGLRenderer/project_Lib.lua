@@ -16,7 +16,7 @@ project(G_ProjectName)
 	dependson("Ilargia_Core")
 	language "C++"
 	targetdir(SolutionRoot.."/bin/lib")
-	
+
 	libdirs { ProjectRoot.."/lib" }
 	includedirs { ProjectRoot.."/include" }
 
@@ -33,7 +33,7 @@ project(G_ProjectName)
 	links {
 		"opengl32",
 		"glfw3",
-		"gl3w",
+		--"gl3w",
 	}
 
 	defines { "ILARGIA_EXPORTS", ProjectNameDefine }

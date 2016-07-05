@@ -112,10 +112,7 @@ solution "Ilargia"
 if _OPTIONS["buildmuon"] then
 	include("extern/Muon/project_Lib")
 end
--- Ilargia
-if _OPTIONS["renderer"] == "opengl" then
-	include("extern/gl3w/project_Lib")
-end
+
 include("project_Modules")
 include("project_Lib")
 include("project_Exe")

@@ -28,8 +28,8 @@
 #include <fstream>
 #include <Muon/System/Log.hpp>
 
-#include <gl3w.h>
-#include "Ilargia/Graphics/OpenGL/Shader.hpp"
+#include "gl3w/gl3w.h"
+#include "OpenGLComponent/Shader.hpp"
 
 namespace ilg
 {

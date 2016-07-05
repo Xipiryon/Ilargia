@@ -25,7 +25,8 @@
 *
 *************************************************************************/
 
-#include "Ilargia/Graphics/OpenGL/Camera.hpp"
+#include <cmath>
+#include "OpenGLComponent/Camera.hpp"
 
 namespace ilg
 {

@@ -30,7 +30,7 @@
 #include <Muon/Core/Define.hpp>
 
 #include <gl3w.h>
-#include <Ilargia/Graphics/OpenGL/VertexBufferObject.hpp>
+#include "OpenGLComponent/VertexBufferObject.hpp"
 
 #include "OpenGLRenderer/GLFW/glfw3.h"
 #include "OpenGLRenderer/OpenGLRenderer.hpp"

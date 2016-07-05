@@ -31,17 +31,6 @@ project "Ilargia_Core"
 			ProjectRoot.."/include/Ilargia/"..folder.."/*",
 		}
 	end
-	-- Renderer files
-	if _OPTIONS["renderer"] == "opengl" then
-		files {
-			ProjectRoot.."/src/Ilargia/Graphics/OpenGL/*",
-			ProjectRoot.."/include/Ilargia/Graphics/OpenGL/*",
-		}
-		links {
-			"opengl32",
-			"gl3w",
-		}
-	end
 
 	defines { "ILARGIA_EXPORTS" }
 
