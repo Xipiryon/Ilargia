@@ -43,4 +43,4 @@ ILARGIA_LIBRARY_TERM_BEGIN()
 	m::system::Log::unregisterLogImpl(impl);
 	MUON_DELETE(impl);
 }
-ILARGIA_LIBRARY*_TERM_END()
+ILARGIA_LIBRARY_TERM_END()
