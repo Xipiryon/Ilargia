@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef INCLUDE_ILARGIA_CAMERA_HPP
-#define INCLUDE_ILARGIA_CAMERA_HPP
+#ifndef INCLUDE_ILARGIA_OPENGLCOMPONENT_CAMERA_HPP
+#define INCLUDE_ILARGIA_OPENGLCOMPONENT_CAMERA_HPP
 
 #include <Ilargia/Type/Vector.hpp>
 #include <Ilargia/Type/Matrix.hpp>

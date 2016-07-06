@@ -31,8 +31,8 @@ project(G_ProjectName)
 	}
 
 	links {
-		"opengl32",
-		"glfw3",
+		--"opengl32",
+		--"glfw3",
 		--"gl3w",
 	}
 

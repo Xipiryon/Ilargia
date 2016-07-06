@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef INCLUDE_ILARGIA_FRUSTUM_HPP
-#define INCLUDE_ILARGIA_FRUSTUM_HPP
+#ifndef INCLUDE_ILARGIA_OPENGLCOMPONENT_FRUSTUM_HPP
+#define INCLUDE_ILARGIA_OPENGLCOMPONENT_FRUSTUM_HPP
 
 #if 0
 #include "Vertex.h"

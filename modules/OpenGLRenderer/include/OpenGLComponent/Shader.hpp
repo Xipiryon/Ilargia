@@ -25,12 +25,12 @@
 *
 *************************************************************************/
 
-#ifndef INCLUDE_ILARGIA_SHADER_HPP
-#define INCLUDE_ILARGIA_SHADER_HPP
+#ifndef INCLUDE_ILARGIA_OPENGLCOMPONENT_SHADER_HPP
+#define INCLUDE_ILARGIA_OPENGLCOMPONENT_SHADER_HPP
 
 #include <Muon/String.hpp>
 #include <Ilargia/Core/Define.hpp>
-#include <gl/gl.h>
+#include <GL/gl.h>
 
 #include <unordered_map>
 

@@ -29,7 +29,7 @@
 #include <thread>
 #include <Muon/Core/Define.hpp>
 
-#include <gl3w.h>
+#include "gl3w/gl3w.h"
 #include "OpenGLComponent/VertexBufferObject.hpp"
 
 #include "OpenGLRenderer/GLFW/glfw3.h"

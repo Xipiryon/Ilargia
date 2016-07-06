@@ -25,8 +25,8 @@
 *
 *************************************************************************/
 
-#ifndef INCLUDE_ILARGIA_FREECAMERA_HPP
-#define INCLUDE_ILARGIA_FREECAMERA_HPP
+#ifndef INCLUDE_ILARGIA_OPENGLCOMPONENT_FREECAMERA_HPP
+#define INCLUDE_ILARGIA_OPENGLCOMPONENT_FREECAMERA_HPP
 
 #if 0
 #include <SFML/Window/Event.hpp>

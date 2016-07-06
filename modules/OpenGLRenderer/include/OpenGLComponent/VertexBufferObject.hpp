@@ -25,11 +25,13 @@
 *
 *************************************************************************/
 
-#ifndef INCLUDE_ILARGIA_VBO_HPP
-#define INCLUDE_ILARGIA_VBO_HPP
+#ifndef INCLUDE_ILARGIA_OPENGLCOMPONENT_VBO_HPP
+#define INCLUDE_ILARGIA_OPENGLCOMPONENT_VBO_HPP
+
+#include <string.h>
+#include <GL/gl.h>
 
 #include <Muon/System/Assert.hpp>
-#include <gl/gl.h>
 
 namespace ilg
 {
@@ -68,7 +70,7 @@ namespace ilg
 
 			void initBuffer(m::u32 size)
 			{
-				clear();
+				//clear();
 				glGenBuffers(1, &m_buffer);
 				m_array = (T*)::malloc(sizeof(T) * size);
 				m_size = size;
@@ -93,7 +95,7 @@ namespace ilg
 
 			void setupBuffer(GLenum type = GL_STATIC_DRAW)
 			{
-				glBufferData(m_target, dataSize(), m_array, type);
+				glBufferData(m_target, getDataSize(), m_array, type);
 			}
 
 			T* mapBuffer(GLenum accessType)
