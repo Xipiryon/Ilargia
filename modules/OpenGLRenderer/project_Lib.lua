@@ -16,6 +16,7 @@ project(G_ProjectName)
 	dependson("Ilargia_Core")
 	language "C++"
 	targetdir(SolutionRoot.."/bin/lib")
+	targetsuffix ""
 
 	libdirs { ProjectRoot.."/lib" }
 	includedirs { ProjectRoot.."/include" }

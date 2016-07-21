@@ -184,12 +184,13 @@ namespace ilg
 #if defined(ILARGIA_STATIC)
 				SharedLibrary::getInstance().loadLibrary(mod.first, "");
 #else
-				m::String filepath = mod.second.path + m::PATH_SEPARATOR + mod.first;
+				m::String filename;
 #	if defined(MUON_PLATFORM_WINDOWS)
-				filepath += ".dll";
+				filename = mod.first + ".dll";
 #	else
-				filepath += ".so";
+				filename = "lib" + mod.first + ".so";
 #	endif
+				m::String filepath = getProgramPath() + mod.second.path + m::PATH_SEPARATOR + filename;
 				SharedLibrary::getInstance().loadLibrary(mod.first, filepath);
 #endif
 			}
