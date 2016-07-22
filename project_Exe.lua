@@ -17,7 +17,6 @@ project "Ilargia_Executable"
 
 	for _,project in pairs(G_ModuleToBuild) do
 		dependson(project.Name)
-		links{ project.Name }
 	end
 
 	links { "Muon_Core", "Ilargia_Core" }
