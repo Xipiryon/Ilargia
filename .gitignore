@@ -33,6 +33,10 @@
 *.vcxproj*
 *.sdf
 *.opensdf
+*.suo
+*.opendb
+*.db
+*.pdb
 obj/
 
 # Doxygen

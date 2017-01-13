@@ -76,7 +76,7 @@ namespace ilg
 
 #define _ILARGIA_LIBRARY_LOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _load)
 #define _ILARGIA_LIBRARY_UNLOAD_FUNC		MUON_GLUE(ILARGIA_MODULE_NAME, _unload)
-#if defined(ILARGIA_STATIC)
+#if defined(ILARGIA_LINK_STATIC)
 	void ILARGIA_API registerStaticLibraryLoadFunction(const m::String& name, void* fptr);
 	void ILARGIA_API registerStaticLibraryUnloadFunction(const m::String& name, void* fptr);
 #	define _ILARGIA_LIBRARY_REGISTER_STATIC_LOAD

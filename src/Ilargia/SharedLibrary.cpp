@@ -131,7 +131,7 @@ namespace ilg
 
 	bool SharedLibrary::_loadLibrary(SharedLibraryInfo& lib, const char* c_libPath)
 	{
-#if !defined(ILARGIA_STATIC)
+#if !defined(ILARGIA_LINK_STATIC)
 #	if defined(MUON_PLATFORM_WINDOWS)
 		HMODULE lib_handle = LoadLibrary(c_libPath);
 		LPTSTR lpErrorText = NULL;
@@ -161,7 +161,7 @@ namespace ilg
 		bool errorOccured = false;
 		if (c_funcLoad)
 		{
-#if !defined(ILARGIA_STATIC)
+#if !defined(ILARGIA_LINK_STATIC)
 #	if defined(MUON_PLATFORM_WINDOWS)
 			HINSTANCE lib_handle = (HINSTANCE)lib.libInstance;
 			lib.funcLoadPtr = (SharedLibraryInfo::FuncLoad)GetProcAddress(lib_handle, c_funcLoad);
@@ -209,7 +209,7 @@ namespace ilg
 		bool errorOccured = false;
 		if (c_funcUnload)
 		{
-#if !defined(ILARGIA_STATIC)
+#if !defined(ILARGIA_LINK_STATIC)
 #	if defined(MUON_PLATFORM_WINDOWS)
 			HINSTANCE lib_handle = (HINSTANCE)lib.libInstance;
 			lib.funcUnloadPtr = (SharedLibraryInfo::FuncUnload)GetProcAddress(lib_handle, c_funcUnload);
@@ -246,7 +246,7 @@ namespace ilg
 
 	void SharedLibrary::_closeLibrary(SharedLibraryInfo& lib)
 	{
-#if !defined(ILARGIA_STATIC)
+#if !defined(ILARGIA_LINK_STATIC)
 #	if defined(MUON_PLATFORM_WINDOWS)
 		FreeLibrary((HINSTANCE)lib.libInstance);
 #	elif defined(MUON_PLATFORM_LINUX) || defined(MUON_PLATFORM_APPLE)

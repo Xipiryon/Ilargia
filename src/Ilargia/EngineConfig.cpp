@@ -181,7 +181,7 @@ namespace ilg
 		{
 			if (mod.second.include)
 			{
-#if defined(ILARGIA_STATIC)
+#if defined(ILARGIA_LINK_STATIC)
 				SharedLibrary::getInstance().loadLibrary(mod.first, "");
 #else
 				m::String filename;

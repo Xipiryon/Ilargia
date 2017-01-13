@@ -34,7 +34,7 @@
 //		--------------------------
 //				EXPORT
 //		--------------------------
-#if defined(ILARGIA_STATIC)
+#if defined(ILARGIA_LINK_STATIC)
 #	define ILARGIA_API
 #else
 //Windows
